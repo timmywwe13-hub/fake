@@ -180,6 +180,10 @@ const UPDATE_LOG = [
     "Trainer rematches for extra coins",
     "Reworks considered: true 3D (Three.js), sprite art, sound, defense stat, day/night cycle",
   ]},
+  { version:"v0.8.1 — Mobile D-pad Fix", notes:[
+    "Fixed D-pad not appearing on some phones/tablets",
+    "Now uses JavaScript touch detection as a fallback when the browser misreports its pointer type",
+  ]},
   { version:"v0.8 — Mobile Support", notes:[
     "Play on phones and tablets! On-screen D-pad with hold-to-walk",
     "Swipe on the map to move; bigger tap targets everywhere",
@@ -884,6 +888,11 @@ function openUpdates() {
 function closeUpdates() { $("updatesScreen").classList.add("hidden"); inMenu = false; }
 
 /* ============ 6. MOBILE TOUCH CONTROLS ============ */
+
+// Reliable touch detection: some mobile browsers misreport hover/pointer in CSS,
+// so we force-show the D-pad with JS whenever a touchscreen exists.
+const isTouchDevice = ("ontouchstart" in window) || navigator.maxTouchPoints > 0;
+if (isTouchDevice) document.getElementById("dpad").style.display = "flex";
 
 // D-pad: tap to step, hold to keep walking.
 function bindDpad(id, dx, dy) {

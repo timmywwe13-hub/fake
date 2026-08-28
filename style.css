@@ -83,15 +83,14 @@ button:disabled { background:#333; cursor:default; }
 html, body { touch-action:manipulation; }              /* no double-tap zoom */
 button, .dbtn, canvas { -webkit-user-select:none; user-select:none; -webkit-tap-highlight-color:transparent; }
 
-/* On-screen D-pad: big thumb-sized buttons */
-#dpad { margin-top:10px; display:flex; flex-direction:column; align-items:center; gap:6px; }
+/* On-screen D-pad: big thumb-sized buttons.
+   Hidden by default; shown on touch devices by the CSS below OR the JS fallback. */
+#dpad { display:none; margin-top:10px; flex-direction:column; align-items:center; gap:6px; }
 .dRow { display:flex; gap:6px; }
 .dbtn { width:60px; height:60px; font-size:22px; border-radius:12px;
         background:#4a5aa8cc; touch-action:none; }
 .dbtn:active { background:#8a97e0; }
-
-/* Hide the D-pad on devices with a mouse (desktop) */
-@media (hover:hover) and (pointer:fine) { #dpad { display:none; } }
+@media (hover:none), (pointer:coarse) { #dpad { display:flex; } }
 
 /* Phone / small tablet layout tweaks */
 @media (max-width:700px) {
