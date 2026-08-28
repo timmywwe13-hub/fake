@@ -68,7 +68,7 @@ button:disabled { background:#333; cursor:default; }
 /* ============ TEAM / COLLECTION ============ */
 #collectionList { flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:6px; }
 .critRow { background:#2a3050; border-radius:8px; padding:8px 12px; display:flex;
-           align-items:center; gap:10px; }
+           align-items:center; gap:10px; flex-wrap:wrap; }
 .critRow.inTeam { outline:2px solid #ffd76a; }
 
 /* ============ UPDATE LOG ============ */
@@ -78,3 +78,40 @@ button:disabled { background:#333; cursor:default; }
 .updateEntry h3 { margin:0 0 6px; font-size:15px; color:#ffd76a; }
 .updateEntry ul { margin:0; padding-left:18px; font-size:13px; line-height:1.6; color:#ddd; }
 .updateEntry.future h3 { color:#9fb4ff; }
+
+/* ============ MOBILE SUPPORT ============ */
+html, body { touch-action:manipulation; }              /* no double-tap zoom */
+button, .dbtn, canvas { -webkit-user-select:none; user-select:none; -webkit-tap-highlight-color:transparent; }
+
+/* On-screen D-pad: big thumb-sized buttons */
+#dpad { margin-top:10px; display:flex; flex-direction:column; align-items:center; gap:6px; }
+.dRow { display:flex; gap:6px; }
+.dbtn { width:60px; height:60px; font-size:22px; border-radius:12px;
+        background:#4a5aa8cc; touch-action:none; }
+.dbtn:active { background:#8a97e0; }
+
+/* Hide the D-pad on devices with a mouse (desktop) */
+@media (hover:hover) and (pointer:fine) { #dpad { display:none; } }
+
+/* Phone / small tablet layout tweaks */
+@media (max-width:700px) {
+  #hud { flex-wrap:wrap; }
+  #hudMsg { flex-basis:100%; order:-1; }
+  #inventory { font-size:12px; padding:6px 8px; }
+  button { padding:10px 12px; }                        /* bigger tap targets */
+
+  .overlay { padding:8px; }
+  .fighterRow { gap:6px; }
+  .card { width:48%; box-sizing:border-box; padding:8px; font-size:13px; }
+
+  /* Arena sprites: position by % so they fit narrow screens */
+  #arena { height:150px; }
+  #playerSprite { left:6%; }
+  #enemySprite  { right:6%; }
+  .spriteEmoji { font-size:54px; }
+  .platform { width:74px; }
+
+  #battleLog { font-size:12px; min-height:60px; }
+  #battleActions button { font-size:12px; padding:8px 10px; }
+  .shopRow { flex-wrap:wrap; }
+}

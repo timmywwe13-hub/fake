@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Critter Quest</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -15,7 +16,7 @@
   <!-- Starter selection (new game only) -->
   <div id="starterScreen" class="overlay hidden">
     <h2>Choose your starter critter!</h2>
-    <div id="starterBtns" style="display:flex;gap:10px;"></div>
+    <div id="starterBtns" style="display:flex;gap:10px;flex-wrap:wrap;"></div>
   </div>
 
   <!-- Battle screen -->
@@ -56,12 +57,22 @@
 </div>
 
 <div id="hud">
-  <div id="hudMsg">Use Arrow keys / WASD to move. Earn 🪙 in battles, spend them at the 🏪!</div>
+  <div id="hudMsg">Use Arrow keys / WASD (or the D-pad / swipe on mobile) to move!</div>
   <div id="inventory"></div>
   <button onclick="openTeam()">Team</button>
   <button onclick="openUpdates()">Updates</button>
   <button onclick="saveGame(true)">Save</button>
   <button onclick="resetGame()">Reset</button>
+</div>
+
+<!-- Touch controls (auto-hidden on mouse/keyboard devices) -->
+<div id="dpad">
+  <button class="dbtn" id="dUp">▲</button>
+  <div class="dRow">
+    <button class="dbtn" id="dLeft">◀</button>
+    <button class="dbtn" id="dDown">▼</button>
+    <button class="dbtn" id="dRight">▶</button>
+  </div>
 </div>
 
 <script src="game.js"></script>

@@ -6,6 +6,7 @@
    3. Overworld (3D characters, movement, encounters, gated portals, shop)
    4. Battle system (animated attacks, statuses, orbs, potions)
    5. Shop / Team / Updates UI
+   6. Mobile touch controls
    ===================================================================== */
 
 /* ============ 1. DATA ============ */
@@ -178,6 +179,11 @@ const UPDATE_LOG = [
     "Great/Ultra Orbs with higher catch rates + status cure items",
     "Trainer rematches for extra coins",
     "Reworks considered: true 3D (Three.js), sprite art, sound, defense stat, day/night cycle",
+  ]},
+  { version:"v0.8 — Mobile Support", notes:[
+    "Play on phones and tablets! On-screen D-pad with hold-to-walk",
+    "Swipe on the map to move; bigger tap targets everywhere",
+    "Responsive battle screen and no accidental pinch/double-tap zoom",
   ]},
   { version:"v0.7 — Update Log", notes:[
     "New Updates button in the HUD showing this changelog in-game",
@@ -876,6 +882,47 @@ function openUpdates() {
   $("updatesScreen").classList.remove("hidden");
 }
 function closeUpdates() { $("updatesScreen").classList.add("hidden"); inMenu = false; }
+
+/* ============ 6. MOBILE TOUCH CONTROLS ============ */
+
+// D-pad: tap to step, hold to keep walking.
+function bindDpad(id, dx, dy) {
+  const btn = document.getElementById(id);
+  if (!btn) return;
+  let timer = null;
+  const step = () => { if (!inBattle && !inMenu) tryMove(dx, dy); };
+  const start = e => {
+    e.preventDefault();
+    step();
+    timer = setInterval(step, 170); // hold-to-walk repeat rate
+  };
+  const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
+  btn.addEventListener("pointerdown", start);
+  btn.addEventListener("pointerup", stop);
+  btn.addEventListener("pointerleave", stop);
+  btn.addEventListener("pointercancel", stop);
+}
+bindDpad("dUp", 0, -1);
+bindDpad("dDown", 0, 1);
+bindDpad("dLeft", -1, 0);
+bindDpad("dRight", 1, 0);
+
+// Swipe on the map also moves you one tile in the swipe direction.
+(function enableSwipe() {
+  const cv = document.getElementById("map");
+  let sx = 0, sy = 0;
+  cv.addEventListener("touchstart", e => {
+    sx = e.touches[0].clientX; sy = e.touches[0].clientY;
+  }, { passive:true });
+  cv.addEventListener("touchend", e => {
+    if (inBattle || inMenu) return;
+    const dx = e.changedTouches[0].clientX - sx;
+    const dy = e.changedTouches[0].clientY - sy;
+    if (Math.abs(dx) < 24 && Math.abs(dy) < 24) return; // too short — ignore taps
+    if (Math.abs(dx) > Math.abs(dy)) tryMove(dx > 0 ? 1 : -1, 0);
+    else tryMove(0, dy > 0 ? 1 : -1);
+  }, { passive:true });
+})();
 
 /* ============ BOOT ============ */
 
