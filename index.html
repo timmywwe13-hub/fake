@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Critter Quest</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>🐾 Critter Quest</h1>
+<div id="worldName">Meadowlands</div>
+
+<div id="wrap">
+  <canvas id="map" width="960" height="640"></canvas>
+
+  <!-- Starter selection (new game only) -->
+  <div id="starterScreen" class="overlay hidden">
+    <h2>Choose your starter critter!</h2>
+    <div id="starterBtns" style="display:flex;gap:10px;"></div>
+  </div>
+
+  <!-- Battle screen -->
+  <div id="battleScreen" class="overlay hidden">
+    <div class="fighterRow">
+      <div class="card" id="playerCard"></div>
+      <div class="card" id="enemyCard"></div>
+    </div>
+    <!-- Battle arena: 2D sprites + flying attack effects -->
+    <div id="arena">
+      <div class="spriteBox" id="playerSprite"></div>
+      <div class="spriteBox" id="enemySprite"></div>
+    </div>
+    <div id="battleLog"></div>
+    <div id="battleActions"></div>
+  </div>
+
+  <!-- Shop screen -->
+  <div id="shopScreen" class="overlay hidden">
+    <h2>🏪 Critter Mart — <span id="shopCoins"></span></h2>
+    <div id="shopList"></div>
+    <button onclick="closeShop()" style="margin-top:8px;align-self:flex-start;">Leave Shop</button>
+  </div>
+
+  <!-- Team / collection screen -->
+  <div id="teamScreen" class="overlay hidden">
+    <h2>Your Critters <small style="font-size:13px;color:#aaa">(click to add/remove from team, max 6)</small></h2>
+    <div id="collectionList"></div>
+    <button onclick="closeTeam()" style="margin-top:8px;align-self:flex-start;">Back to Map</button>
+  </div>
+
+  <!-- Update log screen -->
+  <div id="updatesScreen" class="overlay hidden">
+    <h2>📜 Update Log <small style="font-size:13px;color:#aaa">— what's new in Critter Quest</small></h2>
+    <div id="updatesList"></div>
+    <button onclick="closeUpdates()" style="margin-top:8px;align-self:flex-start;">Back to Map</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div id="hudMsg">Use Arrow keys / WASD to move. Earn 🪙 in battles, spend them at the 🏪!</div>
+  <div id="inventory"></div>
+  <button onclick="openTeam()">Team</button>
+  <button onclick="openUpdates()">Updates</button>
+  <button onclick="saveGame(true)">Save</button>
+  <button onclick="resetGame()">Reset</button>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>

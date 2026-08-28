@@ -1,0 +1,80 @@
+/* ============ GENERAL LAYOUT ============ */
+body { background:#1d2233; color:#eee; font-family:'Segoe UI',Arial,sans-serif;
+       display:flex; flex-direction:column; align-items:center; margin:0; padding:8px; }
+h1 { margin:2px 0; font-size:18px; color:#ffd76a; }
+#worldName { font-size:13px; color:#9fb4ff; margin-bottom:4px; }
+
+/* The wrap + canvas scale down to fit your screen — the full map is always visible */
+#wrap { position:relative; width:min(960px, 96vw); }
+canvas { background:#000; border:3px solid #444; border-radius:6px;
+         image-rendering:pixelated; width:100%; height:auto; display:block;
+         box-sizing:border-box; }
+#hud { width:min(960px, 96vw); margin-top:8px; display:flex; gap:8px; align-items:center; }
+#hudMsg { flex:1; background:#2a3050; padding:8px 10px; border-radius:6px; min-height:20px; font-size:14px; }
+#inventory { background:#2a3050; padding:8px 12px; border-radius:6px; font-size:14px; white-space:nowrap; }
+button { background:#4a5aa8; color:#fff; border:0; border-radius:6px; padding:8px 14px;
+         cursor:pointer; font-size:14px; }
+button:hover { background:#6273c9; }
+button:disabled { background:#333; cursor:default; }
+
+/* ============ OVERLAYS ============ */
+.overlay { position:absolute; inset:0; background:#1b1f30f2; border-radius:6px;
+           display:flex; flex-direction:column; padding:16px; box-sizing:border-box;
+           overflow-y:auto; }
+.hidden { display:none !important; }
+
+/* ============ BATTLE SCREEN ============ */
+.fighterRow { display:flex; justify-content:space-between; margin-bottom:8px; }
+.card { background:#2a3050; border-radius:8px; padding:10px 14px; width:300px; }
+.card .nm { font-weight:bold; }
+.hpbarOuter { background:#111; border-radius:4px; height:12px; margin-top:6px; overflow:hidden; }
+.hpbarInner { background:#4caf50; height:100%; transition:width .3s; }
+.low { background:#e53935 !important; }
+#battleLog { flex:1; background:#141828; border-radius:8px; padding:10px; overflow-y:auto;
+             font-size:14px; line-height:1.5; margin:8px 0; min-height:90px; }
+#battleActions { display:flex; gap:8px; flex-wrap:wrap; }
+.typeTag { font-size:11px; background:#555; border-radius:4px; padding:1px 6px; margin-left:6px; }
+
+/* ============ BATTLE ARENA ============ */
+#arena { height:190px; border-radius:8px; position:relative; overflow:hidden; flex-shrink:0;
+         background:linear-gradient(#8ecdf0 55%, #8fce7f 55%); }
+#arena.emberBg { background:linear-gradient(#3c2030 55%, #7a3520 55%); }
+.spriteBox { position:absolute; text-align:center; }
+#playerSprite { left:110px; bottom:6px; }
+#enemySprite  { right:110px; top:14px; }
+.spriteEmoji { font-size:76px; line-height:1.1; display:block;
+               filter:drop-shadow(0 6px 4px rgba(0,0,0,.35)); }
+#playerSprite .spriteEmoji { transform:scaleX(-1); }
+.platform { width:104px; height:16px; background:rgba(0,0,0,.28); border-radius:50%; margin:-8px auto 0; }
+.spriteName { font-size:12px; color:#fff; text-shadow:0 1px 2px #000; }
+
+/* Flying attack effect (🔥 💧 ⚡ ☠️ ❄️ ...) — JS animates left/top via transition */
+.projectile { position:absolute; font-size:36px; z-index:5; pointer-events:none;
+              transition:left .35s linear, top .35s linear;
+              filter:drop-shadow(0 0 6px rgba(255,255,255,.7)); }
+/* Impact burst shown when the projectile lands */
+.boom { position:absolute; font-size:44px; z-index:6; pointer-events:none; animation:boomPop .3s ease-out forwards; }
+@keyframes boomPop { from { transform:scale(.4); opacity:1; } to { transform:scale(1.6); opacity:0; } }
+
+@keyframes shake { 0%,100%{ margin-left:0 } 25%{ margin-left:-8px } 75%{ margin-left:8px } }
+.shake { animation:shake .3s; }
+
+/* ============ SHOP ============ */
+#shopList { display:flex; flex-direction:column; gap:8px; margin-top:8px; }
+.shopRow { background:#2a3050; border-radius:8px; padding:10px 14px; display:flex; align-items:center; gap:12px; }
+.shopRow small { color:#aaa; }
+.shopRow button { margin-left:auto; }
+
+/* ============ TEAM / COLLECTION ============ */
+#collectionList { flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:6px; }
+.critRow { background:#2a3050; border-radius:8px; padding:8px 12px; display:flex;
+           align-items:center; gap:10px; }
+.critRow.inTeam { outline:2px solid #ffd76a; }
+
+/* ============ UPDATE LOG ============ */
+#updatesList { flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:10px; }
+.updateEntry { background:#2a3050; border-radius:8px; padding:10px 14px; }
+.updateEntry.newest { outline:2px solid #ffd76a; }
+.updateEntry h3 { margin:0 0 6px; font-size:15px; color:#ffd76a; }
+.updateEntry ul { margin:0; padding-left:18px; font-size:13px; line-height:1.6; color:#ddd; }
+.updateEntry.future h3 { color:#9fb4ff; }
