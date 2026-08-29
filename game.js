@@ -30,50 +30,82 @@ const TYPE_CHART = {
 const FX = { Fire:"🔥", Water:"💧", Grass:"🍃", Electric:"⚡", Rock:"🪨",
              Air:"💨", Mystic:"✨", Shade:"🌑", Poison:"☠️", Ice:"❄️", Orb:"🟠" };
 
-// Status effects: poison ticks damage each round, freeze skips the victim's turn.
+// Status effects: poison ticks damage each round, freeze skips the victim's turn,
+// burn does damage over time, paralysis may prevent action, sleep prevents action for set turns.
 const STATUS_INFO = {
   poison: { icon:"☠️", dmg:5 },
   freeze: { icon:"❄️", dmg:0 },
+  burn:   { icon:"🔥", dmg:4 },    // Damage over time
+  paralyze:{ icon:"⚡", dmg:0 },    // May prevent action
+  sleep:  { icon:"💤", dmg:0 },    // Prevents action for set turns
 };
 
+// Evolution system: certain critters evolve at specific levels
+const EVOLUTIONS = [
+  // Starter evolutions (Level 10)
+  { from: 0, to: 38, level: 10 },   // Embercub -> Emberion
+  { from: 1, to: 39, level: 10 },   // Aquafin -> Hydrokai
+  { from: 2, to: 40, level: 10 },   // Sproutle -> Florabeast
+  // World 2 critter evolutions (Level 20)
+  { from: 28, to: 38, level: 20 },  // Venomite -> Emberion (alternate fire)
+  { from: 29, to: 39, level: 20 },  // Sludgil -> Hydrokai (alternate water)
+  { from: 30, to: 40, level: 20 },  // Toxwing -> Florabeast (alternate grass)
+  { from: 31, to: 34, level: 20 },  // Frostcub -> Glacifox
+  { from: 32, to: 35, level: 20 },  // Icyfin -> FrostOwl
+  { from: 33, to: 36, level: 20 },  // Glacihorn -> Crystalon
+  // Final evolutions (Level 30)
+  { from: 34, to: 37, level: 30 },  // Glacifox -> Blizzarena
+  { from: 35, to: 37, level: 30 },  // FrostOwl -> Blizzarena
+  { from: 36, to: 37, level: 30 },  // Crystalon -> Blizzarena
+];
+
 // 34 original species (ids are array positions — never reorder, only append!).
-// Moves can carry an `effect`: { type:'poison'|'freeze', turns, chance }.
+// Moves can carry an `effect`: { type:'poison'|'freeze'|'burn'|'paralyze'|'sleep', turns, chance }.
 const SPECIES = [
-  { id:0,  name:"Embercub",  type:"Fire",     icon:"🦊", baseHP:22, baseAtk:11, moves:[{name:"Scorch Swipe",power:10},{name:"Cinder Pounce",power:13}] },
-  { id:1,  name:"Aquafin",   type:"Water",    icon:"🐟", baseHP:24, baseAtk:10, moves:[{name:"Bubble Jet",power:10},{name:"Tide Slap",power:12}] },
-  { id:2,  name:"Sproutle",  type:"Grass",    icon:"🌱", baseHP:26, baseAtk:9,  moves:[{name:"Leaf Flick",power:9},{name:"Vine Lash",power:12}] },
-  { id:3,  name:"Zapmite",   type:"Electric", icon:"⚡", baseHP:20, baseAtk:12, moves:[{name:"Static Nip",power:10},{name:"Volt Skitter",power:13}] },
-  { id:4,  name:"Rockadillo",type:"Rock",     icon:"🪨", baseHP:30, baseAtk:8,  moves:[{name:"Pebble Roll",power:9},{name:"Boulder Curl",power:12}] },
-  { id:5,  name:"Gustwing",  type:"Air",      icon:"🕊️", baseHP:21, baseAtk:11, moves:[{name:"Wind Jab",power:10},{name:"Sky Dive",power:13}] },
-  { id:6,  name:"Glimmoth",  type:"Mystic",   icon:"🦋", baseHP:23, baseAtk:11, moves:[{name:"Dream Dust",power:10},{name:"Prism Beam",power:13}] },
-  { id:7,  name:"Fangroot",  type:"Shade",    icon:"🌑", baseHP:25, baseAtk:10, moves:[{name:"Gloom Bite",power:10},{name:"Root Snare",power:12}] },
-  { id:8,  name:"Flarehop",  type:"Fire",     icon:"🐇", baseHP:20, baseAtk:12, moves:[{name:"Hot Hop",power:10},{name:"Blaze Kick",power:13}] },
-  { id:9,  name:"Cindertail",type:"Fire",     icon:"🦎", baseHP:23, baseAtk:11, moves:[{name:"Tail Torch",power:10},{name:"Lava Lick",power:13}] },
-  { id:10, name:"Puddlepaw", type:"Water",    icon:"🦦", baseHP:25, baseAtk:10, moves:[{name:"Splash Swat",power:10},{name:"River Rush",power:12}] },
-  { id:11, name:"Coralisk",  type:"Water",    icon:"🐙", baseHP:26, baseAtk:9,  moves:[{name:"Ink Squirt",power:9},{name:"Tentacle Whip",power:13}] },
-  { id:12, name:"Snailtide", type:"Water",    icon:"🐌", baseHP:31, baseAtk:7,  moves:[{name:"Slime Coat",power:8},{name:"Shell Surf",power:12}] },
-  { id:13, name:"Thornbud",  type:"Grass",    icon:"🌵", baseHP:27, baseAtk:9,  moves:[{name:"Needle Jab",power:10},{name:"Spike Storm",power:12}] },
-  { id:14, name:"Fernfox",   type:"Grass",    icon:"🦔", baseHP:24, baseAtk:10, moves:[{name:"Frond Swipe",power:10},{name:"Bramble Roll",power:12}] },
-  { id:15, name:"Mosskit",   type:"Grass",    icon:"🐢", baseHP:32, baseAtk:7,  moves:[{name:"Moss Bash",power:9},{name:"Sap Cannon",power:12}] },
-  { id:16, name:"Voltbat",   type:"Electric", icon:"🦇", baseHP:21, baseAtk:12, moves:[{name:"Shock Wing",power:10},{name:"Thunder Screech",power:13}] },
-  { id:17, name:"Sparkle",   type:"Electric", icon:"🐭", baseHP:19, baseAtk:13, moves:[{name:"Zap Nibble",power:10},{name:"Circuit Dash",power:13}] },
-  { id:18, name:"Ampeel",    type:"Electric", icon:"🐍", baseHP:24, baseAtk:11, moves:[{name:"Coil Shock",power:10},{name:"Volt Squeeze",power:13}] },
-  { id:19, name:"Cragclaw",  type:"Rock",     icon:"🦀", baseHP:28, baseAtk:9,  moves:[{name:"Pinch Slam",power:10},{name:"Stone Snip",power:12}] },
-  { id:20, name:"Bouldern",  type:"Rock",     icon:"🐗", baseHP:32, baseAtk:8,  moves:[{name:"Gravel Charge",power:10},{name:"Quake Tusk",power:13}] },
-  { id:21, name:"Zephyrix",  type:"Air",      icon:"🦅", baseHP:22, baseAtk:12, moves:[{name:"Gale Talon",power:10},{name:"Dive Bomb",power:14}] },
-  { id:22, name:"Cloudle",   type:"Air",      icon:"🐑", baseHP:27, baseAtk:8,  moves:[{name:"Fluff Puff",power:9},{name:"Cyclone Spin",power:12}] },
-  { id:23, name:"Buzzgale",  type:"Air",      icon:"🐝", baseHP:20, baseAtk:12, moves:[{name:"Sting Breeze",power:10},{name:"Swarm Rush",power:13}] },
-  { id:24, name:"Lunaris",   type:"Mystic",   icon:"🦉", baseHP:24, baseAtk:11, moves:[{name:"Moon Glare",power:10},{name:"Astral Hoot",power:13}] },
-  { id:25, name:"Starpuff",  type:"Mystic",   icon:"🐱", baseHP:22, baseAtk:11, moves:[{name:"Twinkle Tap",power:10},{name:"Nova Purr",power:13}] },
-  { id:26, name:"Duskmaw",   type:"Shade",    icon:"🐺", baseHP:26, baseAtk:11, moves:[{name:"Night Fang",power:11},{name:"Howl of Dusk",power:13}] },
-  { id:27, name:"Wraithvine",type:"Shade",    icon:"🕷️", baseHP:23, baseAtk:11, moves:[{name:"Web of Woe",power:10},{name:"Phantom Bite",power:13}] },
+  { id:0,  name:"Embercub",  type:"Fire",     icon:"🦊", baseHP:22, baseAtk:11, moves:[{name:"Scorch Swipe",power:10},{name:"Cinder Pounce",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:1,  name:"Aquafin",   type:"Water",    icon:"🐟", baseHP:24, baseAtk:10, moves:[{name:"Bubble Jet",power:10},{name:"Tide Slap",power:12, effect:{type:"freeze",turns:1,chance:0.3}}] },
+  { id:2,  name:"Sproutle",  type:"Grass",    icon:"🌱", baseHP:26, baseAtk:9,  moves:[{name:"Leaf Flick",power:9},{name:"Vine Lash",power:12, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:3,  name:"Zapmite",   type:"Electric", icon:"⚡", baseHP:20, baseAtk:12, moves:[{name:"Static Nip",power:10},{name:"Volt Skitter",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
+  { id:4,  name:"Rockadillo",type:"Rock",     icon:"🪨", baseHP:30, baseAtk:8,  moves:[{name:"Pebble Roll",power:9},{name:"Boulder Curl",power:12, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:5,  name:"Gustwing",  type:"Air",      icon:"🕊️", baseHP:21, baseAtk:11, moves:[{name:"Wind Jab",power:10},{name:"Sky Dive",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
+  { id:6,  name:"Glimmoth",  type:"Mystic",   icon:"🦋", baseHP:23, baseAtk:11, moves:[{name:"Dream Dust",power:10},{name:"Prism Beam",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:7,  name:"Fangroot",  type:"Shade",    icon:"🌑", baseHP:25, baseAtk:10, moves:[{name:"Gloom Bite",power:10},{name:"Root Snare",power:12, effect:{type:"freeze",turns:1,chance:0.3}}] },
+  { id:8,  name:"Flarehop",  type:"Fire",     icon:"🐇", baseHP:20, baseAtk:12, moves:[{name:"Hot Hop",power:10},{name:"Blaze Kick",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:9,  name:"Cindertail",type:"Fire",     icon:"🦎", baseHP:23, baseAtk:11, moves:[{name:"Tail Torch",power:10},{name:"Lava Lick",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
+  { id:10, name:"Puddlepaw", type:"Water",    icon:"🦦", baseHP:25, baseAtk:10, moves:[{name:"Splash Swat",power:10},{name:"River Rush",power:12, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:11, name:"Coralisk",  type:"Water",    icon:"🐙", baseHP:26, baseAtk:9,  moves:[{name:"Ink Squirt",power:9},{name:"Tentacle Whip",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
+  { id:12, name:"Snailtide", type:"Water",    icon:"🐌", baseHP:31, baseAtk:7,  moves:[{name:"Slime Coat",power:8},{name:"Shell Surf",power:12, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:13, name:"Thornbud",  type:"Grass",    icon:"🌵", baseHP:27, baseAtk:9,  moves:[{name:"Needle Jab",power:10},{name:"Spike Storm",power:12, effect:{type:"freeze",turns:1,chance:0.3}}] },
+  { id:14, name:"Fernfox",   type:"Grass",    icon:"🦔", baseHP:24, baseAtk:10, moves:[{name:"Frond Swipe",power:10},{name:"Bramble Roll",power:12, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:15, name:"Mosskit",   type:"Grass",    icon:"🐢", baseHP:32, baseAtk:7,  moves:[{name:"Moss Bash",power:9},{name:"Sap Cannon",power:12, effect:{type:"freeze",turns:1,chance:0.3}}] },
+  { id:16, name:"Voltbat",   type:"Electric", icon:"🦇", baseHP:21, baseAtk:12, moves:[{name:"Shock Wing",power:10},{name:"Thunder Screech",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:17, name:"Sparkle",   type:"Electric", icon:"🐭", baseHP:19, baseAtk:13, moves:[{name:"Zap Nibble",power:10},{name:"Circuit Dash",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
+  { id:18, name:"Ampeel",    type:"Electric", icon:"🐍", baseHP:24, baseAtk:11, moves:[{name:"Coil Shock",power:10},{name:"Volt Squeeze",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:19, name:"Cragclaw",  type:"Rock",     icon:"🦀", baseHP:28, baseAtk:9,  moves:[{name:"Pinch Slam",power:10},{name:"Stone Snip",power:12, effect:{type:"freeze",turns:1,chance:0.3}}] },
+  { id:20, name:"Bouldern",  type:"Rock",     icon:"🐗", baseHP:32, baseAtk:8,  moves:[{name:"Gravel Charge",power:10},{name:"Quake Tusk",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:21, name:"Zephyrix",  type:"Air",      icon:"🦅", baseHP:22, baseAtk:12, moves:[{name:"Gale Talon",power:10},{name:"Dive Bomb",power:14, effect:{type:"freeze",turns:1,chance:0.3}}] },
+  { id:22, name:"Cloudle",   type:"Air",      icon:"🐑", baseHP:27, baseAtk:8,  moves:[{name:"Fluff Puff",power:9},{name:"Cyclone Spin",power:12, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:23, name:"Buzzgale",  type:"Air",      icon:"🐝", baseHP:20, baseAtk:12, moves:[{name:"Sting Breeze",power:10},{name:"Swarm Rush",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
+  { id:24, name:"Lunaris",   type:"Mystic",   icon:"🦉", baseHP:24, baseAtk:11, moves:[{name:"Moon Glare",power:10},{name:"Astral Hoot",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:25, name:"Starpuff",  type:"Mystic",   icon:"🐱", baseHP:22, baseAtk:11, moves:[{name:"Twinkle Tap",power:10},{name:"Nova Purr",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
+  { id:26, name:"Duskmaw",   type:"Shade",    icon:"🐺", baseHP:26, baseAtk:11, moves:[{name:"Night Fang",power:11},{name:"Howl of Dusk",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:27, name:"Wraithvine",type:"Shade",    icon:"🕷️", baseHP:23, baseAtk:11, moves:[{name:"Web of Woe",power:10},{name:"Phantom Bite",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
   // ---- World 2 exclusives: Poison + Ice (with status effects) ----
-  { id:28, name:"Venomite",  type:"Poison", icon:"🦂", baseHP:24, baseAtk:11, moves:[{name:"Toxin Sting",power:9, effect:{type:"poison",turns:2,chance:1}},{name:"Venom Slash",power:12}] },
-  { id:29, name:"Sludgil",   type:"Poison", icon:"🐸", baseHP:27, baseAtk:9,  moves:[{name:"Sludge Spit",power:9, effect:{type:"poison",turns:2,chance:1}},{name:"Bog Slam",power:12}] },
-  { id:30, name:"Toxwing",   type:"Poison", icon:"🦟", baseHP:21, baseAtk:12, moves:[{name:"Plague Bite",power:10, effect:{type:"poison",turns:2,chance:1}},{name:"Miasma Dive",power:13}] },
-  { id:31, name:"Frostcub",  type:"Ice",    icon:"🐻‍❄️", baseHP:26, baseAtk:10, moves:[{name:"Frost Swipe",power:10, effect:{type:"freeze",turns:1,chance:0.4}},{name:"Snow Slam",power:13}] },
-  { id:32, name:"Icyfin",    type:"Ice",    icon:"🐧", baseHP:23, baseAtk:11, moves:[{name:"Ice Shard",power:10, effect:{type:"freeze",turns:1,chance:0.4}},{name:"Glacier Slide",power:12}] },
-  { id:33, name:"Glacihorn", type:"Ice",    icon:"🦌", baseHP:28, baseAtk:10, moves:[{name:"Chill Horn",power:10, effect:{type:"freeze",turns:1,chance:0.4}},{name:"Blizzard Charge",power:13}] },
+  { id:28, name:"Venomite",  type:"Poison", icon:"🦂", baseHP:24, baseAtk:11, moves:[{name:"Toxin Sting",power:9, effect:{type:"poison",turns:2,chance:1}},{name:"Venom Slash",power:12, effect:{type:"freeze",turns:1,chance:0.3}}] },
+  { id:29, name:"Sludgil",   type:"Poison", icon:"🐸", baseHP:27, baseAtk:9,  moves:[{name:"Sludge Spit",power:9, effect:{type:"poison",turns:2,chance:1}},{name:"Bog Slam",power:12, effect:{type:"freeze",turns:1,chance:0.3}}] },
+  { id:30, name:"Toxwing",   type:"Poison", icon:"🦟", baseHP:21, baseAtk:12, moves:[{name:"Plague Bite",power:10, effect:{type:"poison",turns:2,chance:1}},{name:"Miasma Dive",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:31, name:"Frostcub",  type:"Ice",    icon:"🐻‍❄️", baseHP:26, baseAtk:10, moves:[{name:"Frost Swipe",power:10, effect:{type:"freeze",turns:1,chance:0.4}},{name:"Snow Slam",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:32, name:"Icyfin",    type:"Ice",    icon:"🐧", baseHP:23, baseAtk:11, moves:[{name:"Ice Shard",power:10, effect:{type:"freeze",turns:1,chance:0.4}},{name:"Glacier Slide",power:12, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:33, name:"Glacihorn", type:"Ice",    icon:"🦌", baseHP:28, baseAtk:10, moves:[{name:"Chill Horn",power:10, effect:{type:"freeze",turns:1,chance:0.4}},{name:"Blizzard Charge",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
+  // ---- World 3 exclusives: New evolutions and ice-types ----
+  { id:34, name:"Glacifox",   type:"Ice",     icon:"🦊❄️", baseHP:28, baseAtk:12, moves:[{name:"Ice Fang",power:11},{name:"Glacier Bite",power:14}] },
+  { id:35, name:"FrostOwl",   type:"Ice",     icon:"🦉❄️", baseHP:25, baseAtk:14, moves:[{name:"Snow Veil",power:10},{name:"Blizzard Wing",power:13}] },
+  { id:36, name:"Crystalon",  type:"Ice",     icon:"💎❄️", baseHP:30, baseAtk:10, moves:[{name:"Crystal Shard",power:9},{name:"Prism Burst",power:12}] },
+  { id:37, name:"Blizzarena",type:"Ice",     icon:"🦌❄️", baseHP:32, baseAtk:11, moves:[{name:"Antler Rush",power:10},{name:"Ice Age",power:14}] },
+  // Evolved forms (will be implemented via evolution system)
+  { id:38, name:"Emberion",   type:"Fire",    icon:"🦁🔥", baseHP:35, baseAtk:16, moves:[{name:"Solar Flare",power:15},{name:"Phoenix Cry",power:18}] },
+  { id:39, name:"Hydrokai",   type:"Water",   icon:"🐬💧", baseHP:33, baseAtk:15, moves:[{name:"Tsunami Crash",power:14},{name:"Abyssal Pulse",power:16}] },
+  { id:40, name:"Florabeast", type:"Grass",   icon:"🌳🌿", baseHP:38, baseAtk:12, moves:[{name:"Verdant Fury",power:13},{name:"Photosynthesis",power:15}] },
 ];
 
 /* Tile legend: '#'=wall '.'=path ','=grass 'f'=forest '~'=water/lava
@@ -158,27 +190,81 @@ const WORLDS = [
     portalRequires: [], // going home is always allowed
     battleBg: "emberBg",
   },
-];
+    { // ---------- WORLD 2: FROZEN PEAKS (UNLOCKABLE) ----------
+      name: "❄️ Frozen Peaks",
+      map: [
+        "########################",
+        "#..........~~~~~~......#",
+        "#..........~~~~~~......#",
+        "#..........~~~~~~......#",
+        "#..........~~~~~~......#",
+        "#......H.....~~~~~~......#",
+        "#..........~~~~~~......#",
+        "#..........~~~~~~......#",
+        "#..........~~~~~~......#",
+        "#..........~~~~~~......#",
+        "#..........~~~~~~......#",
+        "#..........~~~~~~......#",
+        "#..........~~~~~~......#",
+        "#..........~~~~~~......#",
+        "#..........~~~~~~......#",
+        "#......S.....~~~~~~......#",
+        "########################",
+      ],
+      colors: { "#":"#2a2a3a", ".":"#e0e6f0", "~":"#a8d0e6", "H":"#e0e6f0", "S":"#e0e6f0", "P":"#7b3fd4" },
+      deco:   { "#":"🧊", ".":"❄️", "~":"≈", "H":"⛺", "S":"🏪", "P":"🌀" },
+      encounters: {
+        ".": { chance:0.1, pool:[34,35,36,37], lvl:[18,22] }, // New world 3 critters
+        "~": { chance:0.15, pool:[34,35,36,37], lvl:[20,25] },
+      },
+      trainers: [
+        { id:10, name:"Glacia", x:6, y:10, team:[[34,18],[35,20]], quote:"Feel the chill of eternity!" },
+        { id:11, name:"Boreal", x:18, y:8, team:[[36,22],[37,24]], quote:"Ice shapes all destinies." },
+        { id:12, name:"Crystal", x:12, y:4, team:[[34,20],[35,22],[36,18]], quote:"Only the pure of heart may pass." },
+      ],
+      healSpot: { x:11, y:5 },
+      portalDest: { world:0, x:22, y:14 },
+      portalRequires: [3,4,5], // Requires beating Ember Depths trainers
+      battleBg: "",
+    }
+  ];
 
-const TILE = 40, MAP_W = 24, MAP_H = 16;
+const TILE = 60, MAP_W = 24, MAP_H = 16;
 
 // Shop stock — add more items here.
 const SHOP_ITEMS = [
   { key:"orb",       label:"🟠 Critter Orb", desc:"Needed to throw a catch attempt", price:25 },
+  { key:"greatorb",  label:"🟡 Great Orb",   desc:"1.5x catch rate",               price:75 },
+  { key:"ultraorb",  label:"🔴 Ultra Orb",   desc:"2x catch rate + status cure",   price:150 },
   { key:"potion",    label:"🧪 Potion",      desc:"Restores 30 HP in battle",        price:40 },
   { key:"bigpotion", label:"⚗️ Big Potion",  desc:"Fully restores HP in battle",     price:90 },
+  { key:"antidote",  label:"🧪 Antidote",    desc:"Cures poison/burn",             price:20 },
+  { key:"awakening", label:"⏰ Awakening",   desc:"Cures paralysis/sleep",         price:20 },
 ];
 
 // ---- Update log shown by the in-game "Updates" button ----
 // Add a new entry BELOW the roadmap whenever we ship something new.
 const UPDATE_LOG = [
   { version:"🗺️ Roadmap (coming soon)", future:true, notes:[
-    "World 3 behind a second portal gate (Frozen Peaks? Sunken Isles?)",
-    "Critter evolutions at level milestones",
-    "More statuses: burn 🔥, paralysis ⚡, sleep 💤",
-    "Great/Ultra Orbs with higher catch rates + status cure items",
-    "Trainer rematches for extra coins",
+    "Trainer rematches with scaled difficulty",
+    "Online trading and battling with friends",
+    "World 4: Tropical Jungle with Grass/Poison exclusives",
+    "Breeding system to create unique critter combinations",
+    "Story mode with cinematic cutscenes and lore",
+    "Character customization: outfits and accessories",
+    "Post-game content: Battle Tower and Legendary hunts",
     "Reworks considered: true 3D (Three.js), sprite art, sound, defense stat, day/night cycle",
+  ]},
+  { version:"v0.9 — Major Expansion", notes:[
+    "✅ World 3: Frozen Peaks behind second portal gate",
+    "✅ Critter evolutions at level milestones (Lv 10, 20, 30)",
+    "✅ New statuses: burn 🔥, paralysis ⚡, sleep 💤",
+    "✅ Great/Ultra Orbs with higher catch rates",
+    "✅ Status cure items: Antidote, Awakening",
+  ]},
+  { version:"v0.8.2 — Visibility Improvements", notes:[
+    "Increased game resolution and tile size for better visibility",
+    "Distinguished player appearance from trainers",
   ]},
   { version:"v0.8.1 — Mobile D-pad Fix", notes:[
     "Fixed D-pad not appearing on some phones/tablets",
@@ -271,7 +357,7 @@ const ctx = document.getElementById("map").getContext("2d");
 let inBattle = false, inMenu = false;
 let facing = 1;
 
-const PLAYER_PALETTE = { skin:"#e8b88a", shirt:"#d84343", pants:"#2f4fa0", hat:"#d84343" };
+const PLAYER_PALETTE = { skin:"#e8b88a", shirt:"#3b82f6", pants:"#1e293b", hat:"#22c55e" };
 const TRAINER_PALETTES = {
   0: { skin:"#e8b88a", shirt:"#8a5a2a", pants:"#4a3520", hat:"#a97142" }, // Rex
   1: { skin:"#d9a06b", shirt:"#5a3f9e", pants:"#332255", hat:"#5a3f9e" }, // Ivy
@@ -552,15 +638,32 @@ function renderBattle() {
   renderActions();
 }
 
+// Calculate estimated damage for UI feedback
+function estimateDamage(attacker, defender, move) {
+  const eff = effectiveness(spec(attacker).type, spec(defender).type);
+  // Average multiplier (0.85 + 0.15) = 1.0. Using this for prediction.
+  return Math.max(1, Math.round(attacker.atk * move.power / 22 * eff));
+}
+
 function renderActions() {
   const box = $("battleActions"); box.innerHTML = "";
   if (battle.over) { addBtn(box, "Continue", endBattle); return; }
   const me = cur();
-  for (const mv of spec(me).moves)
-    addBtn(box, `⚔️ ${mv.name}`, () => playerAttack(mv));
-  if (battle.mode === "wild") addBtn(box, `🟠 Catch (${state.items.orb})`, tryCatch);
+  for (const mv of spec(me).moves) {
+    const est = estimateDamage(me, battle.enemy, mv);
+    addBtn(box, `⚔️ ${mv.name} (~${est} dmg)`, () => playerAttack(mv));
+  }
+  if (battle.mode === "wild") {
+    let catchText = "";
+    if (state.items.ultraorb > 0) catchText = `🔴 Ultra Orb (${state.items.ultraorb})`;
+    else if (state.items.greatorb > 0) catchText = `🟡 Great Orb (${state.items.greatorb})`;
+    else catchText = `🟠 Critter Orb (${state.items.orb})`;
+    addBtn(box, catchText, tryCatch);
+  }
   if (state.items.potion    > 0) addBtn(box, `🧪 Potion (${state.items.potion})`,        () => usePotion("potion"));
   if (state.items.bigpotion > 0) addBtn(box, `⚗️ Big Potion (${state.items.bigpotion})`, () => usePotion("bigpotion"));
+  if (state.items.antidote  > 0) addBtn(box, `🧪 Antidote (${state.items.antidote})`,    () => usePotion("antidote"));
+  if (state.items.awakening > 0) addBtn(box, `⏰ Awakening (${state.items.awakening})`,   () => usePotion("awakening"));
   addBtn(box, "🔄 Switch", showSwitchMenu);
   if (battle.mode === "wild") addBtn(box, "🏃 Run", tryRun);
 }
@@ -594,18 +697,60 @@ function applyMoveEffect(move, defender) {
   if (!eff || defender.hp <= 0 || defender.status) return;
   if (Math.random() < eff.chance) {
     defender.status = { type: eff.type, turns: eff.turns };
-    log(`${STATUS_INFO[eff.type].icon} ${spec(defender).name} was ${eff.type === "poison" ? "poisoned" : "frozen solid"}!`);
+    let effectMsg = "";
+    switch(eff.type) {
+      case "poison": effectMsg = "poisoned"; break;
+      case "freeze": effectMsg = "frozen solid"; break;
+      case "burn": effectMsg = "set ablaze"; break;
+      case "paralyze": effectMsg = "paralyzed"; break;
+      case "sleep": effectMsg = "fallen asleep"; break;
+      default: effectMsg = `affected by ${eff.type}`;
+    }
+    log(`${STATUS_INFO[eff.type].icon} ${spec(defender).name} was ${effectMsg}!`);
   }
 }
 
-// Poison ticks at the end of the victim's turn. Returns true if it fainted.
+// Status effects tick at the end of the victim's turn.
+// Returns true if the status caused a faint, false otherwise.
+// For freeze/paralyze/sleep: returns true if turn should be skipped.
 function tickStatus(c, spriteId) {
-  if (!c.status || c.status.type !== "poison") return false;
-  c.hp = Math.max(0, c.hp - STATUS_INFO.poison.dmg);
-  log(`☠️ ${spec(c).name} takes ${STATUS_INFO.poison.dmg} poison damage!`);
-  animateHit(spriteId);
+  if (!c.status) return false;
+  
+  switch(c.status.type) {
+    case "poison":
+      c.hp = Math.max(0, c.hp - STATUS_INFO.poison.dmg);
+      log(`☠️ ${spec(c).name} takes ${STATUS_INFO.poison.dmg} poison damage!`);
+      animateHit(spriteId);
+      break;
+    case "burn":
+      c.hp = Math.max(0, c.hp - STATUS_INFO.burn.dmg);
+      log(`🔥 ${spec(c).name} burns for ${STATUS_INFO.burn.dmg} damage!`);
+      animateHit(spriteId);
+      break;
+    case "freeze":
+    case "paralyze":
+    case "sleep":
+      // These statuses don't do damage but may prevent action
+      // We'll handle the action prevention in is* functions
+      break;
+    default:
+      return false;
+  }
+  
+  // Decrease turns and check if status should be removed
   c.status.turns--;
-  if (c.status.turns <= 0) { c.status = null; log(`${spec(c).name} shook off the poison!`); }
+  if (c.status.turns <= 0) {
+    const curedMessages = {
+      poison: `${spec(c).name} shook off the poison!`,
+      burn: `${spec(c).name}'s flames died out!`,
+      freeze: `${spec(c).name} thawed out!`,
+      paralyze: `${spec(c).name} is no longer paralyzed!`,
+      sleep: `${spec(c).name} woke up!`
+    };
+    c.status = null;
+    log(curedMessages[c.status.type] || `${spec(c).name} recovered!`);
+  }
+  
   updateCards();
   return c.hp <= 0;
 }
@@ -616,6 +761,29 @@ function isFrozen(c) {
   log(`❄️ ${spec(c).name} is frozen solid and can't move!`);
   c.status.turns--;
   if (c.status.turns <= 0) { c.status = null; log(`${spec(c).name} thawed out!`); }
+  return true;
+}
+
+// Paralyzed creatures may lose their action. Returns true if the turn is skipped.
+function isParalyzed(c) {
+  if (!c.status || c.status.type !== "paralyze") return false;
+  // 25% chance to act despite paralysis (can be adjusted)
+  if (Math.random() < 0.25) {
+    log(`⚡ ${spec(c).name} is paralyzed but fights through it!`);
+    return false;
+  }
+  log(`⚡ ${spec(c).name} is paralyzed and can't move!`);
+  c.status.turns--;
+  if (c.status.turns <= 0) { c.status = null; log(`${spec(c).name} is no longer paralyzed!`); }
+  return true;
+}
+
+// Asleep creatures lose their action. Returns true if the turn is skipped.
+function isAsleep(c) {
+  if (!c.status || c.status.type !== "sleep") return false;
+  log(`💤 ${spec(c).name} is fast asleep!`);
+  c.status.turns--;
+  if (c.status.turns <= 0) { c.status = null; log(`${spec(c).name} woke up!`); }
   return true;
 }
 
@@ -631,7 +799,8 @@ function playerAttack(move) {
   if (busy || battle.over) return;
   busy = true;
   const me = cur();
-  if (isFrozen(me)) { // frozen: you lose this turn
+  // Check for status conditions that prevent action
+  if (isFrozen(me) || isParalyzed(me) || isAsleep(me)) {
     updateCards();
     setTimeout(() => enemyTurn(afterEnemy), 400);
     return;
@@ -642,7 +811,7 @@ function playerAttack(move) {
     applyMoveEffect(move, battle.enemy);
     updateCards();
     if (battle.enemy.hp <= 0) { onEnemyFaint(); busy = false; renderBattle(); return; }
-    // Your own poison ticks at the end of your turn
+    // Your own status effects tick at the end of your turn
     if (tickStatus(me, "playerSprite")) { handleStatusFaint(); return; }
     setTimeout(() => enemyTurn(afterEnemy), 350);
   });
@@ -698,17 +867,57 @@ function enemyTurn(cb) {
 
 function tryCatch() {
   if (busy || battle.over) return;
-  if (state.items.orb <= 0) { log("You're out of Critter Orbs! Buy more at the 🏪 shop."); return; }
+  
+  // Check for available orbs in order of preference: ultra > great > regular
+  let orbType = "orb";
+  if (state.items.ultraorb > 0) {
+    orbType = "ultraorb";
+    state.items.ultraorb--;
+  } else if (state.items.greatorb > 0) {
+    orbType = "greatorb";
+    state.items.greatorb--;
+  } else if (state.items.orb > 0) {
+    orbType = "orb";
+    state.items.orb--;
+  } else {
+    log("You're out of Critter Orbs! Buy more at the 🏪 shop.");
+    return;
+  }
+  
   busy = true;
-  state.items.orb--;
   updateHUD();
   const e = battle.enemy;
-  const chance = Math.min(0.9, Math.max(0.1, 0.25 + 0.65 * (1 - e.hp / e.maxHp)));
+  
+  // Base catch rate calculation
+  let baseChance = Math.min(0.9, Math.max(0.1, 0.25 + 0.65 * (1 - e.hp / e.maxHp)));
+  
+  // Apply orb bonuses
+  let catchRate = baseChance;
+  let cureStatus = false;
+  
+  if (orbType === "greatorb") {
+    catchRate = Math.min(0.95, baseChance * 1.5); // 1.5x catch rate
+  } else if (orbType === "ultraorb") {
+    catchRate = Math.min(0.98, baseChance * 2.0); // 2x catch rate
+    cureStatus = true; // Ultra Orbs also cure status effects
+  }
+  
+  const orbLabel = {
+    "orb": "🟠 Critter Orb",
+    "greatorb": "🟡 Great Orb", 
+    "ultraorb": "🔴 Ultra Orb"
+  }[orbType];
+  
   animateAttack("playerSprite", "enemySprite", "Orb", () => {
-    log(`You threw a Critter Orb... (${Math.round(chance*100)}% chance)`);
-    if (Math.random() < chance) {
+    log(`You threw an ${orbLabel}... (${Math.round(catchRate*100)}% chance)`);
+    if (Math.random() < catchRate) {
       log(`🎉 Gotcha! ${spec(e).name} was caught!`);
-      e.status = null; // caught critters are cured
+      if (cureStatus) {
+        e.status = null; // Ultra Orbs cure status on catch
+        log("The Ultra Orb's energy also healed its status condition!");
+      } else {
+        e.status = null; // caught critters are cured (standard behavior)
+      }
       state.collection.push(e);
       if (state.teamIdx.length < 6) state.teamIdx.push(state.collection.length - 1);
       battle.over = true;
@@ -724,12 +933,40 @@ function tryCatch() {
 function usePotion(kind) {
   if (busy || battle.over) return;
   const me = cur();
-  if (me.hp >= me.maxHp) { log(`${spec(me).name} is already at full HP!`); return; }
-  busy = true;
-  state.items[kind]--;
-  const amount = kind === "potion" ? 30 : me.maxHp;
-  me.hp = Math.min(me.maxHp, me.hp + amount);
-  log(`You used a ${kind === "potion" ? "🧪 Potion" : "⚗️ Big Potion"}! ${spec(me).name} recovered HP.`);
+  
+  // Handle status cure items
+  if (kind === "antidote") {
+    if (me.status === "poison" || me.status === "burn") {
+      me.status = null;
+      log(`You used an 🧪 Antidote! ${spec(me).name} was cured of ${me.status === "poison" ? "poison" : "burn"}!`);
+    } else {
+      log(`${spec(me).name} doesn't have a curable status condition!`);
+      busy = false;
+      return;
+    }
+  } else if (kind === "awakening") {
+    if (me.status === "paralyze" || me.status === "sleep") {
+      me.status = null;
+      log(`You used a ⏰ Awakening! ${spec(me).name} woke up!`);
+    } else {
+      log(`${spec(me).name} isn't asleep or paralyzed!`);
+      busy = false;
+      return;
+    }
+  } else {
+    // Handle healing items (potions)
+    if (me.hp >= me.maxHp) { 
+      log(`${spec(me).name} is already at full HP!`); 
+      busy = false;
+      return; 
+    }
+    busy = true;
+    state.items[kind]--;
+    const amount = kind === "potion" ? 30 : me.maxHp;
+    me.hp = Math.min(me.maxHp, me.hp + amount);
+    log(`You used a ${kind === "potion" ? "🧪 Potion" : "⚗️ Big Potion"}! ${spec(me).name} recovered HP.`);
+  }
+  
   updateCards(); updateHUD();
   setTimeout(() => enemyTurn(afterEnemy), 400);
 }
@@ -785,12 +1022,28 @@ function onEnemyFaint() {
 
 function grantXP(enemyLevel) {
   const me = cur();
+  const oldLevel = me.level;
   me.xp += enemyLevel * 12;
   log(`${spec(me).name} gained ${enemyLevel * 12} XP.`);
   while (me.xp >= me.level * 30) {
     me.xp -= me.level * 30;
     me.level++; me.maxHp += 3; me.atk += 2; me.hp = Math.min(me.maxHp, me.hp + 3);
     log(`⬆️ ${spec(me).name} grew to Lv ${me.level}!`);
+  }
+  
+  // Check for evolution
+  if (me.level > oldLevel) {
+    for (const evo of EVOLUTIONS) {
+      if (evo.from === me.speciesId && me.level >= evo.level) {
+        // Evolve the critter
+        me.speciesId = evo.to;
+        me.maxHp = SPECIES[evo.to].baseHP + me.level * 3;
+        me.atk = SPECIES[evo.to].baseAtk + me.level * 2;
+        me.hp = Math.min(me.maxHp, me.hp); // Ensure HP doesn't exceed max
+        log(`🌟 ${spec(me).name} evolved into ${SPECIES[evo.to].name}!`);
+        break; // Only evolve once per level up
+      }
+    }
   }
 }
 
