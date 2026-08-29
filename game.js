@@ -106,6 +106,10 @@ const SPECIES = [
   { id:38, name:"Emberion",   type:"Fire",    icon:"🦁🔥", baseHP:35, baseAtk:16, moves:[{name:"Solar Flare",power:15},{name:"Phoenix Cry",power:18}] },
   { id:39, name:"Hydrokai",   type:"Water",   icon:"🐬💧", baseHP:33, baseAtk:15, moves:[{name:"Tsunami Crash",power:14},{name:"Abyssal Pulse",power:16}] },
   { id:40, name:"Florabeast", type:"Grass",   icon:"🌳🌿", baseHP:38, baseAtk:12, moves:[{name:"Verdant Fury",power:13},{name:"Photosynthesis",power:15}] },
+  // Mythical creatures - extremely rare
+  { id:41, name:"Lunastra",   type:"Mystic",  icon:"🐉✨", baseHP:50, baseAtk:25, moves:[{name:"Moonlight Blast",power:20},{name:"Stardust Shower",power:25}] },
+  { id:42, name:"Solarion",   type:"Fire",    icon:"🌞🔥", baseHP:55, baseAtk:28, moves:[{name:"Solar Flare",power:22},{name:"Corona Pulse",power:28}] },
+  { id:43, name:"Glacialis",  type:"Ice",     icon:"❄️👑", baseHP:52, baseAtk:22, moves:[{name:"Absolute Zero",power:20},{name:"Glacial Empire",power:26}] },
 ];
 
 /* Tile legend: '#'=wall '.'=path ','=grass 'f'=forest '~'=water/lava
@@ -117,7 +121,7 @@ const WORLDS = [
       "########################",
       "#..,,,...#.....~~~~....#",
       "#..,,,...#.....~~~~....#",
-      "#........#......~~.....#",
+      "#**......#......~~.....#",
       "#..,,,.................#",
       "#..,,,...H...S.........#",
       "#........######....,,,.#",
@@ -131,13 +135,14 @@ const WORLDS = [
       "#....................,P#",
       "########################",
     ],
-    colors: { "#":"#2e4d2e", ".":"#c9b47c", ",":"#3e8948", "f":"#1f5c2d", "~":"#3a6ec9", "c":"#5a5560", "H":"#c9b47c", "S":"#c9b47c", "P":"#7b3fd4" },
-    deco:   { "#":"🌲", ",":"𓆸", "f":"🌳", "~":"≈", "H":"⛺", "S":"🏪", "P":"🌀" },
+    colors: { "#":"#2e4d2e", ".":"#c9b47c", ",":"#3e8948", "f":"#1f5c2d", "~":"#3a6ec9", "c":"#5a5560", "H":"#c9b47c", "S":"#c9b47c", "P":"#7b3fd4", "*":"#ffff00" },
+    deco:   { "#":"🌲", ",":"𓆸", "f":"🌳", "~":"≈", "H":"⛺", "S":"🏪", "P":"🌀", "*":"✨" },
     encounters: {
       ",": { chance:0.15, pool:[2,3,5,17,22,25],   lvl:[2,5] },
       "f": { chance:0.17, pool:[13,14,15,7,23,26], lvl:[3,6] }, // deep forest
       "~": { chance:0.12, pool:[1,10,11,12],       lvl:[3,6] },
       "c": { chance:0.18, pool:[4,0,16,19,24,26],  lvl:[5,8] },
+      "*": { chance:0.01, pool:[41,42,43],         lvl:[20,30] },
     },
     trainers: [
       { id:0, name:"Rex",  x:4,  y:8,  team:[[2,4],[10,5]],       quote:"My critters love a scrap!" },
@@ -169,12 +174,13 @@ const WORLDS = [
       "#P.....................#",
       "########################",
     ],
-    colors: { "#":"#3a2a2a", ".":"#6b5344", ",":"#8a5a2a", "~":"#c94a1e", "c":"#454050", "H":"#6b5344", "S":"#6b5344", "P":"#7b3fd4" },
-    deco:   { "#":"🪨", ",":"🍂", "~":"🔥", "H":"⛺", "S":"🏪", "P":"🌀" },
+    colors: { "#":"#3a2a2a", ".":"#6b5344", ",":"#8a5a2a", "~":"#c94a1e", "c":"#454050", "H":"#6b5344", "S":"#6b5344", "P":"#7b3fd4", "*":"#ff00ff" },
+    deco:   { "#":"🪨", ",":"🍂", "~":"🔥", "H":"⛺", "S":"🏪", "P":"🌀", "*":"💥" },
     encounters: {
       ",": { chance:0.16, pool:[8,9,14,23,27,28,29,30],        lvl:[10,14] },
       "~": { chance:0.14, pool:[0,8,9,20],                     lvl:[12,16] },
       "c": { chance:0.18, pool:[4,16,19,24,26,27,28,31,32,33], lvl:[12,17] },
+      "*": { chance:0.01, pool:[41,42,43],                     lvl:[25,35] },
     },
     trainers: [
       { id:3, name:"Nova",   x:5,  y:12, team:[[9,11],[16,12]],                  quote:"Things get hot down here!" },
@@ -255,6 +261,12 @@ const UPDATE_LOG = [
     "Post-game content: Battle Tower and Legendary hunts",
     "Reworks considered: true 3D (Three.js), sprite art, sound, defense stat, day/night cycle",
   ]},
+  { version:"v9.1 — Mythical Creatures Update", notes:[
+     "✅ Added 3 mythical creatures: Lunastra, Solarion, Glacialis",
+     "✅ Extremely rare encounters (1% chance) on special '*' tiles",
+     "✅ Hidden mythical tiles in each world for exploration",
+     "✅ Mythical creatures have superior stats and unique moves",
+   ]},
   { version:"v0.9 — Major Expansion", notes:[
     "✅ World 3: Frozen Peaks behind second portal gate",
     "✅ Critter evolutions at level milestones (Lv 10, 20, 30)",
@@ -803,6 +815,7 @@ function playerAttack(move) {
   if (isFrozen(me) || isParalyzed(me) || isAsleep(me)) {
     updateCards();
     setTimeout(() => enemyTurn(afterEnemy), 400);
+    busy = false;
     return;
   }
   animateAttack("playerSprite", "enemySprite", spec(me).type, () => {
