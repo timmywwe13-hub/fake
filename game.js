@@ -98,18 +98,25 @@ const SPECIES = [
   { id:32, name:"Icyfin",    type:"Ice",    icon:"🐧", baseHP:23, baseAtk:11, moves:[{name:"Ice Shard",power:10, effect:{type:"freeze",turns:1,chance:0.4}},{name:"Glacier Slide",power:12, effect:{type:"poison",turns:2,chance:0.5}}] },
   { id:33, name:"Glacihorn", type:"Ice",    icon:"🦌", baseHP:28, baseAtk:10, moves:[{name:"Chill Horn",power:10, effect:{type:"freeze",turns:1,chance:0.4}},{name:"Blizzard Charge",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
   // ---- World 3 exclusives: New evolutions and ice-types ----
-  { id:34, name:"Glacifox",   type:"Ice",     icon:"🦊❄️", baseHP:28, baseAtk:12, moves:[{name:"Ice Fang",power:11},{name:"Glacier Bite",power:14}] },
-  { id:35, name:"FrostOwl",   type:"Ice",     icon:"🦉❄️", baseHP:25, baseAtk:14, moves:[{name:"Snow Veil",power:10},{name:"Blizzard Wing",power:13}] },
-  { id:36, name:"Crystalon",  type:"Ice",     icon:"💎❄️", baseHP:30, baseAtk:10, moves:[{name:"Crystal Shard",power:9},{name:"Prism Burst",power:12}] },
-  { id:37, name:"Blizzarena",type:"Ice",     icon:"🦌❄️", baseHP:32, baseAtk:11, moves:[{name:"Antler Rush",power:10},{name:"Ice Age",power:14}] },
+  { id:34, name:"Glacifox",   type:"Ice",     icon:"🦊❄️", baseHP:28, baseAtk:12, rarity:"rare", moves:[{name:"Ice Fang",power:11},{name:"Glacier Bite",power:14}] },
+  { id:35, name:"FrostOwl",   type:"Ice",     icon:"🦉❄️", baseHP:25, baseAtk:14, rarity:"rare", moves:[{name:"Snow Veil",power:10},{name:"Blizzard Wing",power:13}] },
+  { id:36, name:"Crystalon",  type:"Ice",     icon:"💎❄️", baseHP:30, baseAtk:10, rarity:"rare", moves:[{name:"Crystal Shard",power:9},{name:"Prism Burst",power:12}] },
+  { id:37, name:"Blizzarena",type:"Ice",     icon:"🦌❄️", baseHP:32, baseAtk:11, rarity:"rare", moves:[{name:"Antler Rush",power:10},{name:"Ice Age",power:14}] },
   // Evolved forms (will be implemented via evolution system)
-  { id:38, name:"Emberion",   type:"Fire",    icon:"🦁🔥", baseHP:35, baseAtk:16, moves:[{name:"Solar Flare",power:15},{name:"Phoenix Cry",power:18}] },
-  { id:39, name:"Hydrokai",   type:"Water",   icon:"🐬💧", baseHP:33, baseAtk:15, moves:[{name:"Tsunami Crash",power:14},{name:"Abyssal Pulse",power:16}] },
-  { id:40, name:"Florabeast", type:"Grass",   icon:"🌳🌿", baseHP:38, baseAtk:12, moves:[{name:"Verdant Fury",power:13},{name:"Photosynthesis",power:15}] },
+  { id:38, name:"Emberion",   type:"Fire",    icon:"🦁🔥", baseHP:35, baseAtk:16, rarity:"rare", moves:[{name:"Solar Flare",power:15},{name:"Phoenix Cry",power:18}] },
+  { id:39, name:"Hydrokai",   type:"Water",   icon:"🐬💧", baseHP:33, baseAtk:15, rarity:"rare", moves:[{name:"Tsunami Crash",power:14},{name:"Abyssal Pulse",power:16}] },
+  { id:40, name:"Florabeast", type:"Grass",   icon:"🌳🌿", baseHP:38, baseAtk:12, rarity:"rare", moves:[{name:"Verdant Fury",power:13},{name:"Photosynthesis",power:15}] },
   // Mythical creatures - extremely rare
-  { id:41, name:"Lunastra",   type:"Mystic",  icon:"🐉✨", baseHP:50, baseAtk:25, moves:[{name:"Moonlight Blast",power:20},{name:"Stardust Shower",power:25}] },
-  { id:42, name:"Solarion",   type:"Fire",    icon:"🌞🔥", baseHP:55, baseAtk:28, moves:[{name:"Solar Flare",power:22},{name:"Corona Pulse",power:28}] },
-  { id:43, name:"Glacialis",  type:"Ice",     icon:"❄️👑", baseHP:52, baseAtk:22, moves:[{name:"Absolute Zero",power:20},{name:"Glacial Empire",power:26}] },
+  { id:41, name:"Lunastra",   type:"Mystic",  icon:"🐉✨", baseHP:50, baseAtk:25, rarity:"mythical", moves:[{name:"Moonlight Blast",power:20},{name:"Stardust Shower",power:25}] },
+  { id:42, name:"Solarion",   type:"Fire",    icon:"🌞🔥", baseHP:55, baseAtk:28, rarity:"mythical", moves:[{name:"Solar Flare",power:22},{name:"Corona Pulse",power:28}] },
+  { id:43, name:"Glacialis",  type:"Ice",     icon:"❄️👑", baseHP:52, baseAtk:22, rarity:"mythical", moves:[{name:"Absolute Zero",power:20},{name:"Glacial Empire",power:26}] },
+  // ---- Breed-exclusive species: NEVER placed in wild encounter pools or trainer
+  // teams, so the only way to obtain one is breeding the right pair of parent types
+  // together (see BREED_EXCLUSIVES below). ----
+  { id:44, name:"Steamurk",  type:"Fire",     icon:"♨️", baseHP:32, baseAtk:15, moves:[{name:"Steam Burst",power:13},{name:"Scald Wave",power:16, effect:{type:"poison",turns:2,chance:0.4}}] },
+  { id:45, name:"Voltvine",  type:"Electric", icon:"🌿⚡", baseHP:30, baseAtk:16, moves:[{name:"Static Bloom",power:13},{name:"Thorn Surge",power:16, effect:{type:"freeze",turns:1,chance:0.4}}] },
+  { id:46, name:"Skycrag",   type:"Rock",     icon:"🪨🕊️", baseHP:35, baseAtk:13, moves:[{name:"Gale Slam",power:12},{name:"Boulder Gust",power:15, effect:{type:"freeze",turns:1,chance:0.35}}] },
+  { id:47, name:"Duskstar",  type:"Mystic",   icon:"✨🌑", baseHP:31, baseAtk:16, moves:[{name:"Eclipse Beam",power:14},{name:"Umbral Flash",power:17, effect:{type:"poison",turns:2,chance:0.4}}] },
 ];
 
 /* Tile legend: '#'=wall '.'=path ','=grass 'f'=forest '~'=water/lava
@@ -254,6 +261,18 @@ function orbDesc(i) {
   return ORB_TIERS[i].cures ? base + " + cures status" : base;
 }
 
+// Rarity multiplier applied to a critter's base catch chance (before the orb
+// bonus). Species default to "common" when they have no `rarity` field.
+// Mythicals are meant to feel almost impossible without weakening them and
+// using a top-tier orb — a fresh, full-HP mythical is only ~0.3% with a
+// basic Critter Orb.
+const RARITY_CATCH_MULT = {
+  common:  1,
+  rare:    0.2,    // World 3 exclusives + evolved forms
+  mythical:0.012,  // Lunastra / Solarion / Glacialis
+};
+function speciesRarity(s) { return s.rarity || "common"; }
+
 // Shop stock — add more items here.
 const SHOP_ITEMS = [
   ...ORB_TIERS.map((o, i) => ({ key:o.key, label:o.label, desc:orbDesc(i), price:o.price })),
@@ -274,6 +293,19 @@ const UPDATE_LOG = [
     "Post-game content: Battle Tower and Legendary hunts",
     "Reworks considered: true 3D (Three.js), sprite art, sound, defense stat, day/night cycle",
   ]},
+  { version:"v1.2.0 — Catch Rate by Rarity", notes:[
+     "✅ Catch chance is now scaled by species rarity instead of every critter sharing the same odds",
+     "✅ Common critters: unchanged (~25%-90% depending on remaining HP)",
+     "✅ Rare critters (World 3 exclusives + evolved forms): much tougher — ~5%-70% even with a top-tier orb",
+     "✅ Mythicals (Lunastra, Solarion, Glacialis): only ~0.3% on a fresh encounter with a basic orb",
+     "✅ The catch-chance message now shows decimals below 1% so rare/mythical odds don't misleadingly show as '0%'",
+   ]},
+  { version:"v1.1.0 — Breeding Exclusives Update", notes:[
+     "✅ New: 4 breed-exclusive critters — Steamurk ♨️, Voltvine 🌿⚡, Skycrag 🪨🕊️, Duskstar ✨🌑",
+     "✅ These 4 can ONLY be obtained by breeding — they never appear as wild encounters or on trainer teams",
+     "✅ Each hatches from a specific pair of parent types (Fire+Water, Electric+Grass, Air+Rock, Mystic+Shade) instead of a random hybrid",
+     "✅ The Breed screen now only lists unbred critters as selectable parents — a critter born from breeding can't be bred again, so it won't show up in the list",
+   ]},
   { version:"v1.0.0 — Cleanup Update", notes:[
      "✅ Removed the non-functional 'Battle' HUD button (online battling isn't built yet — it's still on the roadmap)",
      "✅ New: Deviant critters! A rare (~5%) stronger variant with boosted HP/ATK",
@@ -396,6 +428,17 @@ const world = () => WORLDS[state.world];
 const BREED_COST = 60;      // 🪙 coins spent per breed
 const BREED_MIN_LEVEL = 3;  // both parents must be at least this level
 
+// Breeding two parents whose TYPES match one of these pairs always produces the
+// listed breed-exclusive species (see SPECIES ids 44-47) instead of a random
+// hybrid. Key = the two types sorted alphabetically and joined with "|", so
+// combo order doesn't matter (Fire+Water breeds the same as Water+Fire).
+const BREED_EXCLUSIVES = {
+  "Fire|Water":     44, // Steamurk
+  "Electric|Grass": 45, // Voltvine
+  "Air|Rock":       46, // Skycrag
+  "Mystic|Shade":   47, // Duskstar
+};
+
 // Mash two names together so the baby's name feels like a genuine blend of both parents.
 function blendName(nameA, nameB) {
   const cut = Math.max(2, Math.min(nameA.length - 1, Math.ceil(nameA.length * 0.55)));
@@ -413,6 +456,15 @@ function makeHybridCreature(parentA, parentB, level = 1) {
   if (parentA.speciesId !== null && parentA.speciesId === parentB.speciesId
       && !parentA.hybridSpec && !parentB.hybridSpec) {
     const baby = makeCreature(parentA.speciesId, level, false);
+    baby.bred = true;
+    return baby;
+  }
+  // Certain parent TYPE combos always produce one of a handful of breed-exclusive
+  // species (see BREED_EXCLUSIVES) — these species can ONLY be obtained this way,
+  // never from wild encounters or trainer battles.
+  const comboKey = [sa.type, sb.type].sort().join("|");
+  if (BREED_EXCLUSIVES[comboKey] !== undefined) {
+    const baby = makeCreature(BREED_EXCLUSIVES[comboKey], level, false);
     baby.bred = true;
     return baby;
   }
@@ -1020,13 +1072,22 @@ function tryCatch() {
   updateHUD();
   const e = battle.enemy;
 
-  // Base catch rate calculation, then scaled by the orb's bonus.
-  const baseChance = Math.min(0.9, Math.max(0.1, 0.25 + 0.65 * (1 - e.hp / e.maxHp)));
+  // Base catch rate calculation (scaled by remaining HP), then scaled down by
+  // the species' rarity, then scaled back up by the orb's bonus.
+  const rarity = speciesRarity(spec(e));
+  const rarityMult = RARITY_CATCH_MULT[rarity] ?? 1;
+  const baseChance = Math.min(0.9, Math.max(0.1, 0.25 + 0.65 * (1 - e.hp / e.maxHp))) * rarityMult;
   const catchRate = Math.min(0.98, baseChance * orbTier.mult);
   const cureStatus = orbTier.cures;
+  // Sub-1% rates would display as "0% chance" if rounded to a whole number,
+  // which is confusing for rare/mythical catches — show 2 decimals instead.
+  const catchPct = catchRate * 100;
+  const catchPctStr = catchPct < 1 ? catchPct.toFixed(2) : Math.round(catchPct);
+  const rarityNote = rarity === "mythical" ? " — mythical, incredibly rare!"
+                    : rarity === "rare" ? " — a rare species!" : "";
 
   animateAttack("playerSprite", "enemySprite", "Orb", () => {
-    log(`You threw a ${orbTier.label}... (${Math.round(catchRate*100)}% chance)`);
+    log(`You threw a ${orbTier.label}... (${catchPctStr}% chance)${rarityNote}`);
     if (Math.random() < catchRate) {
       log(`🎉 Gotcha! ${e.deviant ? "✨ DEVIANT " : ""}${spec(e).name} was caught!`);
       e.status = null; // caught critters are always cured of status
@@ -1262,18 +1323,27 @@ function renderBreed() {
   $("breedCost").textContent = BREED_COST;
 
   const list = $("breedList"); list.innerHTML = "";
+  let shown = 0;
   state.collection.forEach((c, i) => {
+    // Only unbred (wild-caught/starter) critters can be used as breeding stock —
+    // a critter that's already the product of breeding can't breed again, so it's
+    // hidden from this menu entirely.
+    if (c.bred) return;
+    shown++;
     const row = document.createElement("div");
     const selected = breedSelection.includes(i);
     row.className = "critRow" + (selected ? " breedSelected" : "");
     row.innerHTML = `<span style="font-size:22px">${spec(c).icon}</span>
-      <b>${spec(c).name}</b> <span class="typeTag">${spec(c).type}</span>${deviantTag(c)}${bredTag(c)}
+      <b>${spec(c).name}</b> <span class="typeTag">${spec(c).type}</span>${deviantTag(c)}
       <span>Lv ${c.level} · ${Math.max(0,c.hp)}/${c.maxHp} HP</span>
       <span style="margin-left:auto;color:#ffd76a">${selected ? "✔ Selected" : ""}</span>`;
     row.style.cursor = "pointer";
     row.onclick = () => toggleBreedSelect(i);
     list.appendChild(row);
   });
+  if (!shown) {
+    list.innerHTML = `<div style="color:#aaa;font-size:13px">You don't have any unbred critters to breed with — catch some wild critters first!</div>`;
+  }
 
   const preview = $("breedPreview");
   if (breedSelection.length < 2) {

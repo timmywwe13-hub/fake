@@ -4,6 +4,19 @@ All notable changes to the game are tracked here.
 Format: newest version at the top. Unreleased ideas live in the Roadmap.
 
 ---
+## v1.2.0 — Catch Rate by Rarity
+- ✅ Catch chance is now scaled by species rarity instead of every critter sharing the same odds
+- ✅ Common critters: unchanged (~25%-90% depending on remaining HP)
+- ✅ Rare critters (World 3 exclusives + evolved forms): much tougher, ~5%-70% even with a top-tier orb
+- ✅ Mythicals (Lunastra, Solarion, Glacialis): only ~0.3% on a fresh encounter with a basic orb — weakening them and using a Legend Orb is close to required
+- ✅ Catch-chance log message now shows decimals below 1% so rare/mythical odds don't misleadingly round down to "0%"
+
+## v1.1.0 — Breeding Exclusives Update
+- ✅ New: 4 breed-exclusive critters — Steamurk ♨️, Voltvine 🌿⚡, Skycrag 🪨🕊️, Duskstar ✨🌑
+- ✅ These 4 can ONLY be obtained by breeding — they never appear as wild encounters or on trainer teams
+- ✅ Each one hatches from a specific pair of parent types (Fire+Water, Electric+Grass, Air+Rock, Mystic+Shade) instead of a random hybrid
+- ✅ Breed menu now only lists unbred critters as selectable parents — a critter born from breeding can't be bred again, so it no longer shows up in the list
+
 ## v1.0.0 — Cleanup Update
 - ✅ Removed the non-functional "Battle" HUD button (online battling isn't built yet — still on the roadmap)
 - ✅ New: Deviant critters — a rare (~5%) stronger variant with +30% HP/ATK
