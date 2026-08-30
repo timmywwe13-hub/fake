@@ -27,9 +27,9 @@
     </div>
     <!-- Battle arena: 2D sprites + flying attack effects -->
     <div id="arena">
-  <div class="spriteBox" id="playerSprite"></div>
-  <div class="spriteBox" id="enemySprite"></div>
-</div>
+      <div class="spriteBox" id="playerSprite"></div>
+      <div class="spriteBox" id="enemySprite"></div>
+    </div>
     <div id="battleLog"></div>
     <div id="battleActions"></div>
   </div>
@@ -63,7 +63,6 @@
   <button onclick="openUpdates()">Updates</button>
   <button onclick="saveGame(true)">Save</button>
   <button onclick="resetGame()">Reset</button>
-   <button onclick="openTrade()">Trade</button>
 </div>
 
 <!-- Touch controls (shown on touch devices via CSS + JS detection) -->

@@ -4,6 +4,21 @@ All notable changes to the game are tracked here.
 Format: newest version at the top. Unreleased ideas live in the Roadmap.
 
 ---
+## v1.0.0 — Cleanup Update
+- ✅ Removed the non-functional "Battle" HUD button (online battling isn't built yet — still on the roadmap)
+- ✅ New: Deviant critters — a rare (~5%) stronger variant with +30% HP/ATK
+- ✅ Deviants show a shimmering ✨ DEVIANT badge and gold glow wherever they appear
+- ✅ Deviants only spawn from wild encounters; trainers never field deviant critters
+
+## v9.1 — Mythical Creatures & Mobile Update
+- ✅ Added 3 mythical creatures: Lunastra, Solarion, Glacialis
+- ✅ Extremely rare encounters (1% chance) on special '*' tiles
+- ✅ Hidden mythical tiles in each world for exploration
+- ✅ Mythical creatures have superior stats and unique moves
+- ✅ Mobile fix button: added a button to adjust controls and layout for mobile devices
+- ✅ Improved UI: refined colors, spacing, and typography for a cleaner look
+- ✅ Enhanced responsiveness: better scaling on various screen sizes
+- ✅ Bug fixes: addressed touch input issues and menu alignment on mobile
 
 ## v0.6 — Elements & Status Effects
 - **New world 2 exclusive elements**: ☠️ Poison and ❄️ Ice
@@ -12,14 +27,14 @@ Format: newest version at the top. Unreleased ideas live in the Roadmap.
   - Freeze: 40% chance on Ice moves, victim skips their turn
   - Statuses show as tags on the HP cards, cured by the ⛺ tent and at battle end
 - **6 new critters** (Ember Depths only): Venomite 🦂, Sludgil 🐸, Toxwing 🦟,
-  Frostcub 🐻‍❄️, Icyfin 🐧, Glacihorn 🦌
+   Frostcub 🐻‍❄️, Icyfin 🐧, Glacihorn 🦌
 - Type chart updated: Fire melts Ice, Poison beats Grass/Water, Ice beats Grass/Air
 
 ## v0.5 — World Rework
 - **Fit-to-screen map**: canvas now scales to the browser window (no more hidden bottom row)
 - **Forest area** 🌳 added to Meadowlands with its own tougher encounter table
 - **Sealed portal**: must defeat ALL Meadowlands trainers (Rex, Ivy, Cole) to unlock,
-  with progress messages in the battle log
+   with progress messages in the battle log
 - **Ember Depths made harder**: wild critters now Lv 10-17, stronger trainer teams
 - **4 new trainers in world 2**: Pyra 🔥, Onyx 🪨, Vex ⚡, and champion Magnus 👑 (7 total)
 
@@ -30,11 +45,11 @@ Format: newest version at the top. Unreleased ideas live in the Roadmap.
 - **Shop** 🏪 in both worlds: Critter Orbs (25), Potions (40), Big Potions (90)
 - **Catching costs orbs**; potions usable in battle as a turn action
 - **Animated attacks**: type projectiles (🔥💧⚡🍃🪨💨✨🌑) fly across the arena
-  with a 💥 impact burst and target shake
+   with a 💥 impact burst and target shake
 
 ## v0.3 — 3D Characters
 - Player and trainers rendered as **3D-shaded canvas models**
-  (gradient-lit bodies/heads, ground shadows, colored outfits, directional caps)
+   (gradient-lit bodies/heads, ground shadows, colored outfits, directional caps)
 - Player flips to face walk direction; trainers turn to watch you; defeated trainers fade
 
 ## v0.2 — Two Worlds & Battle Arena
@@ -52,7 +67,6 @@ Format: newest version at the top. Unreleased ideas live in the Roadmap.
 - localStorage save/load with auto-save
 
 ---
-
 ## 🗺️ Roadmap (future updates & reworks)
 
 ### Planned

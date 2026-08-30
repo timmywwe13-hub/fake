@@ -35,7 +35,20 @@ button:disabled { background:#333; cursor:default; }
 #battleActions { display:flex; gap:8px; flex-wrap:wrap; }
 .typeTag { font-size:11px; background:#555; border-radius:4px; padding:1px 6px; margin-left:6px; }
 
+/* ============ DEVIANT CRITTERS ============ */
+/* Rare, stronger variant — gold shimmer badge + glow so they're easy to spot at a glance. */
+.deviantTag { font-size:11px; font-weight:bold; margin-left:6px; padding:1px 7px; border-radius:4px;
+              color:#3a2a00; background:linear-gradient(90deg,#ffd76a,#fff3c4,#ffd76a);
+              background-size:200% auto; animation:deviantShimmer 2.2s linear infinite; }
+@keyframes deviantShimmer { 0% { background-position:0% 50%; } 100% { background-position:200% 50%; } }
+.deviantGlow { filter:drop-shadow(0 6px 4px rgba(0,0,0,.35)) drop-shadow(0 0 4px rgba(255,215,106,.5)) drop-shadow(0 0 10px rgba(255,215,106,.6)); }
+
 /* ============ BATTLE ARENA ============ */
+#battleArena { height:190px; border-radius:8px; position:relative; overflow:hidden; flex-shrink:0;
+                background:linear-gradient(#8ecdf0 55%, #8fce7f 55%); display:block; }
+#battleArena.emberBg { background:linear-gradient(#3c2030 55%, #7a3520 55%); }
+/* Sprite elements are now visible again for 2D rendering */
+#playerSprite, #enemySprite, .spriteBox { display:block; }
 #arena { height:190px; border-radius:8px; position:relative; overflow:hidden; flex-shrink:0;
          background:linear-gradient(#8ecdf0 55%, #8fce7f 55%); }
 #arena.emberBg { background:linear-gradient(#3c2030 55%, #7a3520 55%); }
@@ -85,12 +98,106 @@ button, .dbtn, canvas { -webkit-user-select:none; user-select:none; -webkit-tap-
 
 /* On-screen D-pad: big thumb-sized buttons.
    Hidden by default; shown on touch devices by the CSS below OR the JS fallback. */
-#dpad { display:none; margin-top:10px; flex-direction:column; align-items:center; gap:6px; }
-.dRow { display:flex; gap:6px; }
-.dbtn { width:60px; height:60px; font-size:22px; border-radius:12px;
-        background:#4a5aa8cc; touch-action:none; }
-.dbtn:active { background:#8a97e0; }
+#dpad { display:none; margin-top:15px; flex-direction:column; align-items:center; gap:12px; }
+.dRow { display:flex; gap:12px; }
+.dbtn { width:75px; height:75px; font-size:28px; border-radius:18px;
+        background:#4a5aa8cc; touch-action:none; box-shadow:0 2px 4px rgba(0,0,0,0.3); }
+.dbtn:active { background:#8a97e0; transform:scale(0.95); }
 @media (hover:none), (pointer:coarse) { #dpad { display:flex; } }
+
+/* Enhanced mobile experience - make D-pad more prominent and easier to use */
+@media (max-width:700px) {
+   #dpad {
+      margin-top:25px;
+      opacity:0.97;
+      padding:15px;
+      background:rgba(0,0,0,0.3);
+      border-radius:16px;
+      backdrop-filter:blur(20px);
+   }
+   .dbtn {
+      width:100px;
+      height:100px;
+      font-size:36px;
+      border-radius:25px;
+      background:rgba(74, 90, 168, 0.95);
+      backdrop-filter:blur(10px);
+      box-shadow:0 4px 12px rgba(0,0,0,0.4);
+      border: 2px solid rgba(255,255,255,0.2);
+   }
+   .dbtn:active { 
+      background:rgba(102, 120, 188, 0.95); 
+      transform:scale(0.93);
+   }
+   
+   /* Layout optimizations */
+   #hud { flex-wrap:wrap; gap:12px; }
+   #hudMsg { flex-basis:100%; order:-1; font-size:16px; }
+   #inventory { font-size:14px; padding:8px 12px; min-width:120px; }
+   button { 
+      padding:14px 18px; 
+      font-size:16px;
+      min-width:80px;
+      margin:4px 2px;
+   }                        /* bigger tap targets */
+
+   .overlay { 
+      padding:20px; 
+      background:#1b1f30ee;
+      backdrop-filter:blur(10px);
+   }
+   .fighterRow { gap:12px; margin-bottom:12px; }
+   .card { 
+      width:46%; 
+      box-sizing:border-box; 
+      padding:16px; 
+      font-size:15px;
+      background:rgba(42, 48, 80, 0.8);
+      backdrop-filter:blur(5px);
+      border:1px solid rgba(255,255,255,0.1);
+   }
+
+   /* Arena sprites: position by % so they fit narrow screens */
+   #arena { height:180px; }
+   #playerSprite { left:8%; }
+   #enemySprite  { right:8%; }
+   .spriteEmoji { font-size:64px; }
+   .platform { width:84px; }
+
+   #battleLog { 
+      font-size:16px; 
+      min-height:90px;
+      line-height:1.4;
+      padding:12px;
+   }
+   #battleActions { 
+      display:flex; 
+      flex-wrap:wrap; 
+      gap:10px; 
+      justify-content:center; 
+      margin-top:15px;
+   }
+   #battleActions button { 
+      font-size:18px; 
+      padding:16px 20px; 
+      min-width:120px;
+      border-radius:20px;
+      font-weight:600;
+      box-shadow:0 4px 8px rgba(0,0,0,0.3);
+   }
+   #battleActions button:active {
+      transform:scale(0.95);
+   }
+   .shopRow { 
+      flex-wrap:wrap; 
+      gap:12px; 
+      justify-content:center;
+   }
+   .shopRow button {
+      min-width:110px;
+      margin:4px;
+   }
+}
 
 /* Phone / small tablet layout tweaks */
 @media (max-width:700px) {
@@ -110,7 +217,7 @@ button, .dbtn, canvas { -webkit-user-select:none; user-select:none; -webkit-tap-
   .spriteEmoji { font-size:54px; }
   .platform { width:74px; }
 
-  #battleLog { font-size:12px; min-height:60px; }
-  #battleActions button { font-size:12px; padding:8px 10px; }
+  #battleLog { font-size:14px; min-height:70px; }
+  #battleActions button { font-size:16px; padding:12px 16px; margin:4px; }
   .shopRow { flex-wrap:wrap; }
 }

@@ -253,6 +253,7 @@ const SHOP_ITEMS = [
 const UPDATE_LOG = [
   { version:"🗺️ Roadmap (coming soon)", future:true, notes:[
     "Trainer rematches with scaled difficulty",
+    "Online trading and battling with friends",
     "World 4: Tropical Jungle with Grass/Poison exclusives",
     "Breeding system to create unique critter combinations",
     "Story mode with cinematic cutscenes and lore",
@@ -260,17 +261,15 @@ const UPDATE_LOG = [
     "Post-game content: Battle Tower and Legendary hunts",
     "Reworks considered: true 3D (Three.js), sprite art, sound, defense stat, day/night cycle",
   ]},
-  { version:"v1.0.0 — Cleanup Update", notes:[
-     "✅ Removed the non-functional 'Battle' HUD button (online battling isn't built yet — it's still on the roadmap)",
-     "✅ New: Deviant critters! A rare (~5%) stronger variant with boosted HP/ATK",
-     "✅ Deviants are marked with a shimmering ✨ DEVIANT badge and a gold glow so you can spot them at a glance",
-     "✅ Deviants can only appear on wild encounters — trainers never field deviant critters",
-   ]},
-  { version:"v9.1 — Mythical Creatures Update", notes:[
+  { version:"v9.1 — Mythical Creatures & Mobile Update", notes:[
      "✅ Added 3 mythical creatures: Lunastra, Solarion, Glacialis",
      "✅ Extremely rare encounters (1% chance) on special '*' tiles",
      "✅ Hidden mythical tiles in each world for exploration",
      "✅ Mythical creatures have superior stats and unique moves",
+     "✅ Mobile fix button: added a button to adjust controls and layout for mobile devices",
+     "✅ Improved UI: refined colors, spacing, and typography for a cleaner look",
+     "✅ Enhanced responsiveness: better scaling on various screen sizes",
+     "✅ Bug fixes: addressed touch input issues and menu alignment on mobile",
    ]},
   { version:"v0.9 — Major Expansion", notes:[
     "✅ World 3: Frozen Peaks behind second portal gate",
@@ -340,21 +339,10 @@ let state = {
   items: { orb:5, potion:2, bigpotion:0 },
 };
 
-// "Deviant" critters are a rare, stronger variant (~5% chance) that can only appear
-// on WILD encounters — trainers always field normal critters, never deviants.
-const DEVIANT_CHANCE = 0.05;
-const DEVIANT_MULT = 1.3; // +30% HP and ATK
-
-function makeCreature(speciesId, level, allowDeviant = false) {
+function makeCreature(speciesId, level) {
   const s = SPECIES[speciesId];
-  const isDeviant = allowDeviant && Math.random() < DEVIANT_CHANCE;
-  let maxHp = s.baseHP + level * 3;
-  let atk = s.baseAtk + level * 2;
-  if (isDeviant) {
-    maxHp = Math.round(maxHp * DEVIANT_MULT);
-    atk = Math.round(atk * DEVIANT_MULT);
-  }
-  return { speciesId, level, xp:0, maxHp, hp:maxHp, atk, status:null, deviant:isDeviant };
+  const maxHp = s.baseHP + level * 3;
+  return { speciesId, level, xp:0, maxHp, hp:maxHp, atk:s.baseAtk + level * 2, status:null };
 }
 const spec  = c => SPECIES[c.speciesId];
 const world = () => WORLDS[state.world];
@@ -370,12 +358,6 @@ function loadGame() {
   try {
     state = JSON.parse(raw);
     state.world = state.world || 0;
-     // FIX: Validate world index and player position to prevent black screen
-     if (state.world < 0 || state.world >= WORLDS.length) state.world = 0;
-     const w = WORLDS[state.world];
-     if (state.player.x < 0 || state.player.x >= MAP_W || state.player.y < 0 || state.player.y >= MAP_H) {
-       state.player = { x: w.healSpot.x, y: w.healSpot.y };
-     }
     if (state.coins === undefined) state.coins = 150;
     if (!state.items) state.items = { orb:5, potion:2, bigpotion:0 };
     return true;
@@ -550,7 +532,7 @@ function tryMove(dx, dy) {
   if (enc && state.teamIdx.length && Math.random() < enc.chance) {
     const sid = enc.pool[Math.floor(Math.random()*enc.pool.length)];
     const lvl = enc.lvl[0] + Math.floor(Math.random()*(enc.lvl[1]-enc.lvl[0]+1));
-    startWildBattle(makeCreature(sid, lvl, true));
+    startWildBattle(makeCreature(sid, lvl));
   }
 }
 
@@ -575,13 +557,13 @@ function startWildBattle(enemy) {
   const a = firstAliveIdx();
   if (a === undefined) { hudMsg("All your critters have fainted! Visit the ⛺ tent."); return; }
   battle = { mode:"wild", enemy, enemyQueue:[], trainer:null, activeIdx:a, over:false };
-  openBattle(`A wild ${enemy.deviant ? "✨ DEVIANT " : ""}${spec(enemy).name} (Lv ${enemy.level}) appeared!`);
+  openBattle(`A wild ${spec(enemy).name} (Lv ${enemy.level}) appeared!`);
 }
 
 function startTrainerBattle(trainer) {
   const a = firstAliveIdx();
   if (a === undefined) { hudMsg("Heal your team at the ⛺ tent before battling!"); return; }
-  const queue = trainer.team.map(([sid,lvl]) => makeCreature(sid, lvl, false)); // trainers never get deviants
+  const queue = trainer.team.map(([sid,lvl]) => makeCreature(sid,lvl));
   battle = { mode:"trainer", enemy:queue.shift(), enemyQueue:queue, trainer, activeIdx:a, over:false };
   openBattle(`${trainer.name}: "${trainer.quote}" — sent out ${spec(battle.enemy).name} (Lv ${battle.enemy.level})!`);
 }
@@ -640,22 +622,18 @@ function animateHit(spriteId) {
   el.classList.add("shake");
 }
 
-// Small gold "✨ DEVIANT" badge shown anywhere a deviant critter is displayed.
-function deviantTag(c) {
-  return c.deviant ? ` <span class="deviantTag">✨ DEVIANT</span>` : "";
-}
 function cardHTML(c, label) {
   const pct = Math.max(0, c.hp / c.maxHp * 100);
   const st = c.status ? ` <span class="typeTag">${STATUS_INFO[c.status.type].icon} ${c.status.type}</span>` : "";
-  return `<div class="nm">${spec(c).icon} ${spec(c).name} <span class="typeTag">${spec(c).type}</span>${deviantTag(c)}${st}</div>
+  return `<div class="nm">${spec(c).icon} ${spec(c).name} <span class="typeTag">${spec(c).type}</span>${st}</div>
     <div style="font-size:12px;color:#aaa">${label} · Lv ${c.level}</div>
     <div class="hpbarOuter"><div class="hpbarInner ${pct<30?'low':''}" style="width:${pct}%"></div></div>
     <div style="font-size:12px">${Math.max(0,c.hp)} / ${c.maxHp} HP</div>`;
 }
 function spriteHTML(c) {
-  return `<span class="spriteEmoji${c.deviant ? ' deviantGlow' : ''}">${spec(c).icon}</span>
+  return `<span class="spriteEmoji">${spec(c).icon}</span>
     <div class="platform"></div>
-    <div class="spriteName">${c.deviant ? '✨ ' : ''}${spec(c).name} Lv${c.level}</div>`;
+    <div class="spriteName">${spec(c).name} Lv${c.level}</div>`;
 }
 
 function updateCards() {
@@ -950,7 +928,7 @@ function tryCatch() {
   animateAttack("playerSprite", "enemySprite", "Orb", () => {
     log(`You threw an ${orbLabel}... (${Math.round(catchRate*100)}% chance)`);
     if (Math.random() < catchRate) {
-      log(`🎉 Gotcha! ${e.deviant ? "✨ DEVIANT " : ""}${spec(e).name} was caught!`);
+      log(`🎉 Gotcha! ${spec(e).name} was caught!`);
       if (cureStatus) {
         e.status = null; // Ultra Orbs cure status on catch
         log("The Ultra Orb's energy also healed its status condition!");
@@ -1139,7 +1117,7 @@ function openTeam() {
     const row = document.createElement("div");
     row.className = "critRow" + (state.teamIdx.includes(i) ? " inTeam" : "");
     row.innerHTML = `<span style="font-size:22px">${spec(c).icon}</span>
-      <b>${spec(c).name}</b> <span class="typeTag">${spec(c).type}</span>${deviantTag(c)}
+      <b>${spec(c).name}</b> <span class="typeTag">${spec(c).type}</span>
       <span>Lv ${c.level} · ${Math.max(0,c.hp)}/${c.maxHp} HP · ATK ${c.atk}</span>
       <span style="margin-left:auto;color:#ffd76a">${state.teamIdx.includes(i) ? "★ In team" : "☆ Reserve"}</span>`;
     row.style.cursor = "pointer";
@@ -1178,26 +1156,6 @@ function openUpdates() {
   $("updatesScreen").classList.remove("hidden");
 }
 function closeUpdates() { $("updatesScreen").classList.add("hidden"); inMenu = false; }
-
-function openTrade() {
-   if (inBattle) return;
-   inMenu = true;
-   const tradeScreen = document.createElement("div");
-   tradeScreen.id = "tradeScreen";
-   tradeScreen.className = "overlay";
-   tradeScreen.innerHTML = `
-      <h2>💱 Trading (Beta)</h2>
-      <p>Trading feature is currently in beta testing.</p>
-      <p>Please check back later for full trading functionality with other players!</p>
-      <button onclick="closeTrade()" style="margin-top:12px;">Close</button>
-   `;
-   document.getElementById("wrap").appendChild(tradeScreen);
-}
-
-function closeTrade() {
-   document.getElementById("tradeScreen").remove();
-   inMenu = false;
-}
 
 /* ============ 6. MOBILE TOUCH CONTROLS ============ */
 
