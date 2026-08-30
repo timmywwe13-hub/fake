@@ -19,6 +19,22 @@
     <div id="starterBtns" style="display:flex;gap:10px;flex-wrap:wrap;"></div>
   </div>
 
+  <!-- Story mode: cinematic cutscene slides -->
+  <div id="storyScreen" class="overlay hidden storyOverlay">
+    <div id="storyBody">
+      <div id="storyIcon"></div>
+      <h2 id="storyTitle"></h2>
+      <p id="storyText"></p>
+    </div>
+    <div id="storyFooter">
+      <span id="storyDots"></span>
+      <div>
+        <button onclick="closeStory()" id="storySkipBtn">Skip</button>
+        <button onclick="storyNext()" id="storyNextBtn">Next ▶</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Battle screen -->
   <div id="battleScreen" class="overlay hidden">
     <div class="fighterRow">

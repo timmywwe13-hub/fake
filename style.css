@@ -23,6 +23,19 @@ button:disabled { background:#333; cursor:default; }
            overflow-y:auto; }
 .hidden { display:none !important; }
 
+/* ============ STORY MODE ============ */
+.storyOverlay { justify-content:center; align-items:center; text-align:center;
+                background:linear-gradient(#141828f2, #1b1f30f2); }
+#storyBody { max-width:480px; }
+#storyIcon { font-size:64px; line-height:1.1; margin-bottom:10px;
+             filter:drop-shadow(0 6px 6px rgba(0,0,0,.4)); }
+#storyTitle { margin:0 0 10px; font-size:20px; color:#ffd76a; }
+#storyText { margin:0; font-size:15px; line-height:1.6; color:#e8e8f0; }
+#storyFooter { position:absolute; left:16px; right:16px; bottom:16px;
+               display:flex; justify-content:space-between; align-items:center; }
+#storyDots { font-size:12px; color:#9fb4ff; }
+#storySkipBtn { background:#333a5c; margin-right:8px; }
+
 /* ============ BATTLE SCREEN ============ */
 .fighterRow { display:flex; justify-content:space-between; margin-bottom:8px; }
 .card { background:#2a3050; border-radius:8px; padding:10px 14px; width:300px; }

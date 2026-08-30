@@ -65,61 +65,61 @@ const EVOLUTIONS = [
 // 34 original species (ids are array positions — never reorder, only append!).
 // Moves can carry an `effect`: { type:'poison'|'freeze'|'burn'|'paralyze'|'sleep', turns, chance }.
 const SPECIES = [
-  { id:0,  name:"Embercub",  type:"Fire",     icon:"🦊", baseHP:22, baseAtk:11, moves:[{name:"Scorch Swipe",power:10},{name:"Cinder Pounce",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:0,  name:"Embercub",  type:"Fire",     icon:"🦊", baseHP:22, baseAtk:11, moves:[{name:"Scorch Swipe",power:10},{name:"Cinder Pounce",power:13, effect:{type:"burn",turns:2,chance:0.5}}] },
   { id:1,  name:"Aquafin",   type:"Water",    icon:"🐟", baseHP:24, baseAtk:10, moves:[{name:"Bubble Jet",power:10},{name:"Tide Slap",power:12, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:2,  name:"Sproutle",  type:"Grass",    icon:"🌱", baseHP:26, baseAtk:9,  moves:[{name:"Leaf Flick",power:9},{name:"Vine Lash",power:12, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:2,  name:"Sproutle",  type:"Grass",    icon:"🌱", baseHP:26, baseAtk:9,  moves:[{name:"Leaf Flick",power:9},{name:"Vine Lash",power:12, effect:{type:"freeze",turns:2,chance:0.5}}] },
   { id:3,  name:"Zapmite",   type:"Electric", icon:"⚡", baseHP:20, baseAtk:12, moves:[{name:"Static Nip",power:10},{name:"Volt Skitter",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:4,  name:"Rockadillo",type:"Rock",     icon:"🪨", baseHP:30, baseAtk:8,  moves:[{name:"Pebble Roll",power:9},{name:"Boulder Curl",power:12, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:4,  name:"Rockadillo",type:"Rock",     icon:"🪨", baseHP:30, baseAtk:8,  moves:[{name:"Pebble Roll",power:9},{name:"Boulder Curl",power:12, effect:{type:"freeze",turns:2,chance:0.5}}] },
   { id:5,  name:"Gustwing",  type:"Air",      icon:"🕊️", baseHP:21, baseAtk:11, moves:[{name:"Wind Jab",power:10},{name:"Sky Dive",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:6,  name:"Glimmoth",  type:"Mystic",   icon:"🦋", baseHP:23, baseAtk:11, moves:[{name:"Dream Dust",power:10},{name:"Prism Beam",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:6,  name:"Glimmoth",  type:"Mystic",   icon:"🦋", baseHP:23, baseAtk:11, moves:[{name:"Dream Dust",power:10},{name:"Prism Beam",power:13, effect:{type:"freeze",turns:2,chance:0.5}}] },
   { id:7,  name:"Fangroot",  type:"Shade",    icon:"🌑", baseHP:25, baseAtk:10, moves:[{name:"Gloom Bite",power:10},{name:"Root Snare",power:12, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:8,  name:"Flarehop",  type:"Fire",     icon:"🐇", baseHP:20, baseAtk:12, moves:[{name:"Hot Hop",power:10},{name:"Blaze Kick",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
-  { id:9,  name:"Cindertail",type:"Fire",     icon:"🦎", baseHP:23, baseAtk:11, moves:[{name:"Tail Torch",power:10},{name:"Lava Lick",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:10, name:"Puddlepaw", type:"Water",    icon:"🦦", baseHP:25, baseAtk:10, moves:[{name:"Splash Swat",power:10},{name:"River Rush",power:12, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:8,  name:"Flarehop",  type:"Fire",     icon:"🐇", baseHP:20, baseAtk:12, moves:[{name:"Hot Hop",power:10},{name:"Blaze Kick",power:13, effect:{type:"burn",turns:2,chance:0.5}}] },
+  { id:9,  name:"Cindertail",type:"Fire",     icon:"🦎", baseHP:23, baseAtk:11, moves:[{name:"Tail Torch",power:10},{name:"Lava Lick",power:13, effect:{type:"burn",turns:2,chance:0.4}}] },
+  { id:10, name:"Puddlepaw", type:"Water",    icon:"🦦", baseHP:25, baseAtk:10, moves:[{name:"Splash Swat",power:10},{name:"River Rush",power:12, effect:{type:"freeze",turns:2,chance:0.5}}] },
   { id:11, name:"Coralisk",  type:"Water",    icon:"🐙", baseHP:26, baseAtk:9,  moves:[{name:"Ink Squirt",power:9},{name:"Tentacle Whip",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:12, name:"Snailtide", type:"Water",    icon:"🐌", baseHP:31, baseAtk:7,  moves:[{name:"Slime Coat",power:8},{name:"Shell Surf",power:12, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:12, name:"Snailtide", type:"Water",    icon:"🐌", baseHP:31, baseAtk:7,  moves:[{name:"Slime Coat",power:8},{name:"Shell Surf",power:12, effect:{type:"freeze",turns:2,chance:0.5}}] },
   { id:13, name:"Thornbud",  type:"Grass",    icon:"🌵", baseHP:27, baseAtk:9,  moves:[{name:"Needle Jab",power:10},{name:"Spike Storm",power:12, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:14, name:"Fernfox",   type:"Grass",    icon:"🦔", baseHP:24, baseAtk:10, moves:[{name:"Frond Swipe",power:10},{name:"Bramble Roll",power:12, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:14, name:"Fernfox",   type:"Grass",    icon:"🦔", baseHP:24, baseAtk:10, moves:[{name:"Frond Swipe",power:10},{name:"Bramble Roll",power:12, effect:{type:"freeze",turns:2,chance:0.5}}] },
   { id:15, name:"Mosskit",   type:"Grass",    icon:"🐢", baseHP:32, baseAtk:7,  moves:[{name:"Moss Bash",power:9},{name:"Sap Cannon",power:12, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:16, name:"Voltbat",   type:"Electric", icon:"🦇", baseHP:21, baseAtk:12, moves:[{name:"Shock Wing",power:10},{name:"Thunder Screech",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:16, name:"Voltbat",   type:"Electric", icon:"🦇", baseHP:21, baseAtk:12, moves:[{name:"Shock Wing",power:10},{name:"Thunder Screech",power:13, effect:{type:"freeze",turns:2,chance:0.5}}] },
   { id:17, name:"Sparkle",   type:"Electric", icon:"🐭", baseHP:19, baseAtk:13, moves:[{name:"Zap Nibble",power:10},{name:"Circuit Dash",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:18, name:"Ampeel",    type:"Electric", icon:"🐍", baseHP:24, baseAtk:11, moves:[{name:"Coil Shock",power:10},{name:"Volt Squeeze",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:18, name:"Ampeel",    type:"Electric", icon:"🐍", baseHP:24, baseAtk:11, moves:[{name:"Coil Shock",power:10},{name:"Volt Squeeze",power:13, effect:{type:"freeze",turns:2,chance:0.5}}] },
   { id:19, name:"Cragclaw",  type:"Rock",     icon:"🦀", baseHP:28, baseAtk:9,  moves:[{name:"Pinch Slam",power:10},{name:"Stone Snip",power:12, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:20, name:"Bouldern",  type:"Rock",     icon:"🐗", baseHP:32, baseAtk:8,  moves:[{name:"Gravel Charge",power:10},{name:"Quake Tusk",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:20, name:"Bouldern",  type:"Rock",     icon:"🐗", baseHP:32, baseAtk:8,  moves:[{name:"Gravel Charge",power:10},{name:"Quake Tusk",power:13, effect:{type:"freeze",turns:2,chance:0.5}}] },
   { id:21, name:"Zephyrix",  type:"Air",      icon:"🦅", baseHP:22, baseAtk:12, moves:[{name:"Gale Talon",power:10},{name:"Dive Bomb",power:14, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:22, name:"Cloudle",   type:"Air",      icon:"🐑", baseHP:27, baseAtk:8,  moves:[{name:"Fluff Puff",power:9},{name:"Cyclone Spin",power:12, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:22, name:"Cloudle",   type:"Air",      icon:"🐑", baseHP:27, baseAtk:8,  moves:[{name:"Fluff Puff",power:9},{name:"Cyclone Spin",power:12, effect:{type:"freeze",turns:2,chance:0.5}}] },
   { id:23, name:"Buzzgale",  type:"Air",      icon:"🐝", baseHP:20, baseAtk:12, moves:[{name:"Sting Breeze",power:10},{name:"Swarm Rush",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:24, name:"Lunaris",   type:"Mystic",   icon:"🦉", baseHP:24, baseAtk:11, moves:[{name:"Moon Glare",power:10},{name:"Astral Hoot",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:24, name:"Lunaris",   type:"Mystic",   icon:"🦉", baseHP:24, baseAtk:11, moves:[{name:"Moon Glare",power:10},{name:"Astral Hoot",power:13, effect:{type:"freeze",turns:2,chance:0.5}}] },
   { id:25, name:"Starpuff",  type:"Mystic",   icon:"🐱", baseHP:22, baseAtk:11, moves:[{name:"Twinkle Tap",power:10},{name:"Nova Purr",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:26, name:"Duskmaw",   type:"Shade",    icon:"🐺", baseHP:26, baseAtk:11, moves:[{name:"Night Fang",power:11},{name:"Howl of Dusk",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:26, name:"Duskmaw",   type:"Shade",    icon:"🐺", baseHP:26, baseAtk:11, moves:[{name:"Night Fang",power:11},{name:"Howl of Dusk",power:13, effect:{type:"freeze",turns:2,chance:0.5}}] },
   { id:27, name:"Wraithvine",type:"Shade",    icon:"🕷️", baseHP:23, baseAtk:11, moves:[{name:"Web of Woe",power:10},{name:"Phantom Bite",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
   // ---- World 2 exclusives: Poison + Ice (with status effects) ----
-  { id:28, name:"Venomite",  type:"Poison", icon:"🦂", baseHP:24, baseAtk:11, moves:[{name:"Toxin Sting",power:9, effect:{type:"poison",turns:2,chance:1}},{name:"Venom Slash",power:12, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:29, name:"Sludgil",   type:"Poison", icon:"🐸", baseHP:27, baseAtk:9,  moves:[{name:"Sludge Spit",power:9, effect:{type:"poison",turns:2,chance:1}},{name:"Bog Slam",power:12, effect:{type:"freeze",turns:1,chance:0.3}}] },
+  { id:28, name:"Venomite",  type:"Poison", icon:"🦂", baseHP:24, baseAtk:11, moves:[{name:"Toxin Sting",power:9, effect:{type:"poison",turns:2,chance:1}},{name:"Venom Slash",power:12, effect:{type:"poison",turns:1,chance:0.3}}] },
+  { id:29, name:"Sludgil",   type:"Poison", icon:"🐸", baseHP:27, baseAtk:9,  moves:[{name:"Sludge Spit",power:9, effect:{type:"poison",turns:2,chance:1}},{name:"Bog Slam",power:12, effect:{type:"poison",turns:1,chance:0.3}}] },
   { id:30, name:"Toxwing",   type:"Poison", icon:"🦟", baseHP:21, baseAtk:12, moves:[{name:"Plague Bite",power:10, effect:{type:"poison",turns:2,chance:1}},{name:"Miasma Dive",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
-  { id:31, name:"Frostcub",  type:"Ice",    icon:"🐻‍❄️", baseHP:26, baseAtk:10, moves:[{name:"Frost Swipe",power:10, effect:{type:"freeze",turns:1,chance:0.4}},{name:"Snow Slam",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
-  { id:32, name:"Icyfin",    type:"Ice",    icon:"🐧", baseHP:23, baseAtk:11, moves:[{name:"Ice Shard",power:10, effect:{type:"freeze",turns:1,chance:0.4}},{name:"Glacier Slide",power:12, effect:{type:"poison",turns:2,chance:0.5}}] },
-  { id:33, name:"Glacihorn", type:"Ice",    icon:"🦌", baseHP:28, baseAtk:10, moves:[{name:"Chill Horn",power:10, effect:{type:"freeze",turns:1,chance:0.4}},{name:"Blizzard Charge",power:13, effect:{type:"poison",turns:2,chance:0.5}}] },
+  { id:31, name:"Frostcub",  type:"Ice",    icon:"🐻‍❄️", baseHP:26, baseAtk:10, moves:[{name:"Frost Swipe",power:10, effect:{type:"freeze",turns:1,chance:0.4}},{name:"Snow Slam",power:13, effect:{type:"freeze",turns:2,chance:0.5}}] },
+  { id:32, name:"Icyfin",    type:"Ice",    icon:"🐧", baseHP:23, baseAtk:11, moves:[{name:"Ice Shard",power:10, effect:{type:"freeze",turns:1,chance:0.4}},{name:"Glacier Slide",power:12, effect:{type:"freeze",turns:2,chance:0.5}}] },
+  { id:33, name:"Glacihorn", type:"Ice",    icon:"🦌", baseHP:28, baseAtk:10, moves:[{name:"Chill Horn",power:10, effect:{type:"freeze",turns:1,chance:0.4}},{name:"Blizzard Charge",power:13, effect:{type:"freeze",turns:2,chance:0.5}}] },
   // ---- World 3 exclusives: New evolutions and ice-types ----
   { id:34, name:"Glacifox",   type:"Ice",     icon:"🦊❄️", baseHP:28, baseAtk:12, rarity:"rare", moves:[{name:"Ice Fang",power:11},{name:"Glacier Bite",power:14}] },
   { id:35, name:"FrostOwl",   type:"Ice",     icon:"🦉❄️", baseHP:25, baseAtk:14, rarity:"rare", moves:[{name:"Snow Veil",power:10},{name:"Blizzard Wing",power:13}] },
   { id:36, name:"Crystalon",  type:"Ice",     icon:"💎❄️", baseHP:30, baseAtk:10, rarity:"rare", moves:[{name:"Crystal Shard",power:9},{name:"Prism Burst",power:12}] },
   { id:37, name:"Blizzarena",type:"Ice",     icon:"🦌❄️", baseHP:32, baseAtk:11, rarity:"rare", moves:[{name:"Antler Rush",power:10},{name:"Ice Age",power:14}] },
   // Evolved forms (will be implemented via evolution system)
-  { id:38, name:"Emberion",   type:"Fire",    icon:"🦁🔥", baseHP:35, baseAtk:16, rarity:"rare", moves:[{name:"Solar Flare",power:15},{name:"Phoenix Cry",power:18}] },
+  { id:38, name:"Emberion",   type:"Fire",    icon:"🦁🔥", baseHP:35, baseAtk:16, rarity:"rare", moves:[{name:"Solar Flare",power:15},{name:"Phoenix Cry",power:18, effect:{type:"burn",turns:2,chance:0.5}}] },
   { id:39, name:"Hydrokai",   type:"Water",   icon:"🐬💧", baseHP:33, baseAtk:15, rarity:"rare", moves:[{name:"Tsunami Crash",power:14},{name:"Abyssal Pulse",power:16}] },
   { id:40, name:"Florabeast", type:"Grass",   icon:"🌳🌿", baseHP:38, baseAtk:12, rarity:"rare", moves:[{name:"Verdant Fury",power:13},{name:"Photosynthesis",power:15}] },
   // Mythical creatures - extremely rare
   { id:41, name:"Lunastra",   type:"Mystic",  icon:"🐉✨", baseHP:50, baseAtk:25, rarity:"mythical", moves:[{name:"Moonlight Blast",power:20},{name:"Stardust Shower",power:25}] },
-  { id:42, name:"Solarion",   type:"Fire",    icon:"🌞🔥", baseHP:55, baseAtk:28, rarity:"mythical", moves:[{name:"Solar Flare",power:22},{name:"Corona Pulse",power:28}] },
+  { id:42, name:"Solarion",   type:"Fire",    icon:"🌞🔥", baseHP:55, baseAtk:28, rarity:"mythical", moves:[{name:"Solar Flare",power:22},{name:"Corona Pulse",power:28, effect:{type:"burn",turns:3,chance:0.6}}] },
   { id:43, name:"Glacialis",  type:"Ice",     icon:"❄️👑", baseHP:52, baseAtk:22, rarity:"mythical", moves:[{name:"Absolute Zero",power:20},{name:"Glacial Empire",power:26}] },
   // ---- Breed-exclusive species: NEVER placed in wild encounter pools or trainer
   // teams, so the only way to obtain one is breeding the right pair of parent types
   // together (see BREED_EXCLUSIVES below). ----
-  { id:44, name:"Steamurk",  type:"Fire",     icon:"♨️", baseHP:32, baseAtk:15, moves:[{name:"Steam Burst",power:13},{name:"Scald Wave",power:16, effect:{type:"poison",turns:2,chance:0.4}}] },
+  { id:44, name:"Steamurk",  type:"Fire",     icon:"♨️", baseHP:32, baseAtk:15, moves:[{name:"Steam Burst",power:13},{name:"Scald Wave",power:16, effect:{type:"burn",turns:2,chance:0.45}}] },
   { id:45, name:"Voltvine",  type:"Electric", icon:"🌿⚡", baseHP:30, baseAtk:16, moves:[{name:"Static Bloom",power:13},{name:"Thorn Surge",power:16, effect:{type:"freeze",turns:1,chance:0.4}}] },
   { id:46, name:"Skycrag",   type:"Rock",     icon:"🪨🕊️", baseHP:35, baseAtk:13, moves:[{name:"Gale Slam",power:12},{name:"Boulder Gust",power:15, effect:{type:"freeze",turns:1,chance:0.35}}] },
-  { id:47, name:"Duskstar",  type:"Mystic",   icon:"✨🌑", baseHP:31, baseAtk:16, moves:[{name:"Eclipse Beam",power:14},{name:"Umbral Flash",power:17, effect:{type:"poison",turns:2,chance:0.4}}] },
+  { id:47, name:"Duskstar",  type:"Mystic",   icon:"✨🌑", baseHP:31, baseAtk:16, moves:[{name:"Eclipse Beam",power:14},{name:"Umbral Flash",power:17, effect:{type:"freeze",turns:2,chance:0.4}}] },
   // ---- World 2 Poison evolutions (each Poison exclusive gets its own unique form) ----
   { id:48, name:"Toxidrake",   type:"Poison", icon:"🦂☠️", baseHP:32, baseAtk:15, rarity:"rare", moves:[{name:"Venom Fang",power:14, effect:{type:"poison",turns:2,chance:0.6}},{name:"Toxic Slash",power:17}] },
   { id:49, name:"Bogleviathan",type:"Poison", icon:"🐸☠️", baseHP:35, baseAtk:13, rarity:"rare", moves:[{name:"Sludge Wave",power:13, effect:{type:"poison",turns:2,chance:0.6}},{name:"Bog Slam",power:16}] },
@@ -303,13 +303,25 @@ const SHOP_ITEMS = [
 // Add a new entry BELOW the roadmap whenever we ship something new.
 const UPDATE_LOG = [
   { version:"🗺️ Roadmap (coming soon)", future:true, notes:[
-    "Trainer rematches with scaled difficulty",
     "World 4: Tropical Jungle with Grass/Poison exclusives",
-    "Story mode with cinematic cutscenes and lore",
     "Character customization: outfits and accessories",
     "Post-game content: Battle Tower and Legendary hunts",
+    "More story chapters: a rival character, a villain team, and an ending cutscene",
+    "Voiced/animated cutscene panels instead of static slides",
+    "Paralysis/sleep/freeze visuals in the overworld, not just in battle",
+    "Trainer rematch cooldowns (once per in-game day) instead of unlimited back-to-back rematches",
+    "Leaderboards/stats screen: total battles won, critters caught, coins earned",
+    "Achievements with in-game badges",
+    "Weather effects that change encounter rates per world",
+    "Online/local trading (currently a beta placeholder)",
     "Reworks considered: true 3D (Three.js), sprite art, sound, defense stat, day/night cycle",
   ]},
+  { version:"v1.4.0 — Rematches & Story Mode", notes:[
+     "✅ New: Trainer rematches — walk into any trainer you've already beaten to fight them again",
+     "✅ Each rematch scales their team up by 5 levels (capped at +40) and pays a smaller 20-coin bonus instead of the original 50",
+     "✅ New: Story mode — short cinematic cutscenes with lore, shown when you start a new game, first enter Ember Depths or Frozen Peaks, and after beating each world's champion",
+     "✅ New: Burn 🔥 is now a real status effect on Fire-type attacks (Embercub, Flarehop, Cindertail, Emberion, Solarion, Steamurk) — deals damage over time, cured by the ⛺ tent or an Antidote",
+   ]},
   { version:"v1.3.0 — Frozen Peaks Portal", notes:[
      "✅ New: a portal in Ember Depths now leads to Frozen Peaks (World 3) — previously there was no way to actually get there",
      "✅ Sealed until you've defeated ALL trainers in BOTH Meadowlands and Ember Depths (all 10)",
@@ -403,6 +415,73 @@ const UPDATE_LOG = [
   ]},
 ];
 
+// ---- Story mode: short cutscene slideshows shown at key story beats.
+// Each key plays once ever (tracked in state.storySeen) then never again.
+const STORY_EVENTS = {
+  intro: [
+    { icon:"🌍", title:"The World of Critters", text:"Long ago, humans and wild critters learned to fight and grow side by side, bonded by trust rather than chains." },
+    { icon:"🌿", title:"Meadowlands", text:"You've just arrived in the peaceful Meadowlands — home to gentle grass, water, and cave-dwelling critters, and the first step of a much longer journey." },
+    { icon:"❓", title:"Your Journey Begins", text:"Rumors speak of hidden worlds beyond the horizon: scorched depths, frozen peaks, each sealed behind trials only the strongest trainers can clear. Choose your first partner, and begin." },
+  ],
+  enterWorld1: [
+    { icon:"🌋", title:"Ember Depths", text:"The portal hums open and scorching heat rolls over you. Ember Depths has been sealed for generations — until now." },
+    { icon:"🔥", title:"A Harsher Land", text:"Only the toughest critters survive down here. Seven trainers guard the way further in, led by the champion Magnus." },
+  ],
+  enterWorld2: [
+    { icon:"❄️", title:"Frozen Peaks", text:"Beyond the frozen gate lies a land of eternal ice. Legends whisper of a mythical guardian who once ruled these peaks before vanishing." },
+    { icon:"🦌❄️", title:"Whispers of Ice", text:"Only Ice-type critters make their home here now. Three trainers — Glacia, Boreal, and Crystal — test everyone who dares enter." },
+  ],
+  beatMagnus: [
+    { icon:"👑", title:"Champion Fallen", text:"Magnus lowers his head. \"The Depths bow to a new challenger now,\" he says, with a respectful nod." },
+    { icon:"🌀", title:"The Frozen Gate", text:"With every trainer in the Meadowlands and Ember Depths defeated, the ice-crusted gate at last shudders open." },
+  ],
+  beatCrystal: [
+    { icon:"❄️👑", title:"Peak Ascended", text:"Crystal steps aside. \"You've proven your heart is as strong as the ice itself,\" she says quietly." },
+    { icon:"✨", title:"To Be Continued...", text:"Beyond these frozen peaks, further mysteries await — but for now, the summit is yours." },
+  ],
+};
+function storyKeyForTrainer(id) {
+  if (id === 9)  return "beatMagnus";
+  if (id === 12) return "beatCrystal";
+  return null;
+}
+
+let storyQueue = null, storyIdx = 0, storyOnDone = null;
+
+// Plays a story event's slides one at a time. No-ops (and just calls onDone)
+// if this event has already been seen, or doesn't exist.
+function playStory(key, onDone) {
+  if (!STORY_EVENTS[key] || state.storySeen[key]) { if (onDone) onDone(); return; }
+  state.storySeen[key] = true;
+  storyQueue = STORY_EVENTS[key];
+  storyIdx = 0;
+  storyOnDone = onDone || null;
+  inMenu = true;
+  $("storyScreen").classList.remove("hidden");
+  renderStorySlide();
+}
+function renderStorySlide() {
+  const slide = storyQueue[storyIdx];
+  $("storyIcon").textContent = slide.icon;
+  $("storyTitle").textContent = slide.title;
+  $("storyText").textContent = slide.text;
+  $("storyDots").textContent = `${storyIdx + 1} / ${storyQueue.length}`;
+  $("storyNextBtn").textContent = (storyIdx === storyQueue.length - 1) ? "Continue ▶" : "Next ▶";
+}
+function storyNext() {
+  storyIdx++;
+  if (storyIdx >= storyQueue.length) { closeStory(); return; }
+  renderStorySlide();
+}
+function closeStory() {
+  $("storyScreen").classList.add("hidden");
+  inMenu = false;
+  storyQueue = null;
+  saveGame(false);
+  const cb = storyOnDone; storyOnDone = null;
+  if (cb) cb();
+}
+
 /* ============ 2. GAME STATE + SAVE/LOAD ============ */
 
 const SAVE_KEY = "critterQuestSave";
@@ -426,6 +505,8 @@ let state = {
   defeated: [],
   coins: 150,
   items: defaultItems(),
+  rematches: {},   // trainer id -> number of rematches won
+  storySeen: {},   // story event key -> true once its cutscene has played
 };
 
 // "Deviant" critters are a rare, stronger variant (~5% chance) that can only appear
@@ -527,6 +608,8 @@ function loadGame() {
        state.player = { x: w.healSpot.x, y: w.healSpot.y };
      }
     if (state.coins === undefined) state.coins = 150;
+    if (!state.rematches) state.rematches = {};
+    if (!state.storySeen) state.storySeen = {};
     if (!state.items) state.items = defaultItems();
     else {
       // Repair any item key that's missing or corrupted (e.g. NaN from the old
@@ -681,8 +764,7 @@ function tryMove(dx, dy) {
 
   const trainer = w.trainers.find(t => t.x === nx && t.y === ny);
   if (trainer) {
-    if (!state.defeated.includes(trainer.id)) startTrainerBattle(trainer);
-    else hudMsg(`${trainer.name}: "You beat me fair and square."`);
+    startTrainerBattle(trainer); // defeated trainers offer an immediate, scaled-up rematch
     return;
   }
 
@@ -703,6 +785,8 @@ function tryMove(dx, dy) {
     draw();
     hudMsg(`🌀 You stepped through the portal into ${world().name}!`);
     saveGame(false);
+    if (d.world === 1) playStory("enterWorld1");
+    else if (d.world === 2) playStory("enterWorld2");
     return;
   }
 
@@ -744,12 +828,24 @@ function startWildBattle(enemy) {
   openBattle(`A wild ${enemy.deviant ? "✨ DEVIANT " : ""}${spec(enemy).name} (Lv ${enemy.level}) appeared!`);
 }
 
+// Rematches: every trainer you've already beaten can be fought again by
+// walking into them. Each rematch scales their team a bit higher than the
+// last (capped so it doesn't spiral out of control), but pays out a smaller
+// coin bonus than the very first win.
+const REMATCH_LEVEL_STEP = 5;   // levels added per rematch attempt
+const REMATCH_LEVEL_CAP  = 40;  // max total levels a rematch team can gain
+const REMATCH_BONUS = 20;       // coin bonus for a rematch win (vs 50 the first time)
+
 function startTrainerBattle(trainer) {
   const a = firstAliveIdx();
   if (a === undefined) { hudMsg("Heal your team at the ⛺ tent before battling!"); return; }
-  const queue = trainer.team.map(([sid,lvl]) => makeCreature(sid, lvl, false)); // trainers never get deviants
-  battle = { mode:"trainer", enemy:queue.shift(), enemyQueue:queue, trainer, activeIdx:a, over:false };
-  openBattle(`${trainer.name}: "${trainer.quote}" — sent out ${spec(battle.enemy).name} (Lv ${battle.enemy.level})!`);
+  const isRematch = state.defeated.includes(trainer.id);
+  const rematchNum = (state.rematches[trainer.id] || 0) + 1; // this attempt's number, if it's a rematch
+  const levelBonus = isRematch ? Math.min(REMATCH_LEVEL_STEP * rematchNum, REMATCH_LEVEL_CAP) : 0;
+  const queue = trainer.team.map(([sid,lvl]) => makeCreature(sid, lvl + levelBonus, false)); // trainers never get deviants
+  battle = { mode:"trainer", enemy:queue.shift(), enemyQueue:queue, trainer, isRematch, activeIdx:a, over:false };
+  const prefix = isRematch ? `🔁 Rematch! ` : "";
+  openBattle(`${prefix}${trainer.name}: "${trainer.quote}" — sent out ${spec(battle.enemy).name} (Lv ${battle.enemy.level})!`);
 }
 
 function openBattle(introTxt) {
@@ -1212,19 +1308,26 @@ function onEnemyFaint() {
     log(`${battle.trainer.name} sent out ${spec(battle.enemy).name} (Lv ${battle.enemy.level})!`);
   } else {
     if (battle.mode === "trainer") {
-      log(`🏆 You defeated ${battle.trainer.name}! Bonus: 50 coins!`);
-      state.coins += 50;
-      state.defeated.push(battle.trainer.id);
+      if (battle.isRematch) {
+        state.rematches[battle.trainer.id] = (state.rematches[battle.trainer.id] || 0) + 1;
+        log(`🔁 Rematch win against ${battle.trainer.name}! Bonus: ${REMATCH_BONUS} coins!`);
+        state.coins += REMATCH_BONUS;
+      } else {
+        log(`🏆 You defeated ${battle.trainer.name}! Bonus: 50 coins!`);
+        state.coins += 50;
+        state.defeated.push(battle.trainer.id);
+        const need = world().portals || [];
+        const beatenId = battle.trainer.id;
+        need.forEach(portal => {
+          const req = portal.requires || [];
+          if (!req.length || !req.includes(beatenId)) return; // not relevant to this portal
+          const beaten = req.filter(id => state.defeated.includes(id)).length;
+          if (beaten === req.length) log("🌀 A portal hums... it is now OPEN!");
+          else log(`🌀 Portal progress: ${beaten}/${req.length} trainers defeated.`);
+        });
+        battle.pendingStory = storyKeyForTrainer(battle.trainer.id); // played once battle screen closes
+      }
       updateHUD();
-      const need = world().portals || [];
-      const beatenId = battle.trainer.id;
-      need.forEach(portal => {
-        const req = portal.requires || [];
-        if (!req.length || !req.includes(beatenId)) return; // not relevant to this portal
-        const beaten = req.filter(id => state.defeated.includes(id)).length;
-        if (beaten === req.length) log("🌀 A portal hums... it is now OPEN!");
-        else log(`🌀 Portal progress: ${beaten}/${req.length} trainers defeated.`);
-      });
     }
     battle.over = true;
   }
@@ -1266,9 +1369,11 @@ function endBattle() {
     healTeam();
     hudMsg("You blacked out and woke at the tent, fully healed.");
   }
+  const pendingStory = battle && battle.pendingStory;
   battle = null;
   saveGame(false);
   draw();
+  if (pendingStory) playStory(pendingStory);
 }
 
 /* ============ 5. SHOP / TEAM / UPDATES UI ============ */
@@ -1526,5 +1631,5 @@ function showStarterChoice() {
   }
 }
 
-if (!loadGame()) showStarterChoice();
+if (!loadGame()) playStory("intro", showStarterChoice);
 draw();
