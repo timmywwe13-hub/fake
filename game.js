@@ -157,8 +157,13 @@ const WORLDS = [
       { id:2, name:"Cole", x:20, y:12, team:[[4,7],[0,7],[6,8]],  quote:"Only the strong pass me." },
     ],
     healSpot: { x:9, y:5 },
-    portalDest: { world:1, x:2, y:14 },
-    portalRequires: [0, 1, 2], // 🌀 sealed until ALL these trainers are beaten
+    // Each world can have any number of portal tiles. `tile` is the map
+    // character that triggers it, `dest` is where stepping through leads,
+    // and `requires` is the list of trainer ids that must be in
+    // state.defeated before it will let you through (empty = always open).
+    portals: [
+      { tile:"P", dest:{ world:1, x:2, y:14 }, requires:[0, 1, 2] }, // 🌀 sealed until Rex, Ivy and Cole are all beaten
+    ],
     battleBg: "",
   },
   { // ---------- WORLD 1: EMBER DEPTHS (24x16, much harder) ----------
@@ -177,12 +182,12 @@ const WORLDS = [
       "#.....~~.....#.###.....#",
       "#.....~~.....#.........#",
       "#............#.....,,..#",
-      "#....................,.#",
+      "#....................,Q#",
       "#P.....................#",
       "########################",
     ],
-    colors: { "#":"#3a2a2a", ".":"#6b5344", ",":"#8a5a2a", "~":"#c94a1e", "c":"#454050", "H":"#6b5344", "S":"#6b5344", "P":"#7b3fd4", "*":"#ff00ff" },
-    deco:   { "#":"🪨", ",":"🍂", "~":"🔥", "H":"⛺", "S":"🏪", "P":"🌀", "*":"💥" },
+    colors: { "#":"#3a2a2a", ".":"#6b5344", ",":"#8a5a2a", "~":"#c94a1e", "c":"#454050", "H":"#6b5344", "S":"#6b5344", "P":"#7b3fd4", "Q":"#4fd7ff", "*":"#ff00ff" },
+    deco:   { "#":"🪨", ",":"🍂", "~":"🔥", "H":"⛺", "S":"🏪", "P":"🌀", "Q":"🌀", "*":"💥" },
     encounters: {
       ",": { chance:0.16, pool:[8,9,14,23,27,28,29,30],        lvl:[10,14] },
       "~": { chance:0.14, pool:[0,8,9,20],                     lvl:[12,16] },
@@ -199,29 +204,33 @@ const WORLDS = [
       { id:9, name:"Magnus", x:11, y:13, team:[[31,15],[20,15],[24,16],[26,17]], quote:"I am the champion of the Depths!" },
     ],
     healSpot: { x:13, y:5 },
-    portalDest: { world:0, x:20, y:14 },
-    portalRequires: [], // going home is always allowed
+    portals: [
+      { tile:"P", dest:{ world:0, x:20, y:14 }, requires:[] }, // 🌀 going home is always allowed
+      // 🌀 sealed until EVERY trainer in BOTH Meadowlands (world 1) and Ember
+      // Depths (world 2) has been defeated — 3 + 7 = all 10 so far.
+      { tile:"Q", dest:{ world:2, x:2, y:1 }, requires:[0,1,2,3,4,5,6,7,8,9],
+        sealedMsg:"🌀 The frozen gate is sealed! Defeat every trainer in the Meadowlands AND Ember Depths first" },
+    ],
     battleBg: "emberBg",
   },
     { // ---------- WORLD 2: FROZEN PEAKS (UNLOCKABLE) ----------
       name: "❄️ Frozen Peaks",
       map: [
         "########################",
+        "#P.........~~~~~~......#",
+        "#..........~~~~~~......#",
+        "#..........~~~~~~......#",
+        "#..........~~~~~~......#",
+        "#..........H~~~~~......#",
         "#..........~~~~~~......#",
         "#..........~~~~~~......#",
         "#..........~~~~~~......#",
         "#..........~~~~~~......#",
-        "#......H.....~~~~~~......#",
         "#..........~~~~~~......#",
         "#..........~~~~~~......#",
         "#..........~~~~~~......#",
         "#..........~~~~~~......#",
-        "#..........~~~~~~......#",
-        "#..........~~~~~~......#",
-        "#..........~~~~~~......#",
-        "#..........~~~~~~......#",
-        "#..........~~~~~~......#",
-        "#......S.....~~~~~~......#",
+        "#..........S~~~~~......#",
         "########################",
       ],
       colors: { "#":"#2a2a3a", ".":"#e0e6f0", "~":"#a8d0e6", "H":"#e0e6f0", "S":"#e0e6f0", "P":"#7b3fd4" },
@@ -236,8 +245,9 @@ const WORLDS = [
         { id:12, name:"Crystal", x:12, y:4, team:[[34,20],[35,22],[36,18]], quote:"Only the pure of heart may pass." },
       ],
       healSpot: { x:11, y:5 },
-      portalDest: { world:0, x:22, y:14 },
-      portalRequires: [3,4,5], // Requires beating Ember Depths trainers
+      portals: [
+        { tile:"P", dest:{ world:1, x:2, y:14 }, requires:[] }, // 🌀 back to Ember Depths, always allowed
+      ],
       battleBg: "",
     }
   ];
@@ -293,6 +303,12 @@ const UPDATE_LOG = [
     "Post-game content: Battle Tower and Legendary hunts",
     "Reworks considered: true 3D (Three.js), sprite art, sound, defense stat, day/night cycle",
   ]},
+  { version:"v1.3.0 — Frozen Peaks Portal", notes:[
+     "✅ New: a portal in Ember Depths now leads to Frozen Peaks (World 3) — previously there was no way to actually get there",
+     "✅ Sealed until you've defeated ALL trainers in BOTH Meadowlands and Ember Depths (all 10)",
+     "✅ Frozen Peaks now has its own portal back to Ember Depths",
+     "🐛 Fixed the Frozen Peaks map: two malformed rows put the heal tent in the wrong spot and left the world with no portal at all",
+   ]},
   { version:"v1.2.0 — Catch Rate by Rarity", notes:[
      "✅ Catch chance is now scaled by species rarity instead of every critter sharing the same odds",
      "✅ Common critters: unchanged (~25%-90% depending on remaining HP)",
@@ -658,15 +674,18 @@ function tryMove(dx, dy) {
     return;
   }
 
-  // Portal: sealed until every required trainer in this world is defeated
-  if (tile === "P") {
-    const need = w.portalRequires || [];
+  // Portal: sealed until every required trainer (possibly spanning multiple
+  // worlds) has been defeated.
+  const portal = (w.portals || []).find(p => p.tile === tile);
+  if (portal) {
+    const need = portal.requires || [];
     const beaten = need.filter(id => state.defeated.includes(id)).length;
     if (beaten < need.length) {
-      hudMsg(`🌀 The portal is sealed! Defeat all trainers in this world first (${beaten}/${need.length}).`);
+      const sealedMsg = portal.sealedMsg || "🌀 The portal is sealed! Defeat all trainers in this world first";
+      hudMsg(`${sealedMsg} (${beaten}/${need.length}).`);
       return;
     }
-    const d = w.portalDest;
+    const d = portal.dest;
     state.world = d.world;
     state.player = { x:d.x, y:d.y };
     draw();
@@ -1185,10 +1204,15 @@ function onEnemyFaint() {
       state.coins += 50;
       state.defeated.push(battle.trainer.id);
       updateHUD();
-      const need = world().portalRequires || [];
-      const beaten = need.filter(id => state.defeated.includes(id)).length;
-      if (need.length && beaten === need.length) log("🌀 The portal hums... it is now OPEN!");
-      else if (need.length) log(`🌀 Portal progress: ${beaten}/${need.length} trainers defeated.`);
+      const need = world().portals || [];
+      const beatenId = battle.trainer.id;
+      need.forEach(portal => {
+        const req = portal.requires || [];
+        if (!req.length || !req.includes(beatenId)) return; // not relevant to this portal
+        const beaten = req.filter(id => state.defeated.includes(id)).length;
+        if (beaten === req.length) log("🌀 A portal hums... it is now OPEN!");
+        else log(`🌀 Portal progress: ${beaten}/${req.length} trainers defeated.`);
+      });
     }
     battle.over = true;
   }

@@ -4,6 +4,12 @@ All notable changes to the game are tracked here.
 Format: newest version at the top. Unreleased ideas live in the Roadmap.
 
 ---
+## v1.3.0 — Frozen Peaks Portal
+- ✅ New: a portal in Ember Depths now leads to Frozen Peaks (World 3) — it wasn't reachable before
+- ✅ Sealed until you've defeated ALL trainers in BOTH Meadowlands and Ember Depths (all 10, not just a handful)
+- ✅ Frozen Peaks now has its own portal back to Ember Depths
+- 🐛 Fixed the Frozen Peaks map: two rows were the wrong width, which put the heal tent in the wrong spot and left the world with no portal at all
+
 ## v1.2.0 — Catch Rate by Rarity
 - ✅ Catch chance is now scaled by species rarity instead of every critter sharing the same odds
 - ✅ Common critters: unchanged (~25%-90% depending on remaining HP)
