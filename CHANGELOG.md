@@ -9,6 +9,8 @@ Format: newest version at the top. Unreleased ideas live in the Roadmap.
 - ✅ Sealed until you've defeated ALL trainers in BOTH Meadowlands and Ember Depths (all 10, not just a handful)
 - ✅ Frozen Peaks now has its own portal back to Ember Depths
 - 🐛 Fixed the Frozen Peaks map: two rows were the wrong width, which put the heal tent in the wrong spot and left the world with no portal at all
+- 🐛 Fixed a crash on entering Frozen Peaks: its 3 trainers had no character colors defined, so drawing them threw an error mid-frame. This skipped drawing the player entirely (looked like a freeze, worst on mobile) and could leave the canvas transform/alpha state corrupted, which is why the purple portal tile sometimes stopped rendering on desktop too
+- 🐛 Fixed Venomite, Sludgil, and Toxwing evolving into the exact same critters as Embercub, Aquafin, and Sproutle. They now evolve into their own unique Poison-type forms — Toxidrake, Bogleviathan, and Miasmawing
 
 ## v1.2.0 — Catch Rate by Rarity
 - ✅ Catch chance is now scaled by species rarity instead of every critter sharing the same odds

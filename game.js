@@ -46,10 +46,13 @@ const EVOLUTIONS = [
   { from: 0, to: 38, level: 10 },   // Embercub -> Emberion
   { from: 1, to: 39, level: 10 },   // Aquafin -> Hydrokai
   { from: 2, to: 40, level: 10 },   // Sproutle -> Florabeast
-  // World 2 critter evolutions (Level 20)
-  { from: 28, to: 38, level: 20 },  // Venomite -> Emberion (alternate fire)
-  { from: 29, to: 39, level: 20 },  // Sludgil -> Hydrokai (alternate water)
-  { from: 30, to: 40, level: 20 },  // Toxwing -> Florabeast (alternate grass)
+  // World 2 critter evolutions (Level 20) — each gets its own unique evolved
+  // form (previously these mistakenly pointed at the same targets as the
+  // starter evolutions above, so a Venomite and an Embercub would evolve
+  // into the exact same critter — fixed by giving them distinct forms)
+  { from: 28, to: 48, level: 20 },  // Venomite -> Toxidrake
+  { from: 29, to: 49, level: 20 },  // Sludgil -> Bogleviathan
+  { from: 30, to: 50, level: 20 },  // Toxwing -> Miasmawing
   { from: 31, to: 34, level: 20 },  // Frostcub -> Glacifox
   { from: 32, to: 35, level: 20 },  // Icyfin -> FrostOwl
   { from: 33, to: 36, level: 20 },  // Glacihorn -> Crystalon
@@ -117,6 +120,10 @@ const SPECIES = [
   { id:45, name:"Voltvine",  type:"Electric", icon:"🌿⚡", baseHP:30, baseAtk:16, moves:[{name:"Static Bloom",power:13},{name:"Thorn Surge",power:16, effect:{type:"freeze",turns:1,chance:0.4}}] },
   { id:46, name:"Skycrag",   type:"Rock",     icon:"🪨🕊️", baseHP:35, baseAtk:13, moves:[{name:"Gale Slam",power:12},{name:"Boulder Gust",power:15, effect:{type:"freeze",turns:1,chance:0.35}}] },
   { id:47, name:"Duskstar",  type:"Mystic",   icon:"✨🌑", baseHP:31, baseAtk:16, moves:[{name:"Eclipse Beam",power:14},{name:"Umbral Flash",power:17, effect:{type:"poison",turns:2,chance:0.4}}] },
+  // ---- World 2 Poison evolutions (each Poison exclusive gets its own unique form) ----
+  { id:48, name:"Toxidrake",   type:"Poison", icon:"🦂☠️", baseHP:32, baseAtk:15, rarity:"rare", moves:[{name:"Venom Fang",power:14, effect:{type:"poison",turns:2,chance:0.6}},{name:"Toxic Slash",power:17}] },
+  { id:49, name:"Bogleviathan",type:"Poison", icon:"🐸☠️", baseHP:35, baseAtk:13, rarity:"rare", moves:[{name:"Sludge Wave",power:13, effect:{type:"poison",turns:2,chance:0.6}},{name:"Bog Slam",power:16}] },
+  { id:50, name:"Miasmawing",  type:"Poison", icon:"🦟☠️", baseHP:29, baseAtk:16, rarity:"rare", moves:[{name:"Plague Dive",power:14, effect:{type:"poison",turns:2,chance:0.6}},{name:"Miasma Storm",power:17}] },
 ];
 
 /* Tile legend: '#'=wall '.'=path ','=grass 'f'=forest '~'=water/lava
@@ -308,6 +315,8 @@ const UPDATE_LOG = [
      "✅ Sealed until you've defeated ALL trainers in BOTH Meadowlands and Ember Depths (all 10)",
      "✅ Frozen Peaks now has its own portal back to Ember Depths",
      "🐛 Fixed the Frozen Peaks map: two malformed rows put the heal tent in the wrong spot and left the world with no portal at all",
+     "🐛 Fixed a crash when entering Frozen Peaks: its trainers (Glacia, Boreal, Crystal) had no character colors defined, which threw an error mid-draw — this hid the player sprite (looked like a freeze, worst on mobile) and could leave the canvas in a corrupted state where colors like the portal's purple stopped showing up",
+     "🐛 Fixed Venomite, Sludgil, and Toxwing evolving into the exact same critters as Embercub, Aquafin, and Sproutle — they now evolve into their own unique Poison-type forms (Toxidrake, Bogleviathan, Miasmawing) instead",
    ]},
   { version:"v1.2.0 — Catch Rate by Rarity", notes:[
      "✅ Catch chance is now scaled by species rarity instead of every critter sharing the same odds",
@@ -552,6 +561,9 @@ const TRAINER_PALETTES = {
   7: { skin:"#c9c9c9", shirt:"#4a4a55", pants:"#2c2c33", hat:"#4a4a55" }, // Onyx
   8: { skin:"#e8d08a", shirt:"#c9a51e", pants:"#7a6510", hat:"#c9a51e" }, // Vex
   9: { skin:"#e8b88a", shirt:"#b01030", pants:"#500818", hat:"#ffd700" }, // Magnus (champion)
+  10:{ skin:"#e8d0d8", shirt:"#3f6fa8", pants:"#274a75", hat:"#eaf4ff" }, // Glacia
+  11:{ skin:"#dce7ef", shirt:"#2c4f6b", pants:"#1a3448", hat:"#7fc8e8" }, // Boreal
+  12:{ skin:"#f0f6fb", shirt:"#5aa9d6", pants:"#2f5f80", hat:"#ffffff" }, // Crystal
 };
 
 // Lighten (+amt) or darken (-amt) a hex color — fakes 3D lighting.
