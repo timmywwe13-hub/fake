@@ -9,6 +9,12 @@ Format: newest version at the top. Unreleased ideas live in the Roadmap.
 - ✅ New: Deviant critters — a rare (~5%) stronger variant with +30% HP/ATK
 - ✅ Deviants show a shimmering ✨ DEVIANT badge and gold glow wherever they appear
 - ✅ Deviants only spawn from wild encounters; trainers never field deviant critters
+- 🐛 Fixed a bug where buying a Great Orb or Ultra Orb broke catching (their owned count silently went invalid and the game always fell back to a basic Critter Orb)
+- ✅ New: 🟣 Master Orb and ⚪ Legend Orb — 2 new catch orb tiers. Each orb is 40% better than the one before it: Great Orb → Ultra Orb → Master Orb → Legend Orb
+- ✅ New: Breeding! A Breed screen lets you pick 2 owned critters (Lv 3+, 🪙60) to produce a baby
+- ✅ Breeding two different species creates a unique hybrid — blended name, combined icon, a random parent type, and one move inherited from each parent
+- ✅ Bred critters are marked with a 🧬 BRED badge wherever they're shown
+- 🐛 Fixed a battle-freezing bug: when poison/burn wore off mid-fight, the game hit an error and locked up — no move, catch, or switch button would respond until you reloaded. Also added a safety net so a battle-turn error can never soft-lock the game again
 
 ## v9.1 — Mythical Creatures & Mobile Update
 - ✅ Added 3 mythical creatures: Lunastra, Solarion, Glacialis

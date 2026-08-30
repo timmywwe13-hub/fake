@@ -43,6 +43,12 @@ button:disabled { background:#333; cursor:default; }
 @keyframes deviantShimmer { 0% { background-position:0% 50%; } 100% { background-position:200% 50%; } }
 .deviantGlow { filter:drop-shadow(0 6px 4px rgba(0,0,0,.35)) drop-shadow(0 0 4px rgba(255,215,106,.5)) drop-shadow(0 0 10px rgba(255,215,106,.6)); }
 
+/* ============ BRED / HYBRID CRITTERS ============ */
+.bredTag { font-size:11px; font-weight:bold; margin-left:6px; padding:1px 7px; border-radius:4px;
+           color:#04241f; background:linear-gradient(90deg,#5ee6c8,#bafff0,#5ee6c8);
+           background-size:200% auto; animation:deviantShimmer 2.4s linear infinite; }
+.critRow.breedSelected { outline:2px solid #5ee6c8; }
+
 /* ============ BATTLE ARENA ============ */
 #battleArena { height:190px; border-radius:8px; position:relative; overflow:hidden; flex-shrink:0;
                 background:linear-gradient(#8ecdf0 55%, #8fce7f 55%); display:block; }

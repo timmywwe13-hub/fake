@@ -237,11 +237,26 @@ const WORLDS = [
 
 const TILE = 60, MAP_W = 24, MAP_H = 16;
 
+// Catch orbs — each tier is 40% better than the one before it.
+// (Also drives the shop listing, the HUD, and the catch-attempt logic below.)
+const ORB_TIERS = [
+  { key:"orb",       label:"🟠 Critter Orb", price:25,  mult:1,     cures:false },
+  { key:"greatorb",  label:"🟡 Great Orb",   price:75,  mult:1.4,   cures:false },
+  { key:"ultraorb",  label:"🔴 Ultra Orb",   price:150, mult:1.96,  cures:true  },
+  { key:"masterorb", label:"🟣 Master Orb",  price:280, mult:2.744, cures:true  },
+  { key:"legendorb", label:"⚪ Legend Orb",  price:480, mult:3.8416,cures:true  },
+];
+function orbDesc(i) {
+  if (i === 0) return "Needed to throw a catch attempt";
+  const prevName = ORB_TIERS[i-1].label.replace(/^\S+\s/, "");
+  const article = /^[AEIOU]/.test(prevName) ? "an" : "a";
+  const base = `40% better catch rate than ${article} ${prevName}`;
+  return ORB_TIERS[i].cures ? base + " + cures status" : base;
+}
+
 // Shop stock — add more items here.
 const SHOP_ITEMS = [
-  { key:"orb",       label:"🟠 Critter Orb", desc:"Needed to throw a catch attempt", price:25 },
-  { key:"greatorb",  label:"🟡 Great Orb",   desc:"1.5x catch rate",               price:75 },
-  { key:"ultraorb",  label:"🔴 Ultra Orb",   desc:"2x catch rate + status cure",   price:150 },
+  ...ORB_TIERS.map((o, i) => ({ key:o.key, label:o.label, desc:orbDesc(i), price:o.price })),
   { key:"potion",    label:"🧪 Potion",      desc:"Restores 30 HP in battle",        price:40 },
   { key:"bigpotion", label:"⚗️ Big Potion",  desc:"Fully restores HP in battle",     price:90 },
   { key:"antidote",  label:"🧪 Antidote",    desc:"Cures poison/burn",             price:20 },
@@ -254,7 +269,6 @@ const UPDATE_LOG = [
   { version:"🗺️ Roadmap (coming soon)", future:true, notes:[
     "Trainer rematches with scaled difficulty",
     "World 4: Tropical Jungle with Grass/Poison exclusives",
-    "Breeding system to create unique critter combinations",
     "Story mode with cinematic cutscenes and lore",
     "Character customization: outfits and accessories",
     "Post-game content: Battle Tower and Legendary hunts",
@@ -265,6 +279,12 @@ const UPDATE_LOG = [
      "✅ New: Deviant critters! A rare (~5%) stronger variant with boosted HP/ATK",
      "✅ Deviants are marked with a shimmering ✨ DEVIANT badge and a gold glow so you can spot them at a glance",
      "✅ Deviants can only appear on wild encounters — trainers never field deviant critters",
+     "🐛 Fixed a bug where buying a Great Orb or Ultra Orb broke catching — their owned count silently became invalid and the game always fell back to a basic Critter Orb",
+     "✅ New: 🟣 Master Orb and ⚪ Legend Orb — 2 new catch orb tiers, each 40% better than the one before it (Great Orb → Ultra Orb → Master Orb → Legend Orb)",
+     "✅ New: Breeding! A new Breed screen lets you pick 2 owned critters (Lv 3+, 🪙60) to produce a baby",
+     "✅ Breeding two different species creates a unique hybrid — blended name, combined icon, a random parent type, and one move inherited from each parent",
+     "✅ Bred critters are marked with a 🧬 BRED badge wherever they're shown",
+     "🐛 Fixed a battle-freezing bug: when poison/burn wore off mid-fight, the game hit an error and locked up — no move, catch, or switch button would respond until you reloaded. Also added a safety net so a battle-turn error can never soft-lock the game again",
    ]},
   { version:"v9.1 — Mythical Creatures Update", notes:[
      "✅ Added 3 mythical creatures: Lunastra, Solarion, Glacialis",
@@ -330,6 +350,17 @@ const UPDATE_LOG = [
 
 const SAVE_KEY = "critterQuestSave";
 
+// Every purchasable item starts owned at 0, except the starting Critter Orbs/Potions.
+// Building this from SHOP_ITEMS means a new shop item can never again be "missing"
+// from state.items (that was the bug behind orbs silently not working).
+function defaultItems() {
+  const items = {};
+  for (const it of SHOP_ITEMS) items[it.key] = 0;
+  items.orb = 5;
+  items.potion = 2;
+  return items;
+}
+
 let state = {
   world: 0,
   player: { x:2, y:13 },
@@ -337,7 +368,7 @@ let state = {
   teamIdx: [],
   defeated: [],
   coins: 150,
-  items: { orb:5, potion:2, bigpotion:0 },
+  items: defaultItems(),
 };
 
 // "Deviant" critters are a rare, stronger variant (~5% chance) that can only appear
@@ -356,8 +387,50 @@ function makeCreature(speciesId, level, allowDeviant = false) {
   }
   return { speciesId, level, xp:0, maxHp, hp:maxHp, atk, status:null, deviant:isDeviant };
 }
-const spec  = c => SPECIES[c.speciesId];
+// Normal critters look up their species by id; bred hybrids carry their own
+// generated species-like data (name/type/icon/moves) directly on the critter.
+const spec  = c => c.hybridSpec || SPECIES[c.speciesId];
 const world = () => WORLDS[state.world];
+
+/* ---- Breeding: combine two owned critters into a new baby critter ---- */
+const BREED_COST = 60;      // 🪙 coins spent per breed
+const BREED_MIN_LEVEL = 3;  // both parents must be at least this level
+
+// Mash two names together so the baby's name feels like a genuine blend of both parents.
+function blendName(nameA, nameB) {
+  const cut = Math.max(2, Math.min(nameA.length - 1, Math.ceil(nameA.length * 0.55)));
+  const prefix = nameA.slice(0, cut);
+  const suffix = nameB.slice(Math.floor(nameB.length * 0.45)).toLowerCase();
+  const combined = prefix + suffix;
+  return combined.charAt(0).toUpperCase() + combined.slice(1);
+}
+
+// Build the offspring of two critters WITHOUT touching game state — used both
+// for the breeding-screen preview and for the real breed (which then pushes it).
+function makeHybridCreature(parentA, parentB, level = 1) {
+  const sa = spec(parentA), sb = spec(parentB);
+  // Two of the exact same species just have a normal baby of that species.
+  if (parentA.speciesId !== null && parentA.speciesId === parentB.speciesId
+      && !parentA.hybridSpec && !parentB.hybridSpec) {
+    const baby = makeCreature(parentA.speciesId, level, false);
+    baby.bred = true;
+    return baby;
+  }
+  // Different species (or hybrid parents) produce a brand-new unique combination.
+  const type = Math.random() < 0.5 ? sa.type : sb.type;
+  const icon = `${sa.icon}${sb.icon}`;
+  const name = blendName(sa.name, sb.name);
+  const baseHP  = Math.round((sa.baseHP  + sb.baseHP)  / 2);
+  const baseAtk = Math.round((sa.baseAtk + sb.baseAtk) / 2);
+  const moves = [sa.moves[0], sb.moves[Math.min(1, sb.moves.length - 1)]];
+  const hybridSpec = { name, type, icon, baseHP, baseAtk, moves };
+  return {
+    speciesId: null, level, xp:0,
+    maxHp: baseHP + level * 3, hp: baseHP + level * 3,
+    atk: baseAtk + level * 2,
+    status:null, deviant:false, bred:true, hybridSpec,
+  };
+}
 const cur   = () => state.collection[battle.activeIdx];
 
 function saveGame(announce) {
@@ -377,7 +450,15 @@ function loadGame() {
        state.player = { x: w.healSpot.x, y: w.healSpot.y };
      }
     if (state.coins === undefined) state.coins = 150;
-    if (!state.items) state.items = { orb:5, potion:2, bigpotion:0 };
+    if (!state.items) state.items = defaultItems();
+    else {
+      // Repair any item key that's missing or corrupted (e.g. NaN from the old
+      // orb-purchase bug, where buying an uninitialized orb tier gave undefined++ = NaN).
+      const def = defaultItems();
+      for (const k of Object.keys(def)) {
+        if (typeof state.items[k] !== "number" || Number.isNaN(state.items[k])) state.items[k] = 0;
+      }
+    }
     return true;
   } catch { return false; }
 }
@@ -491,8 +572,10 @@ function draw() {
 
 function hudMsg(txt) { document.getElementById("hudMsg").textContent = txt; }
 function updateHUD() {
+  const orbBits = ORB_TIERS.filter(o => state.items[o.key] > 0)
+    .map(o => `${o.label.split(" ")[0]} ${state.items[o.key]}`).join(" ");
   document.getElementById("inventory").textContent =
-    `🪙 ${state.coins}  ·  🟠 ${state.items.orb}  ·  🧪 ${state.items.potion}  ·  ⚗️ ${state.items.bigpotion}`;
+    `🪙 ${state.coins}  ·  ${orbBits || "🟠 0"}  ·  🧪 ${state.items.potion}  ·  ⚗️ ${state.items.bigpotion}`;
 }
 
 document.addEventListener("keydown", e => {
@@ -629,7 +712,16 @@ function animateAttack(fromId, toId, fxKey, done) {
     boom.style.top  = (b.top  - r.top  + b.height/2 - 22) + "px";
     arena.appendChild(boom);
     setTimeout(() => boom.remove(), 300);
-    done();
+    // Safety net: if anything inside the turn callback throws, don't leave the
+    // game permanently soft-locked (busy stuck true, no button responds) —
+    // recover so the player can keep playing instead of reloading the page.
+    try {
+      done();
+    } catch (err) {
+      console.error("Battle turn error — recovered:", err);
+      busy = false;
+      if (inBattle && battle) renderBattle();
+    }
   }, 380);
 }
 
@@ -644,10 +736,14 @@ function animateHit(spriteId) {
 function deviantTag(c) {
   return c.deviant ? ` <span class="deviantTag">✨ DEVIANT</span>` : "";
 }
+// Teal "🧬 BRED" badge for critters born from the breeding screen.
+function bredTag(c) {
+  return c.bred ? ` <span class="bredTag">🧬 BRED</span>` : "";
+}
 function cardHTML(c, label) {
   const pct = Math.max(0, c.hp / c.maxHp * 100);
   const st = c.status ? ` <span class="typeTag">${STATUS_INFO[c.status.type].icon} ${c.status.type}</span>` : "";
-  return `<div class="nm">${spec(c).icon} ${spec(c).name} <span class="typeTag">${spec(c).type}</span>${deviantTag(c)}${st}</div>
+  return `<div class="nm">${spec(c).icon} ${spec(c).name} <span class="typeTag">${spec(c).type}</span>${deviantTag(c)}${bredTag(c)}${st}</div>
     <div style="font-size:12px;color:#aaa">${label} · Lv ${c.level}</div>
     <div class="hpbarOuter"><div class="hpbarInner ${pct<30?'low':''}" style="width:${pct}%"></div></div>
     <div style="font-size:12px">${Math.max(0,c.hp)} / ${c.maxHp} HP</div>`;
@@ -692,10 +788,11 @@ function renderActions() {
     addBtn(box, `⚔️ ${mv.name} (~${est} dmg)`, () => playerAttack(mv));
   }
   if (battle.mode === "wild") {
-    let catchText = "";
-    if (state.items.ultraorb > 0) catchText = `🔴 Ultra Orb (${state.items.ultraorb})`;
-    else if (state.items.greatorb > 0) catchText = `🟡 Great Orb (${state.items.greatorb})`;
-    else catchText = `🟠 Critter Orb (${state.items.orb})`;
+    let catchText = "🟠 Critter Orb (0)";
+    for (let i = ORB_TIERS.length - 1; i >= 0; i--) {
+      const o = ORB_TIERS[i];
+      if (state.items[o.key] > 0) { catchText = `${o.label} (${state.items[o.key]})`; break; }
+    }
     addBtn(box, catchText, tryCatch);
   }
   if (state.items.potion    > 0) addBtn(box, `🧪 Potion (${state.items.potion})`,        () => usePotion("potion"));
@@ -785,8 +882,9 @@ function tickStatus(c, spriteId) {
       paralyze: `${spec(c).name} is no longer paralyzed!`,
       sleep: `${spec(c).name} woke up!`
     };
+    const statusType = c.status.type; // capture the type BEFORE clearing it
     c.status = null;
-    log(curedMessages[c.status.type] || `${spec(c).name} recovered!`);
+    log(curedMessages[statusType] || `${spec(c).name} recovered!`);
   }
   
   updateCards();
@@ -906,57 +1004,33 @@ function enemyTurn(cb) {
 
 function tryCatch() {
   if (busy || battle.over) return;
-  
-  // Check for available orbs in order of preference: ultra > great > regular
-  let orbType = "orb";
-  if (state.items.ultraorb > 0) {
-    orbType = "ultraorb";
-    state.items.ultraorb--;
-  } else if (state.items.greatorb > 0) {
-    orbType = "greatorb";
-    state.items.greatorb--;
-  } else if (state.items.orb > 0) {
-    orbType = "orb";
-    state.items.orb--;
-  } else {
+
+  // Use the best orb tier the player currently owns (highest catch bonus first).
+  let orbTier = null;
+  for (let i = ORB_TIERS.length - 1; i >= 0; i--) {
+    if (state.items[ORB_TIERS[i].key] > 0) { orbTier = ORB_TIERS[i]; break; }
+  }
+  if (!orbTier) {
     log("You're out of Critter Orbs! Buy more at the 🏪 shop.");
     return;
   }
-  
+  state.items[orbTier.key]--;
+
   busy = true;
   updateHUD();
   const e = battle.enemy;
-  
-  // Base catch rate calculation
-  let baseChance = Math.min(0.9, Math.max(0.1, 0.25 + 0.65 * (1 - e.hp / e.maxHp)));
-  
-  // Apply orb bonuses
-  let catchRate = baseChance;
-  let cureStatus = false;
-  
-  if (orbType === "greatorb") {
-    catchRate = Math.min(0.95, baseChance * 1.5); // 1.5x catch rate
-  } else if (orbType === "ultraorb") {
-    catchRate = Math.min(0.98, baseChance * 2.0); // 2x catch rate
-    cureStatus = true; // Ultra Orbs also cure status effects
-  }
-  
-  const orbLabel = {
-    "orb": "🟠 Critter Orb",
-    "greatorb": "🟡 Great Orb", 
-    "ultraorb": "🔴 Ultra Orb"
-  }[orbType];
-  
+
+  // Base catch rate calculation, then scaled by the orb's bonus.
+  const baseChance = Math.min(0.9, Math.max(0.1, 0.25 + 0.65 * (1 - e.hp / e.maxHp)));
+  const catchRate = Math.min(0.98, baseChance * orbTier.mult);
+  const cureStatus = orbTier.cures;
+
   animateAttack("playerSprite", "enemySprite", "Orb", () => {
-    log(`You threw an ${orbLabel}... (${Math.round(catchRate*100)}% chance)`);
+    log(`You threw a ${orbTier.label}... (${Math.round(catchRate*100)}% chance)`);
     if (Math.random() < catchRate) {
       log(`🎉 Gotcha! ${e.deviant ? "✨ DEVIANT " : ""}${spec(e).name} was caught!`);
-      if (cureStatus) {
-        e.status = null; // Ultra Orbs cure status on catch
-        log("The Ultra Orb's energy also healed its status condition!");
-      } else {
-        e.status = null; // caught critters are cured (standard behavior)
-      }
+      e.status = null; // caught critters are always cured of status
+      if (cureStatus) log(`The ${orbTier.label}'s energy also healed its status condition!`);
       state.collection.push(e);
       if (state.teamIdx.length < 6) state.teamIdx.push(state.collection.length - 1);
       battle.over = true;
@@ -1139,7 +1213,7 @@ function openTeam() {
     const row = document.createElement("div");
     row.className = "critRow" + (state.teamIdx.includes(i) ? " inTeam" : "");
     row.innerHTML = `<span style="font-size:22px">${spec(c).icon}</span>
-      <b>${spec(c).name}</b> <span class="typeTag">${spec(c).type}</span>${deviantTag(c)}
+      <b>${spec(c).name}</b> <span class="typeTag">${spec(c).type}</span>${deviantTag(c)}${bredTag(c)}
       <span>Lv ${c.level} · ${Math.max(0,c.hp)}/${c.maxHp} HP · ATK ${c.atk}</span>
       <span style="margin-left:auto;color:#ffd76a">${state.teamIdx.includes(i) ? "★ In team" : "☆ Reserve"}</span>`;
     row.style.cursor = "pointer";
@@ -1161,6 +1235,88 @@ function toggleTeam(i) {
   openTeam();
 }
 function closeTeam() { $("teamScreen").classList.add("hidden"); inMenu = false; }
+
+/* ---- Breeding screen ---- */
+let breedSelection = []; // up to 2 indices into state.collection
+
+function openBreed() {
+  if (inBattle) return;
+  inMenu = true;
+  breedSelection = [];
+  renderBreed();
+  $("breedScreen").classList.remove("hidden");
+}
+function closeBreed() { $("breedScreen").classList.add("hidden"); inMenu = false; }
+
+function toggleBreedSelect(i) {
+  const pos = breedSelection.indexOf(i);
+  if (pos >= 0) breedSelection.splice(pos, 1);
+  else {
+    if (breedSelection.length >= 2) breedSelection.shift(); // swap out the oldest pick
+    breedSelection.push(i);
+  }
+  renderBreed();
+}
+
+function renderBreed() {
+  $("breedCost").textContent = BREED_COST;
+
+  const list = $("breedList"); list.innerHTML = "";
+  state.collection.forEach((c, i) => {
+    const row = document.createElement("div");
+    const selected = breedSelection.includes(i);
+    row.className = "critRow" + (selected ? " breedSelected" : "");
+    row.innerHTML = `<span style="font-size:22px">${spec(c).icon}</span>
+      <b>${spec(c).name}</b> <span class="typeTag">${spec(c).type}</span>${deviantTag(c)}${bredTag(c)}
+      <span>Lv ${c.level} · ${Math.max(0,c.hp)}/${c.maxHp} HP</span>
+      <span style="margin-left:auto;color:#ffd76a">${selected ? "✔ Selected" : ""}</span>`;
+    row.style.cursor = "pointer";
+    row.onclick = () => toggleBreedSelect(i);
+    list.appendChild(row);
+  });
+
+  const preview = $("breedPreview");
+  if (breedSelection.length < 2) {
+    preview.innerHTML = `<div style="color:#aaa;font-size:13px;margin-bottom:8px">Select 2 critters below to preview their offspring.</div>`;
+    return;
+  }
+  const [ia, ib] = breedSelection;
+  const pa = state.collection[ia], pb = state.collection[ib];
+  const errors = [];
+  if (ia === ib) errors.push("Pick two different critters.");
+  if (pa.level < BREED_MIN_LEVEL || pb.level < BREED_MIN_LEVEL) errors.push(`Both parents must be Lv ${BREED_MIN_LEVEL}+.`);
+  if (state.coins < BREED_COST) errors.push(`Not enough coins (need 🪙 ${BREED_COST}).`);
+
+  if (errors.length) {
+    preview.innerHTML = `<div class="shopRow">⚠️ ${errors.join(" ")}</div>`;
+    return;
+  }
+  const baby = makeHybridCreature(pa, pb, 1); // pure preview — nothing is spent/saved yet
+  preview.innerHTML = `<div class="shopRow">
+    <span style="font-size:28px">${spec(baby).icon}</span>
+    <div><b>${spec(baby).name}</b> <span class="typeTag">${spec(baby).type}</span>
+    <div style="font-size:12px;color:#aaa">Baby · Lv 1 · ${baby.maxHp} HP · ATK ${baby.atk}</div></div>
+    <button style="margin-left:auto" onclick="confirmBreed(${ia},${ib})">Breed! (🪙 ${BREED_COST})</button>
+  </div>`;
+}
+
+function confirmBreed(ia, ib) {
+  const pa = state.collection[ia], pb = state.collection[ib];
+  if (!pa || !pb || ia === ib) return;
+  if (pa.level < BREED_MIN_LEVEL || pb.level < BREED_MIN_LEVEL) return;
+  if (state.coins < BREED_COST) return;
+
+  state.coins -= BREED_COST;
+  const baby = makeHybridCreature(pa, pb, 1);
+  state.collection.push(baby);
+  if (state.teamIdx.length < 6) state.teamIdx.push(state.collection.length - 1);
+  breedSelection = [];
+
+  saveGame(false);
+  updateHUD();
+  renderBreed();
+  hudMsg(`🧬 A wild new combination! ${spec(baby).name} was born from breeding.`);
+}
 
 /* ---- Update log screen ---- */
 function openUpdates() {

@@ -54,12 +54,20 @@
     <div id="updatesList"></div>
     <button onclick="closeUpdates()" style="margin-top:8px;align-self:flex-start;">Back to Map</button>
   </div>
+  <!-- Breeding screen -->
+  <div id="breedScreen" class="overlay hidden">
+    <h2>🧬 Critter Breeding <small style="font-size:13px;color:#aaa">(pick 2 critters, Lv 3+, to breed — 🪙 <span id="breedCost"></span>)</small></h2>
+    <div id="breedPreview"></div>
+    <div id="breedList"></div>
+    <button onclick="closeBreed()" style="margin-top:8px;align-self:flex-start;">Back to Map</button>
+  </div>
 </div>
 
 <div id="hud">
   <div id="hudMsg">Use Arrow keys / WASD (or the D-pad / swipe on mobile) to move!</div>
   <div id="inventory"></div>
   <button onclick="openTeam()">Team</button>
+  <button onclick="openBreed()">Breed</button>
   <button onclick="openUpdates()">Updates</button>
   <button onclick="saveGame(true)">Save</button>
   <button onclick="resetGame()">Reset</button>
