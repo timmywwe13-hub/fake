@@ -4,6 +4,24 @@ All notable changes to the game are tracked here.
 Format: newest version at the top. Unreleased ideas live in the Roadmap.
 
 ---
+## v1.4.3 — Day/Night Cycle
+- ✅ New: a day/night cycle — the world darkens with a visible ☀️/🌙 indicator every 40 steps you take
+- ✅ Some tiles now have different critters at night: Shade and Mystic types get much more common after dark in the Meadowlands, and Poison/Ice types shift in Ember Depths
+- ✅ The Frozen Peaks mythical (Silklarva/Cocobright/Astromoth) is 3x more likely to appear at night, since it's a moth
+
+## v1.4.2 — New Mythical: Astromoth Line
+- ✅ New: a 3-stage mythical exclusive to Frozen Peaks — Silklarva (Lv 1-10) grows into Cocobright (Lv 11-20), then Astromoth (Lv 21-30)
+- ✅ Found on a new hidden ✨ tile in Frozen Peaks as a young Silklarva — train it up through battles and it evolves on its own, just like a normal critter
+- ✅ Mythical-rarity at every stage, so it's just as hard to catch as Lunastra, Solarion, or Glacialis
+- ✅ Successfully catching a wild critter now also grants your active critter XP, same as knocking it out would
+
+## v1.4.1 — Freeze Fix & Candy
+- 🐛 Fixed freeze being inflictable by almost every element (Grass, Electric, Rock, Air, Mystic, and Shade critters all had a freeze-chance move by mistake) — only Water and Ice critters can freeze now
+- 🐛 Bred hybrids can no longer inherit a freeze move from a Water/Ice parent unless the hybrid itself ends up Water or Ice type
+- ✅ XP-to-level-up is now scaled by rarity: common critters unchanged, rare critters need 1.6x the XP per level, mythicals need 3x
+- ✅ New: 🍬 Candy Bars — a shop item you can feed to any owned critter from the Team screen for an instant XP boost, no battle needed
+- ✅ Team screen now shows each critter's current XP progress toward its next level
+
 ## v1.3.0 — Frozen Peaks Portal
 - ✅ New: a portal in Ember Depths now leads to Frozen Peaks (World 3) — it wasn't reachable before
 - ✅ Sealed until you've defeated ALL trainers in BOTH Meadowlands and Ember Depths (all 10, not just a handful)

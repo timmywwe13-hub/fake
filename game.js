@@ -60,6 +60,9 @@ const EVOLUTIONS = [
   { from: 34, to: 37, level: 30 },  // Glacifox -> Blizzarena
   { from: 35, to: 37, level: 30 },  // FrostOwl -> Blizzarena
   { from: 36, to: 37, level: 30 },  // Crystalon -> Blizzarena
+  // New Frozen Peaks-exclusive mythical line: grows through 3 stages as it levels
+  { from: 51, to: 52, level: 11 },  // Silklarva -> Cocobright
+  { from: 52, to: 53, level: 21 },  // Cocobright -> Astromoth
 ];
 
 // 34 original species (ids are array positions — never reorder, only append!).
@@ -67,32 +70,32 @@ const EVOLUTIONS = [
 const SPECIES = [
   { id:0,  name:"Embercub",  type:"Fire",     icon:"🦊", baseHP:22, baseAtk:11, moves:[{name:"Scorch Swipe",power:10},{name:"Cinder Pounce",power:13, effect:{type:"burn",turns:2,chance:0.5}}] },
   { id:1,  name:"Aquafin",   type:"Water",    icon:"🐟", baseHP:24, baseAtk:10, moves:[{name:"Bubble Jet",power:10},{name:"Tide Slap",power:12, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:2,  name:"Sproutle",  type:"Grass",    icon:"🌱", baseHP:26, baseAtk:9,  moves:[{name:"Leaf Flick",power:9},{name:"Vine Lash",power:12, effect:{type:"freeze",turns:2,chance:0.5}}] },
-  { id:3,  name:"Zapmite",   type:"Electric", icon:"⚡", baseHP:20, baseAtk:12, moves:[{name:"Static Nip",power:10},{name:"Volt Skitter",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:4,  name:"Rockadillo",type:"Rock",     icon:"🪨", baseHP:30, baseAtk:8,  moves:[{name:"Pebble Roll",power:9},{name:"Boulder Curl",power:12, effect:{type:"freeze",turns:2,chance:0.5}}] },
-  { id:5,  name:"Gustwing",  type:"Air",      icon:"🕊️", baseHP:21, baseAtk:11, moves:[{name:"Wind Jab",power:10},{name:"Sky Dive",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:6,  name:"Glimmoth",  type:"Mystic",   icon:"🦋", baseHP:23, baseAtk:11, moves:[{name:"Dream Dust",power:10},{name:"Prism Beam",power:13, effect:{type:"freeze",turns:2,chance:0.5}}] },
-  { id:7,  name:"Fangroot",  type:"Shade",    icon:"🌑", baseHP:25, baseAtk:10, moves:[{name:"Gloom Bite",power:10},{name:"Root Snare",power:12, effect:{type:"freeze",turns:1,chance:0.3}}] },
+  { id:2,  name:"Sproutle",  type:"Grass",    icon:"🌱", baseHP:26, baseAtk:9,  moves:[{name:"Leaf Flick",power:9},{name:"Vine Lash",power:12}] },
+  { id:3,  name:"Zapmite",   type:"Electric", icon:"⚡", baseHP:20, baseAtk:12, moves:[{name:"Static Nip",power:10},{name:"Volt Skitter",power:13}] },
+  { id:4,  name:"Rockadillo",type:"Rock",     icon:"🪨", baseHP:30, baseAtk:8,  moves:[{name:"Pebble Roll",power:9},{name:"Boulder Curl",power:12}] },
+  { id:5,  name:"Gustwing",  type:"Air",      icon:"🕊️", baseHP:21, baseAtk:11, moves:[{name:"Wind Jab",power:10},{name:"Sky Dive",power:13}] },
+  { id:6,  name:"Glimmoth",  type:"Mystic",   icon:"🦋", baseHP:23, baseAtk:11, moves:[{name:"Dream Dust",power:10},{name:"Prism Beam",power:13}] },
+  { id:7,  name:"Fangroot",  type:"Shade",    icon:"🌑", baseHP:25, baseAtk:10, moves:[{name:"Gloom Bite",power:10},{name:"Root Snare",power:12}] },
   { id:8,  name:"Flarehop",  type:"Fire",     icon:"🐇", baseHP:20, baseAtk:12, moves:[{name:"Hot Hop",power:10},{name:"Blaze Kick",power:13, effect:{type:"burn",turns:2,chance:0.5}}] },
   { id:9,  name:"Cindertail",type:"Fire",     icon:"🦎", baseHP:23, baseAtk:11, moves:[{name:"Tail Torch",power:10},{name:"Lava Lick",power:13, effect:{type:"burn",turns:2,chance:0.4}}] },
   { id:10, name:"Puddlepaw", type:"Water",    icon:"🦦", baseHP:25, baseAtk:10, moves:[{name:"Splash Swat",power:10},{name:"River Rush",power:12, effect:{type:"freeze",turns:2,chance:0.5}}] },
   { id:11, name:"Coralisk",  type:"Water",    icon:"🐙", baseHP:26, baseAtk:9,  moves:[{name:"Ink Squirt",power:9},{name:"Tentacle Whip",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
   { id:12, name:"Snailtide", type:"Water",    icon:"🐌", baseHP:31, baseAtk:7,  moves:[{name:"Slime Coat",power:8},{name:"Shell Surf",power:12, effect:{type:"freeze",turns:2,chance:0.5}}] },
-  { id:13, name:"Thornbud",  type:"Grass",    icon:"🌵", baseHP:27, baseAtk:9,  moves:[{name:"Needle Jab",power:10},{name:"Spike Storm",power:12, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:14, name:"Fernfox",   type:"Grass",    icon:"🦔", baseHP:24, baseAtk:10, moves:[{name:"Frond Swipe",power:10},{name:"Bramble Roll",power:12, effect:{type:"freeze",turns:2,chance:0.5}}] },
-  { id:15, name:"Mosskit",   type:"Grass",    icon:"🐢", baseHP:32, baseAtk:7,  moves:[{name:"Moss Bash",power:9},{name:"Sap Cannon",power:12, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:16, name:"Voltbat",   type:"Electric", icon:"🦇", baseHP:21, baseAtk:12, moves:[{name:"Shock Wing",power:10},{name:"Thunder Screech",power:13, effect:{type:"freeze",turns:2,chance:0.5}}] },
-  { id:17, name:"Sparkle",   type:"Electric", icon:"🐭", baseHP:19, baseAtk:13, moves:[{name:"Zap Nibble",power:10},{name:"Circuit Dash",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:18, name:"Ampeel",    type:"Electric", icon:"🐍", baseHP:24, baseAtk:11, moves:[{name:"Coil Shock",power:10},{name:"Volt Squeeze",power:13, effect:{type:"freeze",turns:2,chance:0.5}}] },
-  { id:19, name:"Cragclaw",  type:"Rock",     icon:"🦀", baseHP:28, baseAtk:9,  moves:[{name:"Pinch Slam",power:10},{name:"Stone Snip",power:12, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:20, name:"Bouldern",  type:"Rock",     icon:"🐗", baseHP:32, baseAtk:8,  moves:[{name:"Gravel Charge",power:10},{name:"Quake Tusk",power:13, effect:{type:"freeze",turns:2,chance:0.5}}] },
-  { id:21, name:"Zephyrix",  type:"Air",      icon:"🦅", baseHP:22, baseAtk:12, moves:[{name:"Gale Talon",power:10},{name:"Dive Bomb",power:14, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:22, name:"Cloudle",   type:"Air",      icon:"🐑", baseHP:27, baseAtk:8,  moves:[{name:"Fluff Puff",power:9},{name:"Cyclone Spin",power:12, effect:{type:"freeze",turns:2,chance:0.5}}] },
-  { id:23, name:"Buzzgale",  type:"Air",      icon:"🐝", baseHP:20, baseAtk:12, moves:[{name:"Sting Breeze",power:10},{name:"Swarm Rush",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:24, name:"Lunaris",   type:"Mystic",   icon:"🦉", baseHP:24, baseAtk:11, moves:[{name:"Moon Glare",power:10},{name:"Astral Hoot",power:13, effect:{type:"freeze",turns:2,chance:0.5}}] },
-  { id:25, name:"Starpuff",  type:"Mystic",   icon:"🐱", baseHP:22, baseAtk:11, moves:[{name:"Twinkle Tap",power:10},{name:"Nova Purr",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
-  { id:26, name:"Duskmaw",   type:"Shade",    icon:"🐺", baseHP:26, baseAtk:11, moves:[{name:"Night Fang",power:11},{name:"Howl of Dusk",power:13, effect:{type:"freeze",turns:2,chance:0.5}}] },
-  { id:27, name:"Wraithvine",type:"Shade",    icon:"🕷️", baseHP:23, baseAtk:11, moves:[{name:"Web of Woe",power:10},{name:"Phantom Bite",power:13, effect:{type:"freeze",turns:1,chance:0.3}}] },
+  { id:13, name:"Thornbud",  type:"Grass",    icon:"🌵", baseHP:27, baseAtk:9,  moves:[{name:"Needle Jab",power:10},{name:"Spike Storm",power:12}] },
+  { id:14, name:"Fernfox",   type:"Grass",    icon:"🦔", baseHP:24, baseAtk:10, moves:[{name:"Frond Swipe",power:10},{name:"Bramble Roll",power:12}] },
+  { id:15, name:"Mosskit",   type:"Grass",    icon:"🐢", baseHP:32, baseAtk:7,  moves:[{name:"Moss Bash",power:9},{name:"Sap Cannon",power:12}] },
+  { id:16, name:"Voltbat",   type:"Electric", icon:"🦇", baseHP:21, baseAtk:12, moves:[{name:"Shock Wing",power:10},{name:"Thunder Screech",power:13}] },
+  { id:17, name:"Sparkle",   type:"Electric", icon:"🐭", baseHP:19, baseAtk:13, moves:[{name:"Zap Nibble",power:10},{name:"Circuit Dash",power:13}] },
+  { id:18, name:"Ampeel",    type:"Electric", icon:"🐍", baseHP:24, baseAtk:11, moves:[{name:"Coil Shock",power:10},{name:"Volt Squeeze",power:13}] },
+  { id:19, name:"Cragclaw",  type:"Rock",     icon:"🦀", baseHP:28, baseAtk:9,  moves:[{name:"Pinch Slam",power:10},{name:"Stone Snip",power:12}] },
+  { id:20, name:"Bouldern",  type:"Rock",     icon:"🐗", baseHP:32, baseAtk:8,  moves:[{name:"Gravel Charge",power:10},{name:"Quake Tusk",power:13}] },
+  { id:21, name:"Zephyrix",  type:"Air",      icon:"🦅", baseHP:22, baseAtk:12, moves:[{name:"Gale Talon",power:10},{name:"Dive Bomb",power:14}] },
+  { id:22, name:"Cloudle",   type:"Air",      icon:"🐑", baseHP:27, baseAtk:8,  moves:[{name:"Fluff Puff",power:9},{name:"Cyclone Spin",power:12}] },
+  { id:23, name:"Buzzgale",  type:"Air",      icon:"🐝", baseHP:20, baseAtk:12, moves:[{name:"Sting Breeze",power:10},{name:"Swarm Rush",power:13}] },
+  { id:24, name:"Lunaris",   type:"Mystic",   icon:"🦉", baseHP:24, baseAtk:11, moves:[{name:"Moon Glare",power:10},{name:"Astral Hoot",power:13}] },
+  { id:25, name:"Starpuff",  type:"Mystic",   icon:"🐱", baseHP:22, baseAtk:11, moves:[{name:"Twinkle Tap",power:10},{name:"Nova Purr",power:13}] },
+  { id:26, name:"Duskmaw",   type:"Shade",    icon:"🐺", baseHP:26, baseAtk:11, moves:[{name:"Night Fang",power:11},{name:"Howl of Dusk",power:13}] },
+  { id:27, name:"Wraithvine",type:"Shade",    icon:"🕷️", baseHP:23, baseAtk:11, moves:[{name:"Web of Woe",power:10},{name:"Phantom Bite",power:13}] },
   // ---- World 2 exclusives: Poison + Ice (with status effects) ----
   { id:28, name:"Venomite",  type:"Poison", icon:"🦂", baseHP:24, baseAtk:11, moves:[{name:"Toxin Sting",power:9, effect:{type:"poison",turns:2,chance:1}},{name:"Venom Slash",power:12, effect:{type:"poison",turns:1,chance:0.3}}] },
   { id:29, name:"Sludgil",   type:"Poison", icon:"🐸", baseHP:27, baseAtk:9,  moves:[{name:"Sludge Spit",power:9, effect:{type:"poison",turns:2,chance:1}},{name:"Bog Slam",power:12, effect:{type:"poison",turns:1,chance:0.3}}] },
@@ -117,13 +120,20 @@ const SPECIES = [
   // teams, so the only way to obtain one is breeding the right pair of parent types
   // together (see BREED_EXCLUSIVES below). ----
   { id:44, name:"Steamurk",  type:"Fire",     icon:"♨️", baseHP:32, baseAtk:15, moves:[{name:"Steam Burst",power:13},{name:"Scald Wave",power:16, effect:{type:"burn",turns:2,chance:0.45}}] },
-  { id:45, name:"Voltvine",  type:"Electric", icon:"🌿⚡", baseHP:30, baseAtk:16, moves:[{name:"Static Bloom",power:13},{name:"Thorn Surge",power:16, effect:{type:"freeze",turns:1,chance:0.4}}] },
-  { id:46, name:"Skycrag",   type:"Rock",     icon:"🪨🕊️", baseHP:35, baseAtk:13, moves:[{name:"Gale Slam",power:12},{name:"Boulder Gust",power:15, effect:{type:"freeze",turns:1,chance:0.35}}] },
-  { id:47, name:"Duskstar",  type:"Mystic",   icon:"✨🌑", baseHP:31, baseAtk:16, moves:[{name:"Eclipse Beam",power:14},{name:"Umbral Flash",power:17, effect:{type:"freeze",turns:2,chance:0.4}}] },
+  { id:45, name:"Voltvine",  type:"Electric", icon:"🌿⚡", baseHP:30, baseAtk:16, moves:[{name:"Static Bloom",power:13},{name:"Thorn Surge",power:16}] },
+  { id:46, name:"Skycrag",   type:"Rock",     icon:"🪨🕊️", baseHP:35, baseAtk:13, moves:[{name:"Gale Slam",power:12},{name:"Boulder Gust",power:15}] },
+  { id:47, name:"Duskstar",  type:"Mystic",   icon:"✨🌑", baseHP:31, baseAtk:16, moves:[{name:"Eclipse Beam",power:14},{name:"Umbral Flash",power:17}] },
   // ---- World 2 Poison evolutions (each Poison exclusive gets its own unique form) ----
   { id:48, name:"Toxidrake",   type:"Poison", icon:"🦂☠️", baseHP:32, baseAtk:15, rarity:"rare", moves:[{name:"Venom Fang",power:14, effect:{type:"poison",turns:2,chance:0.6}},{name:"Toxic Slash",power:17}] },
   { id:49, name:"Bogleviathan",type:"Poison", icon:"🐸☠️", baseHP:35, baseAtk:13, rarity:"rare", moves:[{name:"Sludge Wave",power:13, effect:{type:"poison",turns:2,chance:0.6}},{name:"Bog Slam",power:16}] },
   { id:50, name:"Miasmawing",  type:"Poison", icon:"🦟☠️", baseHP:29, baseAtk:16, rarity:"rare", moves:[{name:"Plague Dive",power:14, effect:{type:"poison",turns:2,chance:0.6}},{name:"Miasma Storm",power:17}] },
+  // ---- Frozen Peaks-exclusive mythical: a 3-stage line that grows through
+  // battle XP just like a normal critter, but is mythical-rarity at every
+  // stage (extremely hard to catch, per RARITY_CATCH_MULT) and only ever
+  // appears wild on the '*' tile in World 3. ----
+  { id:51, name:"Silklarva",  type:"Mystic", icon:"🐛✨", baseHP:24, baseAtk:10, rarity:"mythical", moves:[{name:"Glimmer Nibble",power:9},{name:"Starlight Munch",power:12}] },
+  { id:52, name:"Cocobright", type:"Mystic", icon:"🌰✨", baseHP:34, baseAtk:12, rarity:"mythical", moves:[{name:"Shell Guard",power:10},{name:"Mystic Pulse",power:13}] },
+  { id:53, name:"Astromoth",  type:"Mystic", icon:"🦋✨", baseHP:52, baseAtk:24, rarity:"mythical", moves:[{name:"Starlight Wing",power:20},{name:"Astral Dust Storm",power:25}] },
 ];
 
 /* Tile legend: '#'=wall '.'=path ','=grass 'f'=forest '~'=water/lava
@@ -152,10 +162,10 @@ const WORLDS = [
     colors: { "#":"#2e4d2e", ".":"#c9b47c", ",":"#3e8948", "f":"#1f5c2d", "~":"#3a6ec9", "c":"#5a5560", "H":"#c9b47c", "S":"#c9b47c", "P":"#7b3fd4", "*":"#ffff00" },
     deco:   { "#":"🌲", ",":"𓆸", "f":"🌳", "~":"≈", "H":"⛺", "S":"🏪", "P":"🌀", "*":"✨" },
     encounters: {
-      ",": { chance:0.15, pool:[2,3,5,17,22,25],   lvl:[2,5] },
-      "f": { chance:0.17, pool:[13,14,15,7,23,26], lvl:[3,6] }, // deep forest
+      ",": { chance:0.15, pool:[2,3,5,17,22,25],   nightPool:[7,24,25,6,17],   lvl:[2,5] },
+      "f": { chance:0.17, pool:[13,14,15,7,23,26], nightPool:[7,26,27,24,6],   lvl:[3,6] }, // deep forest
       "~": { chance:0.12, pool:[1,10,11,12],       lvl:[3,6] },
-      "c": { chance:0.18, pool:[4,0,16,19,24,26],  lvl:[5,8] },
+      "c": { chance:0.18, pool:[4,0,16,19,24,26],  nightPool:[26,27,7,24,19],  lvl:[5,8] },
       "*": { chance:0.01, pool:[41,42,43],         lvl:[20,30] },
     },
     trainers: [
@@ -196,9 +206,9 @@ const WORLDS = [
     colors: { "#":"#3a2a2a", ".":"#6b5344", ",":"#8a5a2a", "~":"#c94a1e", "c":"#454050", "H":"#6b5344", "S":"#6b5344", "P":"#7b3fd4", "Q":"#4fd7ff", "*":"#ff00ff" },
     deco:   { "#":"🪨", ",":"🍂", "~":"🔥", "H":"⛺", "S":"🏪", "P":"🌀", "Q":"🌀", "*":"💥" },
     encounters: {
-      ",": { chance:0.16, pool:[8,9,14,23,27,28,29,30],        lvl:[10,14] },
+      ",": { chance:0.16, pool:[8,9,14,23,27,28,29,30],        nightPool:[27,28,29,30,26], lvl:[10,14] },
       "~": { chance:0.14, pool:[0,8,9,20],                     lvl:[12,16] },
-      "c": { chance:0.18, pool:[4,16,19,24,26,27,28,31,32,33], lvl:[12,17] },
+      "c": { chance:0.18, pool:[4,16,19,24,26,27,28,31,32,33], nightPool:[31,32,33,26,27], lvl:[12,17] },
       "*": { chance:0.01, pool:[41,42,43],                     lvl:[25,35] },
     },
     trainers: [
@@ -224,7 +234,7 @@ const WORLDS = [
       name: "❄️ Frozen Peaks",
       map: [
         "########################",
-        "#P.........~~~~~~......#",
+        "#P....*....~~~~~~......#",
         "#..........~~~~~~......#",
         "#..........~~~~~~......#",
         "#..........~~~~~~......#",
@@ -240,11 +250,16 @@ const WORLDS = [
         "#..........S~~~~~......#",
         "########################",
       ],
-      colors: { "#":"#2a2a3a", ".":"#e0e6f0", "~":"#a8d0e6", "H":"#e0e6f0", "S":"#e0e6f0", "P":"#7b3fd4" },
-      deco:   { "#":"🧊", ".":"❄️", "~":"≈", "H":"⛺", "S":"🏪", "P":"🌀" },
+      colors: { "#":"#2a2a3a", ".":"#e0e6f0", "~":"#a8d0e6", "H":"#e0e6f0", "S":"#e0e6f0", "P":"#7b3fd4", "*":"#c48dff" },
+      deco:   { "#":"🧊", ".":"❄️", "~":"≈", "H":"⛺", "S":"🏪", "P":"🌀", "*":"✨" },
       encounters: {
         ".": { chance:0.1, pool:[34,35,36,37], lvl:[18,22] }, // New world 3 critters
         "~": { chance:0.15, pool:[34,35,36,37], lvl:[20,25] },
+        // Frozen Peaks-exclusive mythical — only ever found on this tile, as
+        // its young Lv1-10 Silklarva stage. Train it up and it'll grow into
+        // Cocobright, then eventually Astromoth, on its own through XP.
+        // Being a moth, it's drawn out more at night.
+        "*": { chance:0.01, nightChance:0.03, pool:[51], lvl:[5,10] },
       },
       trainers: [
         { id:10, name:"Glacia", x:6, y:10, team:[[34,18],[35,20]], quote:"Feel the chill of eternity!" },
@@ -260,6 +275,11 @@ const WORLDS = [
   ];
 
 const TILE = 60, MAP_W = 24, MAP_H = 16;
+
+// Day/night cycle: driven by steps taken (not the system clock), so it's a
+// visible, testable in-game cycle rather than tied to real-world time.
+const DAY_NIGHT_STEPS = 40; // steps per half-cycle (one full day+night = 80 steps)
+function isNight() { return Math.floor((state.steps || 0) / DAY_NIGHT_STEPS) % 2 === 1; }
 
 // Catch orbs — each tier is 40% better than the one before it.
 // (Also drives the shop listing, the HUD, and the catch-attempt logic below.)
@@ -290,6 +310,24 @@ const RARITY_CATCH_MULT = {
 };
 function speciesRarity(s) { return s.rarity || "common"; }
 
+// XP needed to level up is scaled by rarity too — rarer critters (evolved
+// forms, World 3 exclusives, mythicals) take noticeably more XP per level
+// than a common critter of the same level.
+const XP_RARITY_MULT = {
+  common:  1,
+  rare:    1.6,
+  mythical:3,
+};
+function xpNeeded(creature) {
+  const mult = XP_RARITY_MULT[speciesRarity(spec(creature))] ?? 1;
+  return Math.round(creature.level * 30 * mult);
+}
+
+// 🍬 Candy: feeds a chunk of XP straight to a critter outside of battle
+// (see feedCandy() in the Team screen). Rarer critters still need more XP
+// per level, so a candy goes further on a common critter than a rare one.
+const CANDY_XP = 40;
+
 // Shop stock — add more items here.
 const SHOP_ITEMS = [
   ...ORB_TIERS.map((o, i) => ({ key:o.key, label:o.label, desc:orbDesc(i), price:o.price })),
@@ -297,6 +335,7 @@ const SHOP_ITEMS = [
   { key:"bigpotion", label:"⚗️ Big Potion",  desc:"Fully restores HP in battle",     price:90 },
   { key:"antidote",  label:"🧪 Antidote",    desc:"Cures poison/burn",             price:20 },
   { key:"awakening", label:"⏰ Awakening",   desc:"Cures paralysis/sleep",         price:20 },
+  { key:"candy",     label:"🍬 Candy Bar",   desc:`Feed a critter (+${CANDY_XP} XP) from the Team screen — no battle needed`, price:35 },
 ];
 
 // ---- Update log shown by the in-game "Updates" button ----
@@ -314,8 +353,25 @@ const UPDATE_LOG = [
     "Achievements with in-game badges",
     "Weather effects that change encounter rates per world",
     "Online/local trading (currently a beta placeholder)",
-    "Reworks considered: true 3D (Three.js), sprite art, sound, defense stat, day/night cycle",
+    "Reworks considered: true 3D (Three.js), sprite art, sound, defense stat",
   ]},
+  { version:"v1.4.3 — Day/Night Cycle", notes:[
+     "✅ New: a day/night cycle — the world darkens with a visible ☀️/🌙 indicator every 40 steps you take",
+     "✅ Some tiles now have different critters at night: Shade and Mystic types get much more common after dark in the Meadowlands, and Poison/Ice types shift in Ember Depths",
+     "✅ The Frozen Peaks mythical (Silklarva/Cocobright/Astromoth) is 3x more likely to appear at night, since it's a moth",
+   ]},
+  { version:"v1.4.2 — New Mythical: Astromoth Line", notes:[
+     "✅ New: a 3-stage mythical exclusive to Frozen Peaks — Silklarva (Lv 1-10) grows into Cocobright (Lv 11-20), then Astromoth (Lv 21-30)",
+     "✅ Found on a new hidden ✨ tile in Frozen Peaks as a young Silklarva — train it up through battles and it evolves on its own, just like a normal critter",
+     "✅ Mythical-rarity at every stage, so it's just as hard to catch as Lunastra, Solarion, or Glacialis",
+     "✅ Successfully catching a wild critter now also grants your active critter XP, same as knocking it out would",
+   ]},
+  { version:"v1.4.1 — Freeze Fix & Candy", notes:[
+     "🐛 Fixed freeze being inflictable by almost every element — only Water and Ice moves (and Water/Ice hybrids bred from them) can freeze now",
+     "✅ Leveling up now takes more XP the rarer a critter is: common critters are unchanged, rare critters need 1.6x the XP per level, mythicals need 3x",
+     "✅ New: 🍬 Candy Bars — buy them in the shop, then feed one to any critter from the Team screen for an instant XP boost, no battle required",
+     "✅ Team screen now shows each critter's current XP progress toward its next level",
+   ]},
   { version:"v1.4.0 — Rematches & Story Mode", notes:[
      "✅ New: Trainer rematches — walk into any trainer you've already beaten to fight them again",
      "✅ Each rematch scales their team up by 5 levels (capped at +40) and pays a smaller 20-coin bonus instead of the original 50",
@@ -507,6 +563,7 @@ let state = {
   items: defaultItems(),
   rematches: {},   // trainer id -> number of rematches won
   storySeen: {},   // story event key -> true once its cutscene has played
+  steps: 0,        // total tiles moved — drives the day/night cycle
 };
 
 // "Deviant" critters are a rare, stronger variant (~5% chance) that can only appear
@@ -580,7 +637,12 @@ function makeHybridCreature(parentA, parentB, level = 1) {
   const name = blendName(sa.name, sb.name);
   const baseHP  = Math.round((sa.baseHP  + sb.baseHP)  / 2);
   const baseAtk = Math.round((sa.baseAtk + sb.baseAtk) / 2);
-  const moves = [sa.moves[0], sb.moves[Math.min(1, sb.moves.length - 1)]];
+  let moves = [sa.moves[0], sb.moves[Math.min(1, sb.moves.length - 1)]];
+  // Only Water/Ice critters are allowed to freeze — a parent's freeze move
+  // can't carry over onto a hybrid that ends up some other type.
+  if (type !== "Water" && type !== "Ice") {
+    moves = moves.map(m => m.effect && m.effect.type === "freeze" ? { name:m.name, power:m.power } : m);
+  }
   const hybridSpec = { name, type, icon, baseHP, baseAtk, moves };
   return {
     speciesId: null, level, xp:0,
@@ -610,6 +672,7 @@ function loadGame() {
     if (state.coins === undefined) state.coins = 150;
     if (!state.rematches) state.rematches = {};
     if (!state.storySeen) state.storySeen = {};
+    if (typeof state.steps !== "number" || Number.isNaN(state.steps)) state.steps = 0;
     if (!state.items) state.items = defaultItems();
     else {
       // Repair any item key that's missing or corrupted (e.g. NaN from the old
@@ -709,7 +772,8 @@ function drawCharacter(cx, cy, pal, face = 1, alpha = 1) {
 
 function draw() {
   const w = world();
-  document.getElementById("worldName").textContent = w.name;
+  const night = isNight();
+  document.getElementById("worldName").textContent = `${w.name}  ${night ? "🌙 Night" : "☀️ Day"}`;
   for (let y = 0; y < MAP_H; y++) for (let x = 0; x < MAP_W; x++) {
     const t = w.map[y][x];
     ctx.fillStyle = w.colors[t] || "#000";
@@ -730,6 +794,12 @@ function draw() {
   ctx.beginPath(); ctx.arc(px, py+12, 15, 0, Math.PI*2);
   ctx.fillStyle = "rgba(255,215,106,.45)"; ctx.fill();
   drawCharacter(px, py, PLAYER_PALETTE, facing);
+  // Night tint: a soft blue-purple overlay dims the whole map, drawn last so
+  // it sits over tiles/characters without touching any of their own colors.
+  if (night) {
+    ctx.fillStyle = "rgba(15,15,45,0.42)";
+    ctx.fillRect(0, 0, MAP_W*TILE, MAP_H*TILE);
+  }
   updateHUD();
 }
 
@@ -738,7 +808,7 @@ function updateHUD() {
   const orbBits = ORB_TIERS.filter(o => state.items[o.key] > 0)
     .map(o => `${o.label.split(" ")[0]} ${state.items[o.key]}`).join(" ");
   document.getElementById("inventory").textContent =
-    `🪙 ${state.coins}  ·  ${orbBits || "🟠 0"}  ·  🧪 ${state.items.potion}  ·  ⚗️ ${state.items.bigpotion}`;
+    `🪙 ${state.coins}  ·  ${orbBits || "🟠 0"}  ·  🧪 ${state.items.potion}  ·  ⚗️ ${state.items.bigpotion}  ·  🍬 ${state.items.candy}`;
 }
 
 document.addEventListener("keydown", e => {
@@ -791,14 +861,21 @@ function tryMove(dx, dy) {
   }
 
   state.player.x = nx; state.player.y = ny;
+  const wasNight = isNight();
+  state.steps = (state.steps || 0) + 1;
+  if (isNight() !== wasNight) hudMsg(isNight() ? "🌙 Night has fallen — different critters are stirring." : "☀️ The sun rises over the land.");
   draw();
 
   if (tile === "H") { healTeam(); hudMsg("⛺ Your critters were fully healed!"); return; }
   if (tile === "S") { openShop(); return; }
 
   const enc = w.encounters[tile];
-  if (enc && state.teamIdx.length && Math.random() < enc.chance) {
-    const sid = enc.pool[Math.floor(Math.random()*enc.pool.length)];
+  const chance = (isNight() && enc && enc.nightChance !== undefined) ? enc.nightChance : (enc && enc.chance);
+  if (enc && state.teamIdx.length && Math.random() < chance) {
+    // Some tiles have a separate nightPool of critters that only show up
+    // after dark; falls back to the normal pool if none is defined.
+    const pool = (isNight() && enc.nightPool) ? enc.nightPool : enc.pool;
+    const sid = pool[Math.floor(Math.random()*pool.length)];
     const lvl = enc.lvl[0] + Math.floor(Math.random()*(enc.lvl[1]-enc.lvl[0]+1));
     startWildBattle(makeCreature(sid, lvl, true));
   }
@@ -1219,6 +1296,7 @@ function tryCatch() {
       log(`🎉 Gotcha! ${e.deviant ? "✨ DEVIANT " : ""}${spec(e).name} was caught!`);
       e.status = null; // caught critters are always cured of status
       if (cureStatus) log(`The ${orbTier.label}'s energy also healed its status condition!`);
+      grantXP(e.level); // your active critter still gets XP for a successful capture
       state.collection.push(e);
       if (state.teamIdx.length < 6) state.teamIdx.push(state.collection.length - 1);
       battle.over = true;
@@ -1333,31 +1411,57 @@ function onEnemyFaint() {
   }
 }
 
-function grantXP(enemyLevel) {
-  const me = cur();
-  const oldLevel = me.level;
-  me.xp += enemyLevel * 12;
-  log(`${spec(me).name} gained ${enemyLevel * 12} XP.`);
-  while (me.xp >= me.level * 30) {
-    me.xp -= me.level * 30;
-    me.level++; me.maxHp += 3; me.atk += 2; me.hp = Math.min(me.maxHp, me.hp + 3);
-    log(`⬆️ ${spec(me).name} grew to Lv ${me.level}!`);
+// Applies XP to a creature, handling any level-ups (using the rarity-scaled
+// threshold from xpNeeded) and evolution checks. Returns an array of message
+// strings describing what happened — the caller decides where to show them
+// (the battle log, or a HUD message when fed outside battle).
+function awardXP(creature, amount) {
+  const messages = [];
+  const oldLevel = creature.level;
+  creature.xp += amount;
+  while (creature.xp >= xpNeeded(creature)) {
+    creature.xp -= xpNeeded(creature);
+    creature.level++; creature.maxHp += 3; creature.atk += 2; creature.hp = Math.min(creature.maxHp, creature.hp + 3);
+    messages.push(`⬆️ ${spec(creature).name} grew to Lv ${creature.level}!`);
   }
-  
+
   // Check for evolution
-  if (me.level > oldLevel) {
+  if (creature.level > oldLevel) {
     for (const evo of EVOLUTIONS) {
-      if (evo.from === me.speciesId && me.level >= evo.level) {
+      if (evo.from === creature.speciesId && creature.level >= evo.level) {
         // Evolve the critter
-        me.speciesId = evo.to;
-        me.maxHp = SPECIES[evo.to].baseHP + me.level * 3;
-        me.atk = SPECIES[evo.to].baseAtk + me.level * 2;
-        me.hp = Math.min(me.maxHp, me.hp); // Ensure HP doesn't exceed max
-        log(`🌟 ${spec(me).name} evolved into ${SPECIES[evo.to].name}!`);
+        creature.speciesId = evo.to;
+        creature.maxHp = SPECIES[evo.to].baseHP + creature.level * 3;
+        creature.atk = SPECIES[evo.to].baseAtk + creature.level * 2;
+        creature.hp = Math.min(creature.maxHp, creature.hp); // Ensure HP doesn't exceed max
+        messages.push(`🌟 ${spec(creature).name} evolved into ${SPECIES[evo.to].name}!`);
         break; // Only evolve once per level up
       }
     }
   }
+  return messages;
+}
+
+function grantXP(enemyLevel) {
+  const me = cur();
+  const amount = enemyLevel * 12;
+  log(`${spec(me).name} gained ${amount} XP.`);
+  for (const msg of awardXP(me, amount)) log(msg);
+}
+
+// Feed a 🍬 Candy Bar to a collection critter outside of battle — grants a
+// flat chunk of XP (rarer critters still need more XP per level to grow,
+// via xpNeeded's rarity multiplier, so a candy goes further on a common critter).
+function feedCandy(i) {
+  if (state.items.candy <= 0) { hudMsg("You don't have any 🍬 Candy Bars — buy some from the shop!"); return; }
+  const c = state.collection[i];
+  if (!c) return;
+  state.items.candy--;
+  const msgs = awardXP(c, CANDY_XP);
+  saveGame(false);
+  updateHUD();
+  openTeam(); // re-render so the new level/HP/ATK show immediately
+  hudMsg(`🍬 Fed a Candy Bar to ${spec(c).name} (+${CANDY_XP} XP).${msgs.length ? " " + msgs.join(" ") : ""}`);
 }
 
 function endBattle() {
@@ -1416,10 +1520,17 @@ function openTeam() {
     row.className = "critRow" + (state.teamIdx.includes(i) ? " inTeam" : "");
     row.innerHTML = `<span style="font-size:22px">${spec(c).icon}</span>
       <b>${spec(c).name}</b> <span class="typeTag">${spec(c).type}</span>${deviantTag(c)}${bredTag(c)}
-      <span>Lv ${c.level} · ${Math.max(0,c.hp)}/${c.maxHp} HP · ATK ${c.atk}</span>
+      <span>Lv ${c.level} · ${Math.max(0,c.hp)}/${c.maxHp} HP · ATK ${c.atk} · ${c.xp}/${xpNeeded(c)} XP</span>
       <span style="margin-left:auto;color:#ffd76a">${state.teamIdx.includes(i) ? "★ In team" : "☆ Reserve"}</span>`;
     row.style.cursor = "pointer";
     row.onclick = () => toggleTeam(i);
+    // Candy feeding is a separate action from the team-toggle click on the
+    // row, so it needs its own button and must stop the click from bubbling.
+    const candyBtn = document.createElement("button");
+    candyBtn.textContent = `🍬 Feed (${state.items.candy})`;
+    candyBtn.disabled = state.items.candy <= 0;
+    candyBtn.onclick = (e) => { e.stopPropagation(); feedCandy(i); };
+    row.appendChild(candyBtn);
     list.appendChild(row);
   });
   $("teamScreen").classList.remove("hidden");
