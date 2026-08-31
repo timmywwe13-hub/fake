@@ -88,7 +88,19 @@
   <button onclick="saveGame(true)">Save</button>
   <button onclick="resetGame()">Reset</button>
    <button onclick="openTrade()">Trade</button>
+  <button onclick="openAdmin()" style="background:#2a2a3a;color:#555;font-size:11px;padding:4px 8px;">⚙️</button>
 </div>
+
+  <!-- Admin PIN entry -->
+  <div id="adminScreen" class="overlay hidden" style="justify-content:center;align-items:center;">
+    <h2>🔐 Enter Access Code</h2>
+    <div id="pinDisplay" style="display:flex;gap:16px;margin:20px 0;font-size:48px;font-weight:bold;"></div>
+    <div id="pinMsg" style="color:#ff6b6b;font-size:14px;min-height:20px;margin-bottom:10px;"></div>
+    <div style="display:flex;gap:10px;">
+      <button onclick="adminUnlock()" style="background:#2a6b3a;">Unlock</button>
+      <button onclick="closeAdmin()" style="background:#555;">Cancel</button>
+    </div>
+  </div>
 
 <!-- Touch controls (shown on touch devices via CSS + JS detection) -->
 <div id="dpad">

@@ -66,11 +66,17 @@ button:disabled { background:#333; cursor:default; }
 #battleArena { height:190px; border-radius:8px; position:relative; overflow:hidden; flex-shrink:0;
                 background:linear-gradient(#8ecdf0 55%, #8fce7f 55%); display:block; }
 #battleArena.emberBg { background:linear-gradient(#3c2030 55%, #7a3520 55%); }
+#battleArena.ashfallBg { background:linear-gradient(#4a1a0a 55%, #8a3510 55%); }
+#battleArena.astralBg { background:linear-gradient(#0a0a3a 55%, #1a1a5a 55%); }
+#battleArena.yinyangBg { background:linear-gradient(#ffffff 50%, #1a1a1a 50%); }
 /* Sprite elements are now visible again for 2D rendering */
 #playerSprite, #enemySprite, .spriteBox { display:block; }
 #arena { height:190px; border-radius:8px; position:relative; overflow:hidden; flex-shrink:0;
          background:linear-gradient(#8ecdf0 55%, #8fce7f 55%); }
 #arena.emberBg { background:linear-gradient(#3c2030 55%, #7a3520 55%); }
+#arena.ashfallBg { background:linear-gradient(#4a1a0a 55%, #8a3510 55%); }
+#arena.astralBg { background:linear-gradient(#0a0a3a 55%, #1a1a5a 55%); }
+#arena.yinyangBg { background:linear-gradient(#ffffff 50%, #1a1a1a 50%); }
 .spriteBox { position:absolute; text-align:center; }
 #playerSprite { left:110px; bottom:6px; }
 #enemySprite  { right:110px; top:14px; }
@@ -110,6 +116,11 @@ button:disabled { background:#333; cursor:default; }
 .updateEntry h3 { margin:0 0 6px; font-size:15px; color:#ffd76a; }
 .updateEntry ul { margin:0; padding-left:18px; font-size:13px; line-height:1.6; color:#ddd; }
 .updateEntry.future h3 { color:#9fb4ff; }
+
+/* ============ ADMIN PIN ENTRY ============ */
+#adminScreen { justify-content:center; align-items:center; text-align:center; }
+#pinDisplay div { transition:filter .2s, opacity .2s; }
+#pinDisplay div:hover { filter:drop-shadow(0 0 12px #ffd76a) !important; opacity:1 !important; }
 
 /* ============ MOBILE SUPPORT ============ */
 html, body { touch-action:manipulation; }              /* no double-tap zoom */

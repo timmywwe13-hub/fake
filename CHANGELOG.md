@@ -4,6 +4,22 @@ All notable changes to the game are tracked here.
 Format: newest version at the top. Unreleased ideas live in the Roadmap.
 
 ---
+## v2.1.0 — Level Cap & Endgame Challenge
+- ✅ New: Max level cap of 120 for player critters — XP resets to 0 at cap, team screen shows 'MAX' instead of XP progress
+- ✅ World 6 (Yin-Yang Realm) trainers now scaled to level 138-150 — a serious endgame challenge even at max level
+- ✅ Zenithral's team reaches up to level 150, requiring strong type matchups and strategy to defeat
+- 🐛 Fixed Yin-Yang Realm map having a stray Q tile that served no purpose
+
+## v2.0.0 — Three New Worlds
+- ✅ New: World 4 — 🌋 Ashfall Peaks with volcanic landscape, Fire/Rock critters, and 4 trainers led by champion Magmus
+- ✅ New: World 5 — 🌌 Astral Expanse with cosmic landscape, brand-new Cosmic type, and 4 trainers led by champion Galaxius
+- ✅ New: World 6 — ⚫⚪ Yin-Yang Realm with light/dark split landscape, Mystic/Shade critters, and 5 trainers led by final champion Zenithral
+- ✅ 18 new species across the three worlds, each with evolutions at level milestones
+- ✅ New type: Cosmic — strong against Fire and Rock
+- ✅ Difficulty scaling: Ashfall Peaks (Lv 28-38) → Astral Expanse (Lv 33-43) → Yin-Yang Realm (Lv 38-52)
+- ✅ Each world has its own portal chain, requiring all previous trainers to be defeated
+- ✅ Story cutscenes for entering each new world and defeating each world's champion
+
 ## v1.4.3 — Day/Night Cycle
 - ✅ New: a day/night cycle — the world darkens with a visible ☀️/🌙 indicator every 40 steps you take
 - ✅ Some tiles now have different critters at night: Shade and Mystic types get much more common after dark in the Meadowlands, and Poison/Ice types shift in Ember Depths

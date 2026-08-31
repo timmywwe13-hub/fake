@@ -24,11 +24,12 @@ const TYPE_CHART = {
   Shade:    ["Mystic"],
   Poison:   ["Grass", "Water"],  // world 2 exclusive
   Ice:      ["Grass", "Air"],    // world 2 exclusive
+  Cosmic:   ["Fire", "Rock"],     // world 4 exclusive
 };
 
 // Visual effect thrown for each attack type (plus the capture orb).
 const FX = { Fire:"🔥", Water:"💧", Grass:"🍃", Electric:"⚡", Rock:"🪨",
-             Air:"💨", Mystic:"✨", Shade:"🌑", Poison:"☠️", Ice:"❄️", Orb:"🟠" };
+             Air:"💨", Mystic:"✨", Shade:"🌑", Poison:"☠️", Ice:"❄️", Cosmic:"🌌", Orb:"🟠" };
 
 // Status effects: poison ticks damage each round, freeze skips the victim's turn,
 // burn does damage over time, paralysis may prevent action, sleep prevents action for set turns.
@@ -63,6 +64,18 @@ const EVOLUTIONS = [
   // New Frozen Peaks-exclusive mythical line: grows through 3 stages as it levels
   { from: 51, to: 52, level: 11 },  // Silklarva -> Cocobright
   { from: 52, to: 53, level: 21 },  // Cocobright -> Astromoth
+  // World 3 (Ashfall Peaks) evolutions
+  { from: 54, to: 57, level: 25 },  // Magmox -> Pyrovast
+  { from: 55, to: 58, level: 25 },  // Obsidrax -> Geodeclaw
+  { from: 56, to: 59, level: 25 },  // Scorplate -> Cragshell
+  // World 4 (Astral Expanse) evolutions
+  { from: 60, to: 63, level: 30 },  // Nebulyx -> Quasarion
+  { from: 61, to: 64, level: 30 },  // Stellark -> Cosmosaur
+  { from: 62, to: 65, level: 30 },  // Voidwing -> Cosmira
+  // World 5 (Yin-Yang Realm) evolutions
+  { from: 66, to: 69, level: 35 },  // Lumivane -> Paradoxio
+  { from: 67, to: 70, level: 35 },  // Umbraxis -> Equilibra
+  { from: 68, to: 71, level: 35 },  // Harmonex -> Zenithral
 ];
 
 // 34 original species (ids are array positions — never reorder, only append!).
@@ -134,6 +147,27 @@ const SPECIES = [
   { id:51, name:"Silklarva",  type:"Mystic", icon:"🐛✨", baseHP:24, baseAtk:10, rarity:"mythical", moves:[{name:"Glimmer Nibble",power:9},{name:"Starlight Munch",power:12}] },
   { id:52, name:"Cocobright", type:"Mystic", icon:"🌰✨", baseHP:34, baseAtk:12, rarity:"mythical", moves:[{name:"Shell Guard",power:10},{name:"Mystic Pulse",power:13}] },
   { id:53, name:"Astromoth",  type:"Mystic", icon:"🦋✨", baseHP:52, baseAtk:24, rarity:"mythical", moves:[{name:"Starlight Wing",power:20},{name:"Astral Dust Storm",power:25}] },
+  // ---- World 3 exclusives: Ashfall Peaks (Volcanic) ----
+  { id:54, name:"Magmox",    type:"Fire",  icon:"🦊🌋", baseHP:30, baseAtk:13, moves:[{name:"Magma Paws",power:12},{name:"Volcanic Burst",power:15, effect:{type:"burn",turns:2,chance:0.5}}] },
+  { id:55, name:"Obsidrax",  type:"Rock",  icon:"🦎🖤", baseHP:34, baseAtk:11, moves:[{name:"Obsidian Bite",power:12},{name:"Lava Scale",power:14}] },
+  { id:56, name:"Scorplate", type:"Fire",  icon:"🐉🔥", baseHP:28, baseAtk:14, moves:[{name:"Fire Breath",power:13},{name:"Eruption",power:16, effect:{type:"burn",turns:2,chance:0.4}}] },
+  { id:57, name:"Pyrovast",  type:"Fire",  icon:"🦁🔥", baseHP:38, baseAtk:16, rarity:"rare", moves:[{name:"Magma Roar",power:16},{name:"Inferno Charge",power:19, effect:{type:"burn",turns:3,chance:0.5}}] },
+  { id:58, name:"Geodeclaw", type:"Rock",  icon:"🦀💎", baseHP:40, baseAtk:13, rarity:"rare", moves:[{name:"Crystal Crush",power:15},{name:"Geo Slam",power:18}] },
+  { id:59, name:"Cragshell", type:"Rock",  icon:"🐢🪨", baseHP:42, baseAtk:14, rarity:"rare", moves:[{name:"Shell Quake",power:14},{name:"Boulder Bash",power:18}] },
+  // ---- World 4 exclusives: Astral Expanse (Cosmic) ----
+  { id:60, name:"Nebulyx",   type:"Cosmic", icon:"🐱🌌", baseHP:32, baseAtk:15, moves:[{name:"Nebula Claw",power:14},{name:"Star Burst",power:17}] },
+  { id:61, name:"Stellark",  type:"Cosmic", icon:"🦅⭐", baseHP:30, baseAtk:16, moves:[{name:"Stellar Dive",power:15},{name:"Cosmic Ray",power:18}] },
+  { id:62, name:"Voidwing",  type:"Cosmic", icon:"🦋🕳️", baseHP:34, baseAtk:14, moves:[{name:"Void Flutter",power:13},{name:"Dark Matter",power:17}] },
+  { id:63, name:"Quasarion", type:"Cosmic", icon:"🦊💫", baseHP:42, baseAtk:18, rarity:"rare", moves:[{name:"Quasar Blaze",power:18},{name:"Gravity Crush",power:21}] },
+  { id:64, name:"Cosmosaur", type:"Cosmic", icon:"🦕✨", baseHP:46, baseAtk:16, rarity:"rare", moves:[{name:"Starfall",power:16},{name:"Galaxy Crush",power:20}] },
+  { id:65, name:"Cosmira",   type:"Cosmic", icon:"🦌🌟", baseHP:44, baseAtk:17, rarity:"rare", moves:[{name:"Cosmic Glow",power:17},{name:"Astral Storm",power:20}] },
+  // ---- World 5 exclusives: Yin-Yang Realm (Mystic/Shade) ----
+  { id:66, name:"Lumivane",  type:"Mystic", icon:"🌿✨", baseHP:36, baseAtk:17, moves:[{name:"Light Beam",power:16},{name:"Holy Pulse",power:19}] },
+  { id:67, name:"Umbraxis",  type:"Shade",  icon:"🐺🌑", baseHP:38, baseAtk:18, moves:[{name:"Shadow Fang",power:17},{name:"Dark Howl",power:20}] },
+  { id:68, name:"Harmonex",  type:"Mystic", icon:"🎵💫", baseHP:34, baseAtk:17, moves:[{name:"Harmony Wave",power:15},{name:"Sonic Light",power:19}] },
+  { id:69, name:"Paradoxio", type:"Mystic", icon:"🌀✨", baseHP:46, baseAtk:20, rarity:"rare", moves:[{name:"Paradox Pulse",power:19},{name:"Reality Warp",power:23}] },
+  { id:70, name:"Equilibra", type:"Shade",  icon:"⚖️🌑", baseHP:48, baseAtk:21, rarity:"rare", moves:[{name:"Balance Slash",power:20},{name:"Void Strike",power:24}] },
+  { id:71, name:"Zenithral", type:"Shade",  icon:"👁️🖤", baseHP:50, baseAtk:22, rarity:"rare", moves:[{name:"Zenith Gaze",power:21},{name:"Eternal Dark",power:25}] },
 ];
 
 /* Tile legend: '#'=wall '.'=path ','=grass 'f'=forest '~'=water/lava
@@ -247,11 +281,11 @@ const WORLDS = [
         "#..........~~~~~~......#",
         "#..........~~~~~~......#",
         "#..........~~~~~~......#",
-        "#..........S~~~~~......#",
+        "#..........S~~~~~.....Q#",
         "########################",
       ],
-      colors: { "#":"#2a2a3a", ".":"#e0e6f0", "~":"#a8d0e6", "H":"#e0e6f0", "S":"#e0e6f0", "P":"#7b3fd4", "*":"#c48dff" },
-      deco:   { "#":"🧊", ".":"❄️", "~":"≈", "H":"⛺", "S":"🏪", "P":"🌀", "*":"✨" },
+      colors: { "#":"#2a2a3a", ".":"#e0e6f0", "~":"#a8d0e6", "H":"#e0e6f0", "S":"#e0e6f0", "P":"#7b3fd4", "Q":"#7b3fd4", "*":"#c48dff" },
+      deco:   { "#":"🧊", ".":"❄️", "~":"≈", "H":"⛺", "S":"🏪", "P":"🌀", "Q":"🌀", "*":"✨" },
       encounters: {
         ".": { chance:0.1, pool:[34,35,36,37], lvl:[18,22] }, // New world 3 critters
         "~": { chance:0.15, pool:[34,35,36,37], lvl:[20,25] },
@@ -269,8 +303,137 @@ const WORLDS = [
       healSpot: { x:11, y:5 },
       portals: [
         { tile:"P", dest:{ world:1, x:2, y:14 }, requires:[] }, // 🌀 back to Ember Depths, always allowed
+        { tile:"Q", dest:{ world:3, x:2, y:14 }, requires:[0,1,2,3,4,5,6,7,8,9,10,11,12],
+          sealedMsg:"🌀 The volcanic gate is sealed! Defeat every trainer in the Meadowlands, Ember Depths, and Frozen Peaks first" },
       ],
       battleBg: "",
+    },
+    { // ---------- WORLD 3: ASHFALL PEAKS (VOLCANIC) ----------
+      name: "🌋 Ashfall Peaks",
+      map: [
+        "########################",
+        "#cc....~~~~...cc..,,...#",
+        "#cc....~~~~...cc..,,...#",
+        "#.....~~~~.............#",
+        "#..,,.....,,..cc..,,...#",
+        "#..,,.H....,,.cc..,,...#",
+        "#..,,.S........,,......#",
+        "#.....########.........#",
+        "#.....#cccccc#.........#",
+        "#.....#cccccc#.........#",
+        "#.....#.cccc.#.........#",
+        "#.....########..,,.....#",
+        "#...................,,.#",
+        "#..~~~~............,,.Q#",
+        "#P..~~~~...............#",
+        "########################",
+      ],
+      colors: { "#":"#2a1a0a", ".":"#8a6a4a", ",":"#6a4a2a", "~":"#ff4400", "c":"#1a1a2a", "H":"#8a6a4a", "S":"#8a6a4a", "P":"#7b3fd4", "Q":"#7b3fd4" },
+      deco:   { "#":"🌋", ",":"🪨", "~":"🔥", "c":"🖤", "H":"⛺", "S":"🏪", "P":"🌀", "Q":"🌀" },
+      encounters: {
+        ".": { chance:0.14, pool:[54,55,56], lvl:[28,32] },
+        ",": { chance:0.16, pool:[54,55,56], nightPool:[55,56,26,27], lvl:[30,35] },
+        "~": { chance:0.13, pool:[54,56,0,8,9], lvl:[30,36] },
+        "c": { chance:0.17, pool:[55,58,59,4,19], nightPool:[55,58,59,26,27], lvl:[32,38] },
+        "*": { chance:0.01, pool:[41,42,43], lvl:[35,45] },
+      },
+      trainers: [
+        { id:13, name:"Ember",   x:5,  y:10, team:[[54,28],[56,30]],                        quote:"Feel the heat of the peaks!" },
+        { id:14, name:"Obsidian",x:18, y:5,  team:[[55,30],[59,32]],                        quote:"Hard as the mountain itself." },
+        { id:15, name:"Cindra",  x:12, y:13, team:[[54,32],[56,33],[58,30]],                quote:"Ashes to ashes..." },
+        { id:16, name:"Magmus",  x:20, y:12, team:[[57,35],[59,36],[58,33],[55,32]],       quote:"I am the volcanic lord!" },
+      ],
+      healSpot: { x:6, y:5 },
+      portals: [
+        { tile:"P", dest:{ world:2, x:22, y:14 }, requires:[] }, // 🌀 back to Frozen Peaks, always allowed
+        { tile:"Q", dest:{ world:4, x:2, y:14 }, requires:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
+          sealedMsg:"🌀 The cosmic gate is sealed! Defeat every trainer in all previous worlds first" },
+      ],
+      battleBg: "ashfallBg",
+    },
+    { // ---------- WORLD 4: ASTRAL EXPANSE (COSMIC) ----------
+      name: "🌌 Astral Expanse",
+      map: [
+        "########################",
+        "#cc..............cc....#",
+        "#cc..............cc....#",
+        "#......................#",
+        "#......................#",
+        "#..........H...S.......#",
+        "#........########......#",
+        "#........#~~~~~~#......#",
+        "#........#~~~~~~#......#",
+        "#........#~....~#......#",
+        "#........########......#",
+        "#......................#",
+        "#......................#",
+        "#...................,,Q#",
+        "#P.....................#",
+        "########################",
+      ],
+      colors: { "#":"#0a0a2a", ".":"#2a2a5a", "~":"#6a3aaa", "c":"#4a4a8a", "H":"#2a2a5a", "S":"#2a2a5a", "P":"#7b3fd4", "Q":"#7b3fd4", ",":"#1a1a3a" },
+      deco:   { "#":"🌌", ".":"✨", "~":"🪐", "c":"💎", "H":"⛺", "S":"🏪", "P":"🌀", "Q":"🌀", ",":"🌑" },
+      encounters: {
+        ".": { chance:0.14, pool:[60,61,62], lvl:[33,37] },
+        "~": { chance:0.16, pool:[60,61,62], nightPool:[60,62,61,24,25], lvl:[35,40] },
+        "c": { chance:0.17, pool:[60,61,62], lvl:[36,42] },
+        ",": { chance:0.13, pool:[61,62,60], nightPool:[60,61,62,7,26], lvl:[34,40] },
+        "*": { chance:0.01, pool:[41,42,43], lvl:[40,50] },
+      },
+      trainers: [
+        { id:17, name:"Stella",   x:4,  y:10, team:[[60,35],[61,37]],                       quote:"The stars guide my way." },
+        { id:18, name:"Cosmo",    x:18, y:6,  team:[[62,37],[63,38]],                       quote:"I've seen the edge of space." },
+        { id:19, name:"Astrid",   x:12, y:13, team:[[60,39],[62,40],[61,37]],               quote:"A supernova awaits!" },
+        { id:20, name:"Galaxius", x:20, y:12, team:[[63,42],[64,43],[65,40],[62,39]],       quote:"I am the cosmic sovereign!" },
+      ],
+      healSpot: { x:10, y:5 },
+      portals: [
+        { tile:"P", dest:{ world:3, x:2, y:14 }, requires:[] }, // 🌀 back to Ashfall Peaks, always allowed
+        { tile:"Q", dest:{ world:5, x:2, y:14 }, requires:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+          sealedMsg:"🌀 The balance gate is sealed! Defeat every trainer in all previous worlds first" },
+      ],
+      battleBg: "astralBg",
+    },
+    { // ---------- WORLD 5: YIN-YANG REALM (FINAL) ----------
+      name: "⚫⚪ Yin-Yang Realm",
+      map: [
+        "########################",
+        "#,,,,,...,,............#",
+        "#,,,,,..,,.............#",
+        "#,,,,,,.,,.............#",
+        "#,,,,,,,.,.............#",
+        "#,,,,,,H.,..S..........#",
+        "#,,,,,,,,..............#",
+        "#,,,,,,,,,.............#",
+        "#,,,,,,,,..............#",
+        "#,,,,,,,...............#",
+        "#,,,,,,................#",
+        "#,,,,.................,#",
+        "#,,,...................#",
+        "#,,....................#",
+        "#P.....................#",
+        "########################",
+      ],
+      colors: { "#":"#1a1a1a", ".":"#e8e8f0", ",":"#2a2a3a", "H":"#808090", "S":"#808090", "P":"#7b3fd4", "Q":"#7b3fd4" },
+      deco:   { "#":"☯️", ".":"✨", ",":"🌑", "H":"⛺", "S":"🏪", "P":"🌀", "Q":"🌀" },
+      encounters: {
+        ".": { chance:0.14, pool:[66,68], lvl:[38,42] },
+        ",": { chance:0.16, pool:[67,68], nightPool:[67,71,68,24,26], lvl:[40,45] },
+        "~": { chance:0.15, pool:[66,67,68], lvl:[40,48] },
+        "*": { chance:0.01, pool:[41,42,43], lvl:[45,55] },
+      },
+      trainers: [
+        { id:21, name:"Lumina",   x:6,  y:7,  team:[[66,138],[67,140]],                     quote:"Light always prevails." },
+        { id:22, name:"Erebos",   x:17, y:8,  team:[[68,140],[69,142]],                     quote:"Darkness is inevitable." },
+        { id:23, name:"Karma",    x:10, y:12, team:[[66,142],[68,144],[67,140]],             quote:"Balance is everything." },
+        { id:24, name:"Duality",  x:14, y:5,  team:[[70,144],[71,146]],                      quote:"Two sides, one coin." },
+        { id:25, name:"Zenithral",x:11, y:13, team:[[70,148],[71,150],[66,146],[68,148]],    quote:"I am the Yin-Yang master!" },
+      ],
+      healSpot: { x:9, y:5 },
+      portals: [
+        { tile:"P", dest:{ world:4, x:2, y:14 }, requires:[] }, // 🌀 back to Astral Expanse, always allowed
+      ],
+      battleBg: "yinyangBg",
     }
   ];
 
@@ -327,6 +490,7 @@ function xpNeeded(creature) {
 // (see feedCandy() in the Team screen). Rarer critters still need more XP
 // per level, so a candy goes further on a common critter than a rare one.
 const CANDY_XP = 40;
+const MAX_LEVEL = 120;
 
 // Shop stock — add more items here.
 const SHOP_ITEMS = [
@@ -342,7 +506,6 @@ const SHOP_ITEMS = [
 // Add a new entry BELOW the roadmap whenever we ship something new.
 const UPDATE_LOG = [
   { version:"🗺️ Roadmap (coming soon)", future:true, notes:[
-    "World 4: Tropical Jungle with Grass/Poison exclusives",
     "Character customization: outfits and accessories",
     "Post-game content: Battle Tower and Legendary hunts",
     "More story chapters: a rival character, a villain team, and an ending cutscene",
@@ -354,6 +517,22 @@ const UPDATE_LOG = [
     "Weather effects that change encounter rates per world",
     "Online/local trading (currently a beta placeholder)",
     "Reworks considered: true 3D (Three.js), sprite art, sound, defense stat",
+  ]},
+  { version:"v2.1.0 — Level Cap & Endgame Challenge", notes:[
+    "✅ New: Max level cap of 120 for player critters — XP resets to 0 at cap, team screen shows 'MAX' instead of XP progress",
+    "✅ World 6 (Yin-Yang Realm) trainers now scaled to level 138-150 — a serious endgame challenge even at max level",
+    "✅ Zenithral's team reaches up to level 150, requiring strong type matchups and strategy to defeat",
+    "🐛 Fixed Yin-Yang Realm map having a stray Q tile that served no purpose",
+  ]},
+  { version:"v2.0.0 — Three New Worlds", notes:[
+    "✅ New: World 4 — 🌋 Ashfall Peaks with volcanic landscape, Fire/Rock critters, and 4 trainers led by champion Magmus",
+    "✅ New: World 5 — 🌌 Astral Expanse with cosmic landscape, brand-new Cosmic type, and 4 trainers led by champion Galaxius",
+    "✅ New: World 6 — ⚫⚪ Yin-Yang Realm with light/dark split landscape, Mystic/Shade critters, and 5 trainers led by final champion Zenithral",
+    "✅ 18 new species across the three worlds, each with evolutions at level milestones",
+    "✅ New type: Cosmic — strong against Fire and Rock",
+    "✅ Difficulty scaling: Ashfall Peaks (Lv 28-38) → Astral Expanse (Lv 33-43) → Yin-Yang Realm (Lv 38-52)",
+    "✅ Each world has its own portal chain, requiring all previous trainers to be defeated",
+    "✅ Story cutscenes for entering each new world and defeating each world's champion",
   ]},
   { version:"v1.4.3 — Day/Night Cycle", notes:[
      "✅ New: a day/night cycle — the world darkens with a visible ☀️/🌙 indicator every 40 steps you take",
@@ -493,12 +672,39 @@ const STORY_EVENTS = {
   ],
   beatCrystal: [
     { icon:"❄️👑", title:"Peak Ascended", text:"Crystal steps aside. \"You've proven your heart is as strong as the ice itself,\" she says quietly." },
-    { icon:"✨", title:"To Be Continued...", text:"Beyond these frozen peaks, further mysteries await — but for now, the summit is yours." },
+    { icon:"🌋", title:"The Volcanic Gate", text:"With every trainer in all three worlds defeated, the volcanic portal rumbles open, revealing rivers of fire beyond." },
+  ],
+  enterWorld3: [
+    { icon:"🌋", title:"Ashfall Peaks", text:"The portal opens to a world of fire and fury. Volcanic mountains stretch endlessly, rivers of lava carving through obsidian rock." },
+    { icon:"🔥", title:"Land of Fire", text:"Only the strongest Fire and Rock critters thrive here. Four trainers — Ember, Obsidian, Cindra, and the volcanic lord Magmus — guard the path forward." },
+  ],
+  enterWorld4: [
+    { icon:"🌌", title:"Astral Expanse", text:"You step through into a realm beyond the stars. Floating islands drift through cosmic nebulae, and the ground sparkles with stardust." },
+    { icon:"⭐", title:"Cosmic Frontier", text:"Cosmic critters unlike anything you've seen inhabit this strange dimension. Stella, Cosmo, Astrid, and the cosmic sovereign Galaxius test all who enter." },
+  ],
+  enterWorld5: [
+    { icon:"⚫⚪", title:"Yin-Yang Realm", text:"The final world is a land of perfect balance — half light, half darkness, separated by an ethereal boundary." },
+    { icon:"⚖️", title:"The Great Balance", text:"Mystic and Shade critters coexist in perfect harmony here. Lumina, Erebos, Karma, Duality, and the ultimate master Zenithral stand between you and the summit." },
+  ],
+  beatMagmus: [
+    { icon:"🌋👑", title:"Volcanic Lord Falls", text:"Magmus raises his fist in respect. 'The mountains acknowledge a new ruler,' he declares, bowing his head." },
+    { icon:"🌀", title:"The Cosmic Gate", text:"With every trainer in all four worlds defeated, the cosmic portal shimmers open, revealing a pathway among the stars." },
+  ],
+  beatGalaxius: [
+    { icon:"🌌👑", title:"Cosmic Sovereign Defeated", text:"Galaxius gazes at you with newfound respect. 'You've crossed dimensions and conquered the stars themselves.'" },
+    { icon:"🌀", title:"The Balance Gate", text:"The final gate — a shimmering divide between light and darkness — parts before you." },
+  ],
+  beatZenithral: [
+    { icon:"⚫⚪👑", title:"Yin-Yang Master Conquered", text:"Zenithral smiles serenely. 'You have found perfect balance within yourself. The realm acknowledges your mastery.'" },
+    { icon:"🏆", title:"Champion of All Realms", text:"Across six worlds and countless battles, you have proven yourself the greatest trainer of all time. The journey is complete — but the world of critters will always welcome you back." },
   ],
 };
 function storyKeyForTrainer(id) {
   if (id === 9)  return "beatMagnus";
   if (id === 12) return "beatCrystal";
+  if (id === 16) return "beatMagmus";
+  if (id === 20) return "beatGalaxius";
+  if (id === 25) return "beatZenithral";
   return null;
 }
 
@@ -689,6 +895,79 @@ function resetGame() {
   if (confirm("Delete save and restart?")) { localStorage.removeItem(SAVE_KEY); location.reload(); }
 }
 
+/* ---- Admin / PIN unlock ---- */
+const ADMIN_PIN = "2020";
+let pinDigits = [0,0,0,0];
+let pinActiveSlot = 0;
+
+function openAdmin() {
+  inMenu = true;
+  pinDigits = [0,0,0,0];
+  pinActiveSlot = 0;
+  $("adminScreen").classList.remove("hidden");
+  renderPin();
+}
+function closeAdmin() {
+  $("adminScreen").classList.add("hidden");
+  inMenu = false;
+}
+function renderPin() {
+  const el = $("pinDisplay");
+  el.innerHTML = "";
+  for (let i = 0; i < 4; i++) {
+    const col = document.createElement("div");
+    col.style.cssText = "display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;" + (i === pinActiveSlot ? "filter:drop-shadow(0 0 8px #ffd76a);" : "opacity:0.6;");
+
+    const up = document.createElement("div");
+    up.textContent = "▲"; up.style.cssText = "font-size:20px;color:#aaa;";
+    up.onclick = (e) => { e.stopPropagation(); pinDigits[i] = (pinDigits[i] + 1) % 10; renderPin(); };
+
+    const digit = document.createElement("div");
+    digit.textContent = pinDigits[i];
+    digit.style.cssText = "font-size:48px;font-weight:bold;color:#ffd76a;width:60px;text-align:center;border-bottom:3px solid #555;padding-bottom:4px;";
+
+    const down = document.createElement("div");
+    down.textContent = "▼"; down.style.cssText = "font-size:20px;color:#aaa;";
+    down.onclick = (e) => { e.stopPropagation(); pinDigits[i] = (pinDigits[i] + 9) % 10; renderPin(); };
+
+    col.appendChild(up); col.appendChild(digit); col.appendChild(down);
+    col.onclick = () => { pinActiveSlot = i; renderPin(); };
+    el.appendChild(col);
+  }
+}
+function adminUnlock() {
+  const attempt = pinDigits.join("");
+  if (attempt === ADMIN_PIN) {
+    // Unlock everything
+    for (const t of WORLDS) {
+      for (const tr of (t.trainers || [])) {
+        if (!state.defeated.includes(tr.id)) state.defeated.push(tr.id);
+      }
+    }
+    state.coins = 99999;
+    for (const k of Object.keys(state.items)) state.items[k] = 99;
+    // Add every species to collection (one of each)
+    const haveIds = new Set(state.collection.map(c => c.speciesId).filter(id => id !== null));
+    for (const s of SPECIES) {
+      if (!haveIds.has(s.id)) {
+        state.collection.push(makeCreature(s.id, 50, false));
+      }
+    }
+    // Put first 6 in team
+    state.teamIdx = state.collection.slice(0, Math.min(6, state.collection.length)).map((_, i) => i);
+    saveGame(false);
+    closeAdmin();
+    hudMsg("🔓 Admin mode activated! Everything unlocked.");
+    updateHUD();
+    draw();
+  } else {
+    $("pinMsg").textContent = "❌ Wrong code. Try again.";
+    pinDigits = [0,0,0,0];
+    pinActiveSlot = 0;
+    renderPin();
+  }
+}
+
 /* ============ 3. OVERWORLD ============ */
 
 const ctx = document.getElementById("map").getContext("2d");
@@ -710,6 +989,22 @@ const TRAINER_PALETTES = {
   10:{ skin:"#e8d0d8", shirt:"#3f6fa8", pants:"#274a75", hat:"#eaf4ff" }, // Glacia
   11:{ skin:"#dce7ef", shirt:"#2c4f6b", pants:"#1a3448", hat:"#7fc8e8" }, // Boreal
   12:{ skin:"#f0f6fb", shirt:"#5aa9d6", pants:"#2f5f80", hat:"#ffffff" }, // Crystal
+  // ---- World 3: Ashfall Peaks trainers ----
+  13:{ skin:"#e8b88a", shirt:"#c94a1e", pants:"#7a2f10", hat:"#ff6600" }, // Ember
+  14:{ skin:"#8b6b4f", shirt:"#333333", pants:"#1a1a1a", hat:"#555555" }, // Obsidian
+  15:{ skin:"#e8a06b", shirt:"#ff4500", pants:"#8b0000", hat:"#ff6347" }, // Cindra
+  16:{ skin:"#ff8c00", shirt:"#8b0000", pants:"#4a0000", hat:"#ffd700" }, // Magmus (champion)
+  // ---- World 4: Astral Expanse trainers ----
+  17:{ skin:"#e8d0e8", shirt:"#9370db", pants:"#4b0082", hat:"#dda0dd" }, // Stella
+  18:{ skin:"#c0d0e0", shirt:"#191970", pants:"#0d0d2b", hat:"#4169e1" }, // Cosmo
+  19:{ skin:"#f0e6ff", shirt:"#6a5acd", pants:"#2f2f6f", hat:"#b0c4de" }, // Astrid
+  20:{ skin:"#e0e0ff", shirt:"#000080", pants:"#000040", hat:"#ffd700" }, // Galaxius (champion)
+  // ---- World 5: Yin-Yang Realm trainers ----
+  21:{ skin:"#fff8dc", shirt:"#ffd700", pants:"#daa520", hat:"#ffffff" }, // Lumina
+  22:{ skin:"#2f2f2f", shirt:"#1a1a2e", pants:"#0f0f1a", hat:"#4a4a6a" }, // Erebos
+  23:{ skin:"#e8e0d0", shirt:"#808080", pants:"#404040", hat:"#c0c0c0" }, // Karma
+  24:{ skin:"#d0d0d0", shirt:"#333333", pants:"#1a1a1a", hat:"#e0e0e0" }, // Duality
+  25:{ skin:"#1a1a1a", shirt:"#ffd700", pants:"#000000", hat:"#ffffff" }, // Zenithral (champion)
 };
 
 // Lighten (+amt) or darken (-amt) a hex color — fakes 3D lighting.
@@ -857,6 +1152,9 @@ function tryMove(dx, dy) {
     saveGame(false);
     if (d.world === 1) playStory("enterWorld1");
     else if (d.world === 2) playStory("enterWorld2");
+    else if (d.world === 3) playStory("enterWorld3");
+    else if (d.world === 4) playStory("enterWorld4");
+    else if (d.world === 5) playStory("enterWorld5");
     return;
   }
 
@@ -1419,11 +1717,12 @@ function awardXP(creature, amount) {
   const messages = [];
   const oldLevel = creature.level;
   creature.xp += amount;
-  while (creature.xp >= xpNeeded(creature)) {
+  while (creature.xp >= xpNeeded(creature) && creature.level < MAX_LEVEL) {
     creature.xp -= xpNeeded(creature);
     creature.level++; creature.maxHp += 3; creature.atk += 2; creature.hp = Math.min(creature.maxHp, creature.hp + 3);
     messages.push(`⬆️ ${spec(creature).name} grew to Lv ${creature.level}!`);
   }
+  if (creature.level >= MAX_LEVEL) creature.xp = 0;
 
   // Check for evolution
   if (creature.level > oldLevel) {
@@ -1520,7 +1819,7 @@ function openTeam() {
     row.className = "critRow" + (state.teamIdx.includes(i) ? " inTeam" : "");
     row.innerHTML = `<span style="font-size:22px">${spec(c).icon}</span>
       <b>${spec(c).name}</b> <span class="typeTag">${spec(c).type}</span>${deviantTag(c)}${bredTag(c)}
-      <span>Lv ${c.level} · ${Math.max(0,c.hp)}/${c.maxHp} HP · ATK ${c.atk} · ${c.xp}/${xpNeeded(c)} XP</span>
+      <span>Lv ${c.level} · ${Math.max(0,c.hp)}/${c.maxHp} HP · ATK ${c.atk} · ${c.level >= MAX_LEVEL ? 'MAX' : c.xp+'/'+xpNeeded(c)+' XP'}</span>
       <span style="margin-left:auto;color:#ffd76a">${state.teamIdx.includes(i) ? "★ In team" : "☆ Reserve"}</span>`;
     row.style.cursor = "pointer";
     row.onclick = () => toggleTeam(i);
