@@ -4,6 +4,16 @@ All notable changes to the game are tracked here.
 Format: newest version at the top. Unreleased ideas live in the Roadmap.
 
 ---
+## v2.2.0 — Type Balance, Safe Paths & Visual Refresh
+- 🐛 Fixed encounter bug in Worlds 4–6 (Ashfall Peaks, Astral Expanse, Yin-Yang Realm) — path tiles (`.`) no longer trigger random encounters, so walking on open ground is safe again like in Meadowlands and Ember Depths
+- ✅ Shade type is now strong against Cosmic — the dark void of space counters cosmic power (Shade → Cosmic 2x, Cosmic → Shade 0.5x)
+- ✅ Poison type rebalanced — now only effective against Grass and Poison (Water no longer weak to Poison)
+- ✅ Poison status effect now only usable by Grass and Poison type critters — toxic spores, venomous vines, and toxic sap
+- ✅ Rock type now strong against Poison — minerals neutralize toxins (Rock → Poison 2x, Poison → Rock 0.5x)
+- ✅ Poison chance rates lowered: Poison types 25%, Grass types 3%
+- ✅ Ashfall Peaks visually refreshed — new ashy gray color palette with fog wall deco, distinct from Ember Depths' warm volcanic browns
+- ✅ Mythical ✨ tiles (`*`) added to Ashfall Peaks, Astral Expanse, and Yin-Yang Realm — 0.1% chance to encounter Lunastra, Solarion, or Glacialis
+
 ## v2.1.0 — Level Cap & Endgame Challenge
 - ✅ New: Max level cap of 120 for player critters — XP resets to 0 at cap, team screen shows 'MAX' instead of XP progress
 - ✅ World 6 (Yin-Yang Realm) trainers now scaled to level 138-150 — a serious endgame challenge even at max level
