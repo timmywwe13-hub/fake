@@ -25,6 +25,7 @@ const TYPE_CHART = {
   Poison:   ["Grass", "Poison"],  // world 2 exclusive — only effective vs Grass and itself
   Ice:      ["Grass", "Air"],    // world 2 exclusive
   Cosmic:   ["Fire", "Rock"],     // world 4 exclusive
+  YinYang:  ["Shade", "Cosmic"], // world 6 exclusive — balance overcomes darkness and chaos
 };
 
 // Visual effect thrown for each attack type (plus the capture orb).
@@ -168,6 +169,10 @@ const SPECIES = [
   { id:69, name:"Paradoxio", type:"Mystic", icon:"🌀✨", baseHP:46, baseAtk:20, rarity:"rare", moves:[{name:"Paradox Pulse",power:19},{name:"Reality Warp",power:23}] },
   { id:70, name:"Equilibra", type:"Shade",  icon:"⚖️🌑", baseHP:48, baseAtk:21, rarity:"rare", moves:[{name:"Balance Slash",power:20},{name:"Void Strike",power:24}] },
   { id:71, name:"Zenithral", type:"Shade",  icon:"👁️🖤", baseHP:50, baseAtk:22, rarity:"rare", moves:[{name:"Zenith Gaze",power:21},{name:"Eternal Dark",power:25}] },
+  // ---- World 6 exclusive: YinYang balance critter ----
+  { id:72, name:"YinYang",   type:"YinYang", icon:"☯️✨", baseHP:42, baseAtk:20, rarity:"mythical",
+    yinYangBonus:1.06,
+    moves:[{name:"Balance Strike",power:18},{name:"Harmony Blast",power:22}] },
 ];
 
 /* Tile legend: '#'=wall '.'=path ','=grass 'f'=forest '~'=water/lava
@@ -221,40 +226,40 @@ const WORLDS = [
     name: "🌋 Ember Depths",
     map: [
       "########################",
-      "#....cc.....#....,,,...#",
-      "#.cc.cc.....#....,,,...#",
-      "#.cc........#..........#",
-      "#.......~~.............#",
-      "#.......~~...H...S.....#",
-      "#............#####.....#",
-      "#...,,,......#ccc#.....#",
-      "#...,,,......#ccc#.....#",
-      "#............#.cc#.....#",
-      "#.....~~.....#.###.....#",
-      "#.....~~.....#.........#",
-      "#............#.....,,..#",
-      "#....................,Q#",
-      "#P.....................#",
+      "#~~#~~#.............cc.#",
+      "#~~#~~#.............cc.#",
+      "#~~#...................#",
+      "#......................#",
+      "#........H....S.......#",
+      "#.....c...########.....#",
+      "#.....c...#cccccc#.....#",
+      "#.........cc....#.....#",
+      "#.........cc.c..#.....#",
+      "#.........########.....#",
+      "#......................#",
+      "#..,,..........,,....*#",
+      "#..,,..............c..#",
+      "#P....................Q#",
       "########################",
     ],
     colors: { "#":"#3a2a2a", ".":"#6b5344", ",":"#8a5a2a", "~":"#c94a1e", "c":"#454050", "H":"#6b5344", "S":"#6b5344", "P":"#7b3fd4", "Q":"#4fd7ff", "*":"#ff00ff" },
-    deco:   { "#":"🪨", ",":"🍂", "~":"🔥", "H":"⛺", "S":"🏪", "P":"🌀", "Q":"🌀", "*":"💥" },
+    deco:   { "#":"🪨", ",":"🍂", "~":"🔥", "c":"🖤", "H":"⛺", "S":"🏪", "P":"🌀", "Q":"🌀", "*":"💥" },
     encounters: {
-      ",": { chance:0.16, pool:[8,9,14,23,27,28,29,30],        nightPool:[27,28,29,30,26], lvl:[10,14] },
       "~": { chance:0.14, pool:[0,8,9,20],                     lvl:[12,16] },
+      ",": { chance:0.16, pool:[8,9,14,23,27,28,29,30],        nightPool:[27,28,29,30,26], lvl:[10,14] },
       "c": { chance:0.18, pool:[4,16,19,24,26,27,28,31,32,33], nightPool:[31,32,33,26,27], lvl:[12,17] },
       "*": { chance:0.01, pool:[41,42,43],                     lvl:[25,35] },
     },
     trainers: [
-      { id:3, name:"Nova",   x:5,  y:12, team:[[9,11],[16,12]],                  quote:"Things get hot down here!" },
-      { id:4, name:"Drake",  x:20, y:3,  team:[[19,13],[8,14],[26,15]],          quote:"The Depths bow to me." },
-      { id:5, name:"Sable",  x:18, y:13, team:[[28,13],[26,14],[27,15]],         quote:"The shadows fight for me." },
-      { id:6, name:"Pyra",   x:2,  y:4,  team:[[0,12],[8,13]],                   quote:"Everything burns eventually." },
-      { id:7, name:"Onyx",   x:10, y:8,  team:[[20,13],[19,14]],                 quote:"Hard as stone, twice as mean." },
-      { id:8, name:"Vex",    x:21, y:9,  team:[[16,13],[3,14],[18,15]],          quote:"Feel the current course through you!" },
-      { id:9, name:"Magnus", x:11, y:13, team:[[31,15],[20,15],[24,16],[26,17]], quote:"I am the champion of the Depths!" },
+      { id:3, name:"Nova",   x:3,  y:10, team:[[9,11],[16,12]],                  quote:"Things get hot down here!" },
+      { id:4, name:"Drake",  x:19, y:3,  team:[[19,13],[8,14],[26,15]],          quote:"The Depths bow to me." },
+      { id:5, name:"Sable",  x:19, y:10, team:[[28,13],[26,14],[27,15]],         quote:"The shadows fight for me." },
+      { id:6, name:"Pyra",   x:4,  y:3,  team:[[0,12],[8,13]],                   quote:"Everything burns eventually." },
+      { id:7, name:"Onyx",   x:8,  y:12, team:[[20,13],[19,14]],                 quote:"Hard as stone, twice as mean." },
+      { id:8, name:"Vex",    x:15, y:11, team:[[16,13],[3,14],[18,15]],          quote:"Feel the current course through you!" },
+      { id:9, name:"Magnus", x:14, y:13, team:[[31,15],[20,15],[24,16],[26,17]], quote:"I am the champion of the Depths!" },
     ],
-    healSpot: { x:13, y:5 },
+    healSpot: { x:9, y:5 },
     portals: [
       { tile:"P", dest:{ world:0, x:20, y:14 }, requires:[] }, // 🌀 going home is always allowed
       // 🌀 sealed until EVERY trainer in BOTH Meadowlands (world 1) and Ember
@@ -268,27 +273,28 @@ const WORLDS = [
       name: "❄️ Frozen Peaks",
       map: [
         "########################",
-        "#P....*....~~~~~~......#",
-        "#..........~~~~~~......#",
-        "#..........~~~~~~......#",
-        "#..........~~~~~~......#",
-        "#..........H~~~~~......#",
-        "#..........~~~~~~......#",
-        "#..........~~~~~~......#",
-        "#..........~~~~~~......#",
-        "#..........~~~~~~......#",
-        "#..........~~~~~~......#",
-        "#..........~~~~~~......#",
-        "#..........~~~~~~......#",
-        "#..........~~~~~~......#",
-        "#..........S~~~~~.....Q#",
+        "#~~~#.........,,....cc.#",
+        "#~~~#.........,,....cc.#",
+        "#~~~.....H....,,......#",
+        "#............,,......S#",
+        "#....c..~~~~~~~~~~....#",
+        "#....c..~~~~~~~~~~....#",
+        "#......~~~~~~~~~~.....#",
+        "#......~~~~~~~~~~.....#",
+        "#..........,,,........#",
+        "#......................#",
+        "#..,,,,............,,.#",
+        "#..,,,,............,,.#",
+        "#......................#",
+        "#P....................Q#",
         "########################",
       ],
-      colors: { "#":"#2a2a3a", ".":"#e0e6f0", "~":"#a8d0e6", "H":"#e0e6f0", "S":"#e0e6f0", "P":"#7b3fd4", "Q":"#7b3fd4", "*":"#c48dff" },
-      deco:   { "#":"🧊", ".":"❄️", "~":"≈", "H":"⛺", "S":"🏪", "P":"🌀", "Q":"🌀", "*":"✨" },
+      colors: { "#":"#2a2a3a", ".":"#e0e6f0", "~":"#a8d0e6", ",":"#d0dce8", "c":"#5a5560", "H":"#e0e6f0", "S":"#e0e6f0", "P":"#7b3fd4", "Q":"#7b3fd4", "*":"#c48dff" },
+      deco:   { "#":"🧊", ".":"❄️", "~":"≈", ",":"❄️", "c":"🪨", "H":"⛺", "S":"🏪", "P":"🌀", "Q":"🌀", "*":"✨" },
       encounters: {
-        ".": { chance:0.1, pool:[34,35,36,37], lvl:[18,22] }, // New world 3 critters
-        "~": { chance:0.15, pool:[34,35,36,37], lvl:[20,25] },
+        ",": { chance:0.12, pool:[31,32,33,34,35,36,37], nightPool:[31,32,33], lvl:[15,22] },
+        "~": { chance:0.14, pool:[34,35,36,37,1,10,11], nightPool:[31,32,33], lvl:[18,24] },
+        "c": { chance:0.15, pool:[34,35,36,37,28,29,30], nightPool:[31,32,33,34,35], lvl:[18,24] },
         // Frozen Peaks-exclusive mythical — only ever found on this tile, as
         // its young Lv1-10 Silklarva stage. Train it up and it'll grow into
         // Cocobright, then eventually Astromoth, on its own through XP.
@@ -296,13 +302,13 @@ const WORLDS = [
         "*": { chance:0.01, nightChance:0.03, pool:[51], lvl:[5,10] },
       },
       trainers: [
-        { id:10, name:"Glacia", x:6, y:10, team:[[34,18],[35,20]], quote:"Feel the chill of eternity!" },
-        { id:11, name:"Boreal", x:18, y:8, team:[[36,22],[37,24]], quote:"Ice shapes all destinies." },
-        { id:12, name:"Crystal", x:12, y:4, team:[[34,20],[35,22],[36,18]], quote:"Only the pure of heart may pass." },
+        { id:10, name:"Glacia", x:5, y:10, team:[[34,18],[35,20]], quote:"Feel the chill of eternity!" },
+        { id:11, name:"Boreal", x:18, y:3, team:[[36,22],[37,24]], quote:"Ice shapes all destinies." },
+        { id:12, name:"Crystal", x:13, y:12, team:[[34,20],[35,22],[36,18]], quote:"Only the pure of heart may pass." },
       ],
-      healSpot: { x:11, y:5 },
+      healSpot: { x:9, y:3 },
       portals: [
-        { tile:"P", dest:{ world:1, x:2, y:14 }, requires:[] }, // 🌀 back to Ember Depths, always allowed
+        { tile:"P", dest:{ world:1, x:2, y:14 }, requires:[] },
         { tile:"Q", dest:{ world:3, x:2, y:14 }, requires:[0,1,2,3,4,5,6,7,8,9,10,11,12],
           sealedMsg:"🌀 The volcanic gate is sealed! Defeat every trainer in the Meadowlands, Ember Depths, and Frozen Peaks first" },
       ],
@@ -344,7 +350,7 @@ const WORLDS = [
       ],
       healSpot: { x:6, y:5 },
       portals: [
-        { tile:"P", dest:{ world:2, x:22, y:14 }, requires:[] }, // 🌀 back to Frozen Peaks, always allowed
+        { tile:"P", dest:{ world:2, x:2, y:14 }, requires:[] }, // 🌀 back to Frozen Peaks, always allowed
         { tile:"Q", dest:{ world:4, x:2, y:14 }, requires:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
           sealedMsg:"🌀 The cosmic gate is sealed! Defeat every trainer in all previous worlds first" },
       ],
@@ -417,7 +423,7 @@ const WORLDS = [
       encounters: {
         ",": { chance:0.16, pool:[67,68], nightPool:[67,71,68,24,26], lvl:[40,45] },
         "~": { chance:0.15, pool:[66,67,68], lvl:[40,48] },
-        "*": { chance:0.01, pool:[41,42,43], lvl:[45,55] },
+        "*": { chance:0.08, nightChance:0.10, pool:[72,41,42,43], lvl:[45,55] },
       },
       trainers: [
         { id:21, name:"Lumina",   x:6,  y:7,  team:[[66,138],[67,140]],                     quote:"Light always prevails." },
@@ -524,6 +530,12 @@ const UPDATE_LOG = [
     "✅ Poison chance rates lowered: Poison types 25%, Grass types 3%",
     "✅ Ashfall Peaks visually refreshed — new ashy gray palette, no longer looks like Ember Depths",
     "✅ Mythical tiles added to Ashfall Peaks, Astral Expanse, and Yin-Yang Realm — 0.1% chance to find a mythical",
+    "✅ New: YinYang ☯️✨ — mythical balance critter exclusive to Yin-Yang Realm",
+    "✅ YinYang type strong against Shade and Cosmic, with permanent 6% damage bonus",
+    "✅ 8% encounter chance on mythical tiles in Yin-Yang Realm (1% for other mythicals)",
+    "✅ Frozen Peaks (World 2) redesigned — upper middle rock entrance leads to hidden cave",
+    "✅ Portal to Ashfall Peaks now inside the cave behind the rock",
+    "✅ World 6 trainer critters get 1,000 HP for endgame challenge",
   ]},
   { version:"v2.1.0 — Level Cap & Endgame Challenge", notes:[
     "✅ New: Max level cap of 120 for player critters — XP resets to 0 at cap, team screen shows 'MAX' instead of XP progress",
@@ -1141,7 +1153,14 @@ function tryMove(dx, dy) {
   }
 
   // Portal: sealed until every required trainer (possibly spanning multiple
-  // worlds) has been defeated.
+  // worlds) has been defeated.    // Special rock tile 'X' in World 2 (Frozen Peaks): teleports into inner cave
+  if (tile === "X" && state.world === 1) {
+    state.player = { x:10, y:3 };
+    draw();
+    hudMsg("🪨 You squeeze through the rock and find a hidden cave!");
+    return;
+  }
+
   const portal = (w.portals || []).find(p => p.tile === tile);
   if (portal) {
     const need = portal.requires || [];
@@ -1175,14 +1194,19 @@ function tryMove(dx, dy) {
   if (tile === "S") { openShop(); return; }
 
   const enc = w.encounters[tile];
-  const chance = (isNight() && enc && enc.nightChance !== undefined) ? enc.nightChance : (enc && enc.chance);
-  if (enc && state.teamIdx.length && Math.random() < chance) {
-    // Some tiles have a separate nightPool of critters that only show up
-    // after dark; falls back to the normal pool if none is defined.
-    const pool = (isNight() && enc.nightPool) ? enc.nightPool : enc.pool;
-    const sid = pool[Math.floor(Math.random()*pool.length)];
-    const lvl = enc.lvl[0] + Math.floor(Math.random()*(enc.lvl[1]-enc.lvl[0]+1));
-    startWildBattle(makeCreature(sid, lvl, true));
+  const chance = (isNight() && enc && enc.nightChance !== undefined) ? enc.nightChance : (enc && enc.chance);    if (enc && state.teamIdx.length && Math.random() < chance) {
+    // YinYang realm (world 5) * tile: 8% chance to encounter YinYang, else 1% for other mythicals
+    if (state.world === 5 && tile === "*" && Math.random() < 0.08) {
+      const lvl = enc.lvl[0] + Math.floor(Math.random()*(enc.lvl[1]-enc.lvl[0]+1));
+      startWildBattle(makeCreature(72, lvl, true));
+    } else {
+      // Some tiles have a separate nightPool of critters that only show up
+      // after dark; falls back to the normal pool if none is defined.
+      const pool = (isNight() && enc.nightPool) ? enc.nightPool : enc.pool;
+      const sid = pool[Math.floor(Math.random()*pool.length)];
+      const lvl = enc.lvl[0] + Math.floor(Math.random()*(enc.lvl[1]-enc.lvl[0]+1));
+      startWildBattle(makeCreature(sid, lvl, true));
+    }
   }
 }
 
@@ -1224,7 +1248,15 @@ function startTrainerBattle(trainer) {
   const isRematch = state.defeated.includes(trainer.id);
   const rematchNum = (state.rematches[trainer.id] || 0) + 1; // this attempt's number, if it's a rematch
   const levelBonus = isRematch ? Math.min(REMATCH_LEVEL_STEP * rematchNum, REMATCH_LEVEL_CAP) : 0;
-  const queue = trainer.team.map(([sid,lvl]) => makeCreature(sid, lvl + levelBonus, false)); // trainers never get deviants
+  const queue = trainer.team.map(([sid,lvl]) => {
+    const c = makeCreature(sid, lvl + levelBonus, false); // trainers never get deviants
+    // World 6 (Yin-Yang Realm, index 5) trainers get 1k HP for endgame challenge
+    if (state.world === 5) {
+      c.maxHp = 1000;
+      c.hp = 1000;
+    }
+    return c;
+  });
   battle = { mode:"trainer", enemy:queue.shift(), enemyQueue:queue, trainer, isRematch, activeIdx:a, over:false };
   const prefix = isRematch ? `🔁 Rematch! ` : "";
   openBattle(`${prefix}${trainer.name}: "${trainer.quote}" — sent out ${spec(battle.enemy).name} (Lv ${battle.enemy.level})!`);
@@ -1377,7 +1409,8 @@ function effectiveness(atkType, defType) {
 
 function dealDamage(attacker, defender, move) {
   const eff = effectiveness(spec(attacker).type, spec(defender).type);
-  const dmg = Math.max(1, Math.round(attacker.atk * move.power / 22 * eff * (0.85 + Math.random()*0.3)));
+  const bonus = (spec(attacker).yinYangBonus || 1);
+  const dmg = Math.max(1, Math.round(attacker.atk * move.power / 22 * eff * bonus * (0.85 + Math.random()*0.3)));
   defender.hp -= dmg;
   let msg = `${spec(attacker).name} used ${move.name}! (${dmg} dmg)`;
   if (eff === 2)   msg += " It's super effective!";
