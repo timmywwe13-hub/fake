@@ -4,6 +4,25 @@ All notable changes to the game are tracked here.
 Format: newest version at the top. Unreleased ideas live in the Roadmap.
 
 ---
+## v2.4.1 — Refresh & Admin Teleport Fixes
+- 🐛 Fixed the game crashing on the map screen (frozen map, missing player, empty inventory) — Blaze and Team Eclipse trainers were added to every world in v2.4.0 without character palettes, so drawing any world that contained them crashed the render. Every trainer now has a palette, plus a fallback so a future missing entry can never crash the map
+- 🐛 Fixed admin panel teleports not being saved — refreshing the page after teleporting (e.g. to Yin-Yang Realm) snapped you back to where you were, which could funnel you into New Game and overwrite your save. Teleports now persist
+- 🐛 Fixed New Game silently overwriting an existing save — it now asks for confirmation first, and actually resets the in-memory state when confirmed
+- 🛡️ Save loading is now defensive: corrupt player/collection/team data is repaired on load instead of crashing, and save failures (full/blocked storage) show a warning instead of silently dying
+
+## v2.4.0 — Rivals, Villains & Weather
+- ✅ Day/night cycle now takes 160 steps to change (was 40) — longer days and nights for more immersive exploration
+- ✅ New: Weather system — each world has its own weather patterns that change as you explore
+- ✅ Weather affects encounter rates: Rain boosts water critters, Wind boosts forest finds, Storms increase mythical chances
+- ✅ Weather indicator shown in the HUD alongside day/night status
+- ✅ New: Rival character Blaze — a fiery trainer who follows you across all worlds, getting stronger each time
+- ✅ Blaze appears in Meadowlands, Ember Depths, Frozen Peaks, and Yin-Yang Realm with progressively stronger teams
+- ✅ New: Team Eclipse villain organization — dark-robed trainers seeking to capture all mythical critters
+- ✅ Eclipse Grunt in Ashfall Peaks, Commander Nyx in Astral Expanse, and Leader Obsidian in Yin-Yang Realm
+- ✅ Story cutscenes for meeting and defeating rivals and villains
+- ✅ Critter Index on the title screen shows every critter name and where to find them
+- ✅ Roadmap moved to the top of the Update Log
+
 ## v2.2.0 — Type Balance, Safe Paths & Visual Refresh
 - 🐛 Fixed encounter bug in Worlds 4–6 (Ashfall Peaks, Astral Expanse, Yin-Yang Realm) — path tiles (`.`) no longer trigger random encounters, so walking on open ground is safe again like in Meadowlands and Ember Depths
 - ✅ Shade type is now strong against Cosmic — the dark void of space counters cosmic power (Shade → Cosmic 2x, Cosmic → Shade 0.5x)

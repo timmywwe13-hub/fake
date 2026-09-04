@@ -173,8 +173,113 @@ const SPECIES = [
   { id:72, name:"YinYang",   type:"YinYang", icon:"☯️✨", baseHP:42, baseAtk:20, rarity:"mythical",
     yinYangBonus:1.06,
     moves:[{name:"Balance Strike",power:18},{name:"Harmony Blast",power:22}] },
+  // ---- Meadowlands new critters (IDs 73-92) ----
+  // Legendary (2)
+  { id:91, name:"Ancientreant", type:"Grass",  icon:"🌳", baseHP:55, baseAtk:24, rarity:"legendary",
+    sprite:{body:'#2d5a1e',head:'#3a7a28',shape:'tree',size:1.3,eyes:{c:'#ffd700',s:0.4},glow:{c:'rgba(100,255,100,0.3)',r:1.4}},
+    moves:[{name:"Verdant Wrath",power:22},{name:"Ancient Roots",power:26,effect:{type:"poison",turns:3,chance:0.3}}] },
+  { id:92, name:"Crystalphoenix", type:"Fire",  icon:"🔥", baseHP:50, baseAtk:26, rarity:"legendary",
+    sprite:{body:'#ff4500',head:'#ffd700',shape:'bird',size:1.3,stripes:{c:'#ff8c00',n:3},wings:{c:'rgba(255,200,0,0.6)',s:0.8},eyes:{c:'#fff',s:0.35},glow:{c:'rgba(255,150,0,0.3)',r:1.4}},
+    moves:[{name:"Prism Inferno",power:24},{name:"Ember Rebirth",power:28,effect:{type:"burn",turns:3,chance:0.5}}] },
+  // Rare (6)
+  { id:81, name:"Meadowlark", type:"Air", icon:"🐦", baseHP:26, baseAtk:12, rarity:"rare",
+    sprite:{body:'#c9a030',head:'#8b6914',shape:'bird',size:0.9,wings:{c:'rgba(200,200,200,0.5)',s:0.6},eyes:{c:'#222',s:0.35}},
+    moves:[{name:"Gust Song",power:11},{name:"Tailwind",power:14}] },
+  { id:82, name:"Glowfly", type:"Mystic", icon:"✨", baseHP:24, baseAtk:13, rarity:"rare",
+    sprite:{body:'#ffe066',head:'#333',shape:'round',size:0.7,wings:{c:'rgba(200,220,255,0.5)',s:0.5},eyes:{c:'#222',s:0.3},glow:{c:'rgba(255,255,100,0.4)',r:1.5}},
+    moves:[{name:"Fairy Dust",power:12},{name:"Luminous Burst",power:15}] },
+  { id:83, name:"Brookling", type:"Water", icon:"💧", baseHP:30, baseAtk:10, rarity:"rare",
+    sprite:{body:'#4a90d9',head:'#2a6ab0',shape:'round',size:0.85,eyes:{c:'#fff',s:0.35},glow:{c:'rgba(100,180,255,0.3)',r:1.3}},
+    moves:[{name:"Ripple Rush",power:10},{name:"Tidal Whip",power:13}] },
+  { id:84, name:"Mossturtle", type:"Grass", icon:"🐢", baseHP:34, baseAtk:9, rarity:"rare",
+    sprite:{body:'#3e8948',head:'#2a6030',shape:'diamond',size:0.9,eyes:{c:'#222',s:0.3}},
+    moves:[{name:"Moss Shield",power:9},{name:"Vine Crush",power:12,effect:{type:"poison",turns:2,chance:0.03}}] },
+  { id:85, name:"Foxglove", type:"Grass", icon:"🌺", baseHP:25, baseAtk:12, rarity:"rare",
+    sprite:{body:'#d94f8c',head:'#2d5a1e',shape:'round',size:0.8,stripes:{c:'#ff69b4',n:5},eyes:{c:'#222',s:0.3}},
+    moves:[{name:"Petal Slice",power:11},{name:"Spore Cloud",power:14,effect:{type:"poison",turns:2,chance:0.2}}] },
+  { id:86, name:"Shadehopper", type:"Shade", icon:"🐇", baseHP:22, baseAtk:14, rarity:"rare",
+    sprite:{body:'#2a1a3a',head:'#3a2a4a',shape:'round',size:0.75,eyes:{c:'#ff3366',s:0.35},glow:{c:'rgba(100,50,150,0.3)',r:1.3}},
+    moves:[{name:"Shadow Pounce",power:13},{name:"Dusk Kick",power:16}] },
+  // Common (12)
+  { id:73, name:"Pollenbee", type:"Electric", icon:"🐝", baseHP:19, baseAtk:12,
+    sprite:{body:'#ffd700',head:'#333',shape:'round',size:0.65,stripes:{c:'#222',n:3},wings:{c:'rgba(255,255,255,0.5)',s:0.5},eyes:{c:'#ff0000',s:0.3}},
+    moves:[{name:"Static Sting",power:10},{name:"Buzz Shock",power:13}] },
+  { id:74, name:"Puddlejump", type:"Water", icon:"🐸", baseHP:23, baseAtk:10,
+    sprite:{body:'#3e8948',head:'#2a6030',shape:'round',size:0.7,eyes:{c:'#fff',s:0.35}},
+    moves:[{name:"Splash Hop",power:10},{name:"Pond Slam",power:12}] },
+  { id:75, name:"Dewdrop", type:"Water", icon:"💧", baseHP:21, baseAtk:11,
+    sprite:{body:'#6cb4ee',head:'#4a90d9',shape:'round',size:0.6,eyes:{c:'#fff',s:0.3},glow:{c:'rgba(100,180,255,0.25)',r:1.2}},
+    moves:[{name:"Droplet Dash",power:9},{name:"Rain Burst",power:12}] },
+  { id:76, name:"Fernwhisker", type:"Grass", icon:"🐱", baseHP:24, baseAtk:11,
+    sprite:{body:'#3e8948',head:'#2a6030',shape:'cat',size:0.75,eyes:{c:'#ffd700',s:0.35}},
+    moves:[{name:"Leaf Swipe",power:10},{name:"Fern Whip",power:13}] },
+  { id:77, name:"Mushpuff", type:"Grass", icon:"🍄", baseHP:28, baseAtk:8,
+    sprite:{body:'#cc3333',head:'#fff',shape:'round',size:0.7,stripes:{c:'#fff',n:3},eyes:{c:'#222',s:0.3}},
+    moves:[{name:"Spore Toss",power:8},{name:"Cap Bash",power:11}] },
+  { id:78, name:"Cottontail", type:"Grass", icon:"🐰", baseHP:22, baseAtk:11,
+    sprite:{body:'#fff',head:'#e8e0d0',shape:'round',size:0.7,eyes:{c:'#ff69b4',s:0.3}},
+    moves:[{name:"Hop Nip",power:10},{name:"Carrot Crunch",power:12}] },
+  { id:79, name:"Froggit", type:"Water", icon:"🐸", baseHP:25, baseAtk:10,
+    sprite:{body:'#4a90d9',head:'#2a6ab0',shape:'round',size:0.7,eyes:{c:'#fff',s:0.35}},
+    moves:[{name:"Tongue Lash",power:9},{name:"Mud Splash",power:12}] },
+  { id:80, name:"Bramblepup", type:"Grass", icon:"🐕", baseHP:23, baseAtk:11,
+    sprite:{body:'#6b4226',head:'#8b5a2b',shape:'cat',size:0.75,eyes:{c:'#ffd700',s:0.3},stripes:{c:'#3e8948',n:2}},
+    moves:[{name:"Thorn Bite",power:10},{name:"Bramble Dash",power:13}] },
+  { id:87, name:"Mosquito", type:"Poison", icon:"🦟", baseHP:18, baseAtk:13,
+    sprite:{body:'#555',head:'#333',shape:'round',size:0.55,wings:{c:'rgba(200,200,200,0.4)',s:0.5},eyes:{c:'#ff0000',s:0.3}},
+    moves:[{name:"Proboscis Jab",power:11},{name:"Plague Buzz",power:14,effect:{type:"poison",turns:2,chance:0.2}}] },
+  { id:88, name:"Dragonfly", type:"Air", icon:"🪶", baseHP:20, baseAtk:12,
+    sprite:{body:'#1e90ff',head:'#0066cc',shape:'long',size:0.7,wings:{c:'rgba(200,220,255,0.4)',s:0.6},eyes:{c:'#222',s:0.3}},
+    moves:[{name:"Wing Slash",power:10},{name:"Dive Sting",power:13}] },
+  { id:89, name:"Geckolet", type:"Fire", icon:"🦎", baseHP:22, baseAtk:11,
+    sprite:{body:'#ff6600',head:'#cc4400',shape:'long',size:0.7,stripes:{c:'#ff8c00',n:4},eyes:{c:'#222',s:0.3}},
+    moves:[{name:"Ember Dash",power:10},{name:"Flame Flick",power:13,effect:{type:"burn",turns:1,chance:0.3}}] },
+  { id:90, name:"Snailbit", type:"Rock", icon:"🐌", baseHP:30, baseAtk:7,
+    sprite:{body:'#8b7355',head:'#6b5340',shape:'shell',size:0.75,eyes:{c:'#222',s:0.3}},
+    moves:[{name:"Shell Roll",power:8},{name:"Pebble Spit",power:11}] },
+
 ];
 
+/* ---- 2D Sprite Drawing System ---- */
+function drawCreatureSprite(ctx, cx, cy, size, sp) {
+  if (!sp) return;
+  var s = size * (sp.size || 1);
+  ctx.save(); ctx.translate(cx, cy);
+  if (sp.glow) { ctx.beginPath(); ctx.arc(0, 0, s * sp.glow.r, 0, Math.PI * 2); ctx.fillStyle = sp.glow.c; ctx.fill(); }
+  if (sp.wings) { var ws = s * sp.wings.s; ctx.globalAlpha = 0.6; ctx.fillStyle = sp.wings.c;
+    ctx.beginPath(); ctx.ellipse(-s*0.7, -s*0.3, ws*0.7, ws*0.4, -0.3, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(s*0.7, -s*0.3, ws*0.7, ws*0.4, 0.3, 0, Math.PI*2); ctx.fill(); ctx.globalAlpha = 1; }
+  ctx.fillStyle = sp.body;
+  if (sp.shape === "round") { ctx.beginPath(); ctx.arc(0, s*0.15, s*0.55, 0, Math.PI*2); ctx.fill(); }
+  else if (sp.shape === "cat") { ctx.beginPath(); ctx.ellipse(0, s*0.1, s*0.45, s*0.5, 0, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(-s*0.25,-s*0.35); ctx.lineTo(-s*0.4,-s*0.7); ctx.lineTo(-s*0.05,-s*0.45); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(s*0.25,-s*0.35); ctx.lineTo(s*0.4,-s*0.7); ctx.lineTo(s*0.05,-s*0.45); ctx.fill(); }
+  else if (sp.shape === "bird") { ctx.beginPath(); ctx.ellipse(0, s*0.1, s*0.4, s*0.5, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = sp.head; ctx.beginPath(); ctx.arc(0,-s*0.4,s*0.25,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = "#ff8c00"; ctx.beginPath(); ctx.moveTo(s*0.15,-s*0.45); ctx.lineTo(s*0.4,-s*0.42); ctx.lineTo(s*0.15,-s*0.35); ctx.fill(); }
+  else if (sp.shape === "long") { ctx.beginPath(); ctx.ellipse(0, 0, s*0.35, s*0.65, 0, 0, Math.PI*2); ctx.fill(); }
+  else if (sp.shape === "diamond") { ctx.beginPath(); ctx.moveTo(0,-s*0.55); ctx.lineTo(s*0.45,0); ctx.lineTo(0,s*0.55); ctx.lineTo(-s*0.45,0); ctx.closePath(); ctx.fill(); }
+  else if (sp.shape === "shell") { ctx.beginPath(); ctx.ellipse(-s*0.1,s*0.1,s*0.45,s*0.4,0,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = sp.head; ctx.beginPath(); ctx.arc(s*0.3,-s*0.1,s*0.22,0,Math.PI*2); ctx.fill(); }
+  else if (sp.shape === "tree") { ctx.fillStyle = "#5a3a1a"; ctx.fillRect(-s*0.1,-s*0.1,s*0.2,s*0.7);
+    ctx.fillStyle = sp.body; ctx.beginPath(); ctx.arc(0,-s*0.3,s*0.5,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = sp.head; ctx.beginPath(); ctx.arc(-s*0.2,-s*0.5,s*0.2,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(s*0.25,-s*0.4,s*0.18,0,Math.PI*2); ctx.fill(); }
+  else { ctx.beginPath(); ctx.arc(0, 0, s*0.5, 0, Math.PI*2); ctx.fill(); }
+  if (sp.stripes) { ctx.fillStyle = sp.stripes.c; for (var i=0;i<sp.stripes.n;i++) {
+    var sy = -s*0.3+(i*s*0.6/sp.stripes.n); ctx.fillRect(-s*0.3,sy,s*0.6,s*0.06); } }
+  if (!sp.eyes && sp.shape !== "tree") { ctx.fillStyle = "#fff";
+    ctx.beginPath(); ctx.arc(-s*0.15,-s*0.1,s*0.1,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(s*0.15,-s*0.1,s*0.1,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = "#111"; ctx.beginPath(); ctx.arc(-s*0.13,-s*0.1,s*0.05,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(s*0.17,-s*0.1,s*0.05,0,Math.PI*2); ctx.fill(); }
+  else if (sp.eyes && sp.shape !== "tree") { var es = sp.eyes.s; ctx.fillStyle = "#fff";
+    ctx.beginPath(); ctx.arc(-s*0.15,-s*0.15,es*s,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(s*0.15,-s*0.15,es*s,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = sp.eyes.c; ctx.beginPath(); ctx.arc(-s*0.13,-s*0.15,es*s*0.5,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(s*0.17,-s*0.15,es*s*0.5,0,Math.PI*2); ctx.fill(); }
+  ctx.restore();
+}
 /* Tile legend: '#'=wall '.'=path ','=grass 'f'=forest '~'=water/lava
    'c'=cave 'H'=heal 'S'=shop 'P'=portal */
 const WORLDS = [
@@ -188,7 +293,7 @@ const WORLDS = [
       "#..,,,.................#",
       "#..,,,...H...S.........#",
       "#........######....,,,.#",
-      "#ff......#cccc#....,,,.#",
+      "#ff......#cccc#....,,,.",
       "#fff.....#cccc#........#",
       "#fff.....#ccc.#........#",
       "#ffff.....##..#....,,..#",
@@ -211,6 +316,7 @@ const WORLDS = [
       { id:0, name:"Rex",  x:4,  y:8,  team:[[2,4],[10,5]],       quote:"My critters love a scrap!" },
       { id:1, name:"Ivy",  x:17, y:4,  team:[[3,5],[22,5],[5,6]], quote:"Feel the storm!" },
       { id:2, name:"Cole", x:20, y:12, team:[[4,7],[0,7],[6,8]],  quote:"Only the strong pass me." },
+      { id:200, name:"Blaze", x:12, y:10, team:[[8,6],[9,6]], quote:"I'm gonna be the best critter master!", storyOnMeet:"rivalMeet" },
     ],
     healSpot: { x:9, y:5 },
     // Each world can have any number of portal tiles. `tile` is the map
@@ -221,6 +327,82 @@ const WORLDS = [
       { tile:"P", dest:{ world:1, x:2, y:14 }, requires:[0, 1, 2] }, // 🌀 sealed until Rex, Ivy and Cole are all beaten
     ],
     battleBg: "",
+    segments: [
+      // Segment 0: Meadow - reference to top-level data (null = use parent)
+      null,
+      // Segment 1: Sunflower Fields
+      {
+        name: "\u{1F33B} Sunflower Fields",
+        map: [
+          "########################",
+          "#,,,,,,...........,,,,,#",
+          "#,,,,,,.gg..gg....,,,,,#",
+          "#,,......gg..gg......,#",
+          "#........gg..gg........#",
+          "#...H....gg..gg...S....#",
+          ".gggg..........gggg....",
+          ".gggg..,,,,,..gggg.....",
+          ".gg..............gg....",
+          ".gg....,,,,,....gg.....",
+          ".gggg..........gggg....",
+          ".gggg..,,,,,..gggg.....",
+          ".gg..............gg....",
+          "#........gg..gg........#",
+          "#P.......gg..gg........#",
+          "########################",
+        ],
+        colors: {"#":"#2e4d2e",".":"#c9b47c",",":"#3e8948","f":"#1f5c2d","~":"#3a6ec9","c":"#5a5560","H":"#c9b47c","S":"#c9b47c","P":"#7b3fd4","*":"#ffff00","g":"#e8c840"},
+        deco:   {"#":"\u{1F332}","\u{1F338}":"\u{1F338}","f":"\u{1F333}","~":"\u2248","H":"\u26FA","S":"\u{1F3EA}","P":"\u{1F300}","*":"\u2728","g":"\u{1F33B}"},
+        encounters: {
+          ",": { chance:0.14, pool:[2,3,5,73,78,80,14,22], nightPool:[7,24,86,25,17], lvl:[5,8] },
+          "g": { chance:0.13, pool:[73,78,13,81,82,23], nightPool:[82,86,24], lvl:[6,10] },
+          "f": { chance:0.15, pool:[76,80,14,15,7], nightPool:[7,26,86,24], lvl:[6,10] },
+        },
+        trainers: [
+          { id:100, name:"Lily",   x:10, y:8,  team:[[78,6],[13,7]],       quote:"The sunflowers guide my path!" },
+          { id:101, name:"Clover", x:6,  y:12, team:[[80,7],[76,8],[73,7]], quote:"Lucky four-leaf, ready to fight!" },
+          { id:102, name:"Sage",   x:18, y:10, team:[[14,8],[81,9],[22,8]], quote:"Wisdom comes from the fields." },
+        ],
+        healSpot: { x:4, y:5 },
+        shopItems: ["orb","greatorb","ultraorb","masterorb","legendorb","potion","bigpotion","antidote","awakening","candy","supercandy"],
+      },
+      // Segment 2: Hidden Glade
+      {
+        name: "\u{1F332} Hidden Glade",
+        map: [
+          "########################",
+          "#ff..ff..,,c,,..ff..ff#",
+          "#ff..ff..,,c,,..ff..ff#",
+          "#f......,,***,,......f#",
+          "#f..,,..........,,..f#",
+          "#..,,..H......S..,,..#",
+          "....,,..............,,..#",
+          "#.....ffffffffffff.....#",
+          "#.....fccccccccccf.....#",
+          "#.....fccccccccc.f.....#",
+          "#.....f..cccccc..f.....#",
+          "#.....ffffffffffff.....#",
+          "#..,,..............,,..#",
+          "#..,,.....***......,,.f#",
+          "#f..,,..............,..f#",
+          "########################",
+        ],
+        colors: {"#":"#2e4d2e",".":"#c9b47c",",":"#3e8948","f":"#1f5c2d","~":"#3a6ec9","c":"#5a5560","H":"#c9b47c","S":"#c9b47c","P":"#7b3fd4","*":"#ffff00","g":"#e8c840"},
+        deco:   {"#":"\u{1F332}","\u{1F338}":"\u{1F338}","f":"\u{1F333}","~":"\u2248","H":"\u26FA","S":"\u{1F3EA}","P":"\u{1F300}","*":"\u2728","g":"\u{1F33B}"},
+        encounters: {
+          ",": { chance:0.15, pool:[76,80,14,15,85,86,26], nightPool:[86,27,24,7], lvl:[10,14] },
+          "f": { chance:0.16, pool:[76,80,7,26,85,27], nightPool:[27,26,86,24], lvl:[10,14] },
+          "c": { chance:0.14, pool:[90,4,19,24,26], nightPool:[26,27,87], lvl:[11,15] },
+          "*": { chance:0.02, nightChance:0.03, pool:[91,92,41,42,43], lvl:[15,25] },
+        },
+        trainers: [
+          { id:103, name:"Bramble",    x:8,  y:10, team:[[80,10],[14,11]],         quote:"The thorns will stop you!" },
+          { id:104, name:"Elder Root", x:14, y:6,  team:[[76,12],[85,13],[86,11]], quote:"The forest remembers all." },
+        ],
+        healSpot: { x:5, y: 6 },
+        shopItems: ["orb","greatorb","ultraorb","masterorb","legendorb","potion","bigpotion","antidote","awakening","candy","supercandy","megacandy"],
+      },
+    ],
   },
   { // ---------- WORLD 1: EMBER DEPTHS (24x16, much harder) ----------
     name: "🌋 Ember Depths",
@@ -258,6 +440,7 @@ const WORLDS = [
       { id:7, name:"Onyx",   x:8,  y:12, team:[[20,13],[19,14]],                 quote:"Hard as stone, twice as mean." },
       { id:8, name:"Vex",    x:15, y:11, team:[[16,13],[3,14],[18,15]],          quote:"Feel the current course through you!" },
       { id:9, name:"Magnus", x:14, y:13, team:[[31,15],[20,15],[24,16],[26,17]], quote:"I am the champion of the Depths!" },
+      { id:201, name:"Blaze", x:10, y:8, team:[[9,14],[38,15]], quote:"My critters have evolved — round two!", storyOnMeet:"rivalMeet2" },
     ],
     healSpot: { x:9, y:5 },
     portals: [
@@ -305,6 +488,7 @@ const WORLDS = [
         { id:10, name:"Glacia", x:5, y:10, team:[[34,18],[35,20]], quote:"Feel the chill of eternity!" },
         { id:11, name:"Boreal", x:18, y:3, team:[[36,22],[37,24]], quote:"Ice shapes all destinies." },
         { id:12, name:"Crystal", x:13, y:12, team:[[34,20],[35,22],[36,18]], quote:"Only the pure of heart may pass." },
+        { id:202, name:"Blaze", x:8, y:6, team:[[38,22],[39,23]], quote:"I trained with Ice masters — this time I win!", storyOnMeet:"rivalMeet3" },
       ],
       healSpot: { x:9, y:3 },
       portals: [
@@ -347,6 +531,7 @@ const WORLDS = [
         { id:14, name:"Obsidian",x:18, y:5,  team:[[55,30],[59,32]],                        quote:"Hard as the mountain itself." },
         { id:15, name:"Cindra",  x:12, y:13, team:[[54,32],[56,33],[58,30]],                quote:"Ashes to ashes..." },
         { id:16, name:"Magmus",  x:20, y:12, team:[[57,35],[59,36],[58,33],[55,32]],       quote:"I am the volcanic lord!" },
+        { id:210, name:"Eclipse Grunt", x:10, y:8, team:[[56,30],[54,31]], quote:"Team Eclipse will capture all mythicals!", storyOnMeet:"villainMeet" },
       ],
       healSpot: { x:6, y:5 },
       portals: [
@@ -389,6 +574,7 @@ const WORLDS = [
         { id:18, name:"Cosmo",    x:18, y:6,  team:[[62,37],[63,38]],                       quote:"I've seen the edge of space." },
         { id:19, name:"Astrid",   x:12, y:13, team:[[60,39],[62,40],[61,37]],               quote:"A supernova awaits!" },
         { id:20, name:"Galaxius", x:20, y:12, team:[[63,42],[64,43],[65,40],[62,39]],       quote:"I am the cosmic sovereign!" },
+        { id:211, name:"Commander Nyx", x:10, y:8, team:[[63,40],[64,41],[62,42]], quote:"Feel the power of the Eclipse!", storyOnMeet:"villainCommander" },
       ],
       healSpot: { x:10, y:5 },
       portals: [
@@ -431,6 +617,8 @@ const WORLDS = [
         { id:23, name:"Karma",    x:10, y:12, team:[[66,142],[68,144],[67,140]],             quote:"Balance is everything." },
         { id:24, name:"Duality",  x:14, y:5,  team:[[70,144],[71,146]],                      quote:"Two sides, one coin." },
         { id:25, name:"Zenithral",x:11, y:13, team:[[70,148],[71,150],[66,146],[68,148]],    quote:"I am the Yin-Yang master!" },
+        { id:203, name:"Blaze",   x:5,  y:13, team:[[38,45],[39,46],[69,48]],               quote:"Final round — I won't lose!", storyOnMeet:"rivalFinal" },
+        { id:212, name:"Obsidian", x:18, y:13, team:[[70,50],[71,52],[69,48],[72,55]],      quote:"I am the Eclipse Leader!", storyOnMeet:"villainLeader" },
       ],
       healSpot: { x:9, y:5 },
       portals: [
@@ -442,10 +630,79 @@ const WORLDS = [
 
 const TILE = 60, MAP_W = 24, MAP_H = 16;
 
+// Normalize every map (each world AND each segment) to exactly MAP_W columns.
+// Several hand-written maps have ragged rows (23 chars instead of 24), which
+// used to create invisible "void" columns that rendered black and behaved as
+// walkable. Short rows are padded with their own last tile — that keeps the
+// intentionally OPEN edge rows (the walk-off-the-map segment exits) open,
+// while wall-bordered rows stay sealed. Overlong rows are trimmed.
+(function normalizeMaps() {
+  const fixRow = r => {
+    let row = r;
+    if (row.length < MAP_W) {
+      const pad = row.charAt(row.length - 1) || "#";
+      row = row + pad.repeat(MAP_W - row.length);
+    } else if (row.length > MAP_W) {
+      const endsWall = row.endsWith("#");
+      row = row.slice(0, MAP_W);
+      if (endsWall) row = row.slice(0, MAP_W - 1) + "#"; // keep sealed borders sealed
+    }
+    return row;
+  };
+  const fixMap = m => m.map(fixRow);
+  for (const w of WORLDS) {
+    w.map = fixMap(w.map);
+    if (w.segments) for (const s of w.segments) if (s && s.map) s.map = fixMap(s.map);
+  }
+})();
+
 // Day/night cycle: driven by steps taken (not the system clock), so it's a
 // visible, testable in-game cycle rather than tied to real-world time.
-const DAY_NIGHT_STEPS = 40; // steps per half-cycle (one full day+night = 80 steps)
+const DAY_NIGHT_STEPS = 160; // steps per half-cycle (one full day+night = 320 steps)
 function isNight() { return Math.floor((state.steps || 0) / DAY_NIGHT_STEPS) % 2 === 1; }
+
+// ---- Weather system ----
+// Weather changes every WEATHER_STEPS steps. Each world has its own set of
+// possible weather types, and weather affects encounter rates.
+const WEATHER_STEPS = 50;
+const WEATHER_TYPES = {
+  sunny:  { icon: "☀️", name: "Sunny",  encMult: { ",": 1.0, "f": 1.0, "~": 0.8, "c": 1.0, "*": 1.0 } },
+  rainy:  { icon: "🌧️", name: "Rainy",  encMult: { ",": 0.9, "f": 1.1, "~": 1.4, "c": 1.2, "*": 1.0 } },
+  stormy: { icon: "⛈️", name: "Stormy", encMult: { ",": 0.7, "f": 0.8, "~": 1.6, "c": 1.3, "*": 1.2 } },
+  snowy:  { icon: "❄️", name: "Snowy",  encMult: { ",": 0.8, "f": 0.9, "~": 1.1, "c": 1.0, "*": 1.3 } },
+  windy:  { icon: "💨", name: "Windy",  encMult: { ",": 1.2, "f": 1.3, "~": 0.9, "c": 0.8, "*": 1.0 } },
+  foggy:  { icon: "🌫️", name: "Foggy",  encMult: { ",": 1.1, "f": 1.4, "~": 1.0, "c": 1.1, "*": 1.5 } },
+  clear:  { icon: "🌙", name: "Clear Night", encMult: { ",": 1.0, "f": 1.0, "~": 1.0, "c": 1.0, "*": 1.4 } },
+};
+// Which weather can occur in each world (indices into WORLDS)
+const WORLD_WEATHER = [
+  ["sunny", "rainy", "windy", "foggy"],         // 0: Meadowlands
+  ["sunny", "stormy", "clear"],                   // 1: Ember Depths
+  ["snowy", "windy", "clear"],                    // 2: Frozen Peaks
+  ["foggy", "stormy", "sunny"],                   // 3: Ashfall Peaks
+  ["clear", "foggy", "sunny"],                    // 4: Astral Expanse
+  ["foggy", "clear", "stormy"],                   // 5: Yin-Yang Realm
+];
+function getWeather() {
+  if (!state.weather) state.weather = "sunny";
+  return state.weather;
+}
+function getWeatherInfo() { return WEATHER_TYPES[getWeather()] || WEATHER_TYPES.sunny; }
+function tickWeather() {
+  var weatherIdx = Math.floor((state.steps || 0) / WEATHER_STEPS);
+  if (state.lastWeatherIdx !== weatherIdx) {
+    state.lastWeatherIdx = weatherIdx;
+    var pool = WORLD_WEATHER[state.world] || WORLD_WEATHER[0];
+    // Use a seeded pick based on weatherIdx so it's deterministic per step window
+    state.weather = pool[weatherIdx % pool.length];
+    var wInfo = getWeatherInfo();
+    if (state.steps > 0) hudMsg(wInfo.icon + " The weather shifted to " + wInfo.name + "!");
+  }
+}
+function weatherEncMult(tile) {
+  var wInfo = getWeatherInfo();
+  return (wInfo.encMult && wInfo.encMult[tile] !== undefined) ? wInfo.encMult[tile] : 1.0;
+}
 
 // Catch orbs — each tier is 40% better than the one before it.
 // (Also drives the shop listing, the HUD, and the catch-attempt logic below.)
@@ -472,6 +729,8 @@ function orbDesc(i) {
 const RARITY_CATCH_MULT = {
   common:  1,
   rare:    0.2,    // World 3 exclusives + evolved forms
+  epic:    0.08,   // Epic critters — hard to catch, between rare and mythical
+  legendary:0.006, // Ancientreant / Crystalphoenix
   mythical:0.012,  // Lunastra / Solarion / Glacialis
 };
 function speciesRarity(s) { return s.rarity || "common"; }
@@ -482,6 +741,8 @@ function speciesRarity(s) { return s.rarity || "common"; }
 const XP_RARITY_MULT = {
   common:  1,
   rare:    1.6,
+  epic:    2,
+  legendary:4,
   mythical:3,
 };
 function xpNeeded(creature) {
@@ -493,6 +754,8 @@ function xpNeeded(creature) {
 // (see feedCandy() in the Team screen). Rarer critters still need more XP
 // per level, so a candy goes further on a common critter than a rare one.
 const CANDY_XP = 40;
+const SUPER_CANDY_XP = 200;
+const MEGA_CANDY_XP = 500;
 const MAX_LEVEL = 120;
 
 // Shop stock — add more items here.
@@ -503,23 +766,56 @@ const SHOP_ITEMS = [
   { key:"antidote",  label:"🧪 Antidote",    desc:"Cures poison/burn",             price:20 },
   { key:"awakening", label:"⏰ Awakening",   desc:"Cures paralysis/sleep",         price:20 },
   { key:"candy",     label:"🍬 Candy Bar",   desc:`Feed a critter (+${CANDY_XP} XP) from the Team screen — no battle needed`, price:35 },
+  { key:"supercandy", label:"🍬 Super Candy", desc:`Feed a critter (+${SUPER_CANDY_XP} XP) from the Team screen`, price:120 },
+  { key:"megacandy",  label:"🍬 Mega Candy",  desc:`Feed a critter (+${MEGA_CANDY_XP} XP) from the Team screen`, price:300 },
 ];
 
 // ---- Update log shown by the in-game "Updates" button ----
 // Add a new entry BELOW the roadmap whenever we ship something new.
 const UPDATE_LOG = [
+  { version:"v2.4.1 — Refresh & Admin Teleport Fixes", notes:[
+    "🐛 Fixed: the map could freeze mid-draw (no player, empty inventory) when a world contained Blaze or a Team Eclipse trainer",
+    "🐛 Fixed: admin panel teleports are now saved — refreshing the page no longer snaps you back",
+    "🐛 Fixed: New Game asks before overwriting an existing save and properly resets the game state",
+    "🛡️ Corrupt saves are repaired on load instead of crashing",
+  ]},
+  { version:"v2.4.0 — Rivals, Villains & Weather", notes:[
+    "✅ Day/night cycle now takes 160 steps to change (was 40) — longer days and nights for more immersive exploration",
+    "✅ New: Weather system — each world has its own weather patterns that change as you explore",
+    "✅ Weather affects encounter rates: Rain boosts water critters, Wind boosts forest finds, Storms increase mythical chances",
+    "✅ Weather indicator shown in the HUD alongside day/night status",
+    "✅ New: Rival character Blaze — a fiery trainer who follows you across all worlds, getting stronger each time",
+    "✅ Blaze appears in Meadowlands, Ember Depths, Frozen Peaks, and Yin-Yang Realm with progressively stronger teams",
+    "✅ New: Team Eclipse villain organization — dark-robed trainers seeking to capture all mythical critters",
+    "✅ Eclipse Grunt in Ashfall Peaks, Commander Nyx in Astral Expanse, and Leader Obsidian in Yin-Yang Realm",
+    "✅ Story cutscenes for meeting and defeating rivals and villains",
+  ]},
   { version:"🗺️ Roadmap (coming soon)", future:true, notes:[
     "Character customization: outfits and accessories",
     "Post-game content: Battle Tower and Legendary hunts",
-    "More story chapters: a rival character, a villain team, and an ending cutscene",
     "Voiced/animated cutscene panels instead of static slides",
     "Paralysis/sleep/freeze visuals in the overworld, not just in battle",
     "Trainer rematch cooldowns (once per in-game day) instead of unlimited back-to-back rematches",
     "Leaderboards/stats screen: total battles won, critters caught, coins earned",
     "Achievements with in-game badges",
-    "Weather effects that change encounter rates per world",
     "Online/local trading (currently a beta placeholder)",
     "Reworks considered: true 3D (Three.js), sprite art, sound, defense stat",
+  ]},
+  { version:"v2.3.1 - Segment Fixes & Admin Panel", notes:[
+    "🐛 Fixed: wild encounters, heal tents and shops now work inside Meadowlands segments",
+    "🐛 Fixed: segment trainers (Lily, Clover, Sage, Bramble, Elder Root) now appear and battle",
+    "🐛 Fixed: ragged segment maps — no more invisible walls or getting stuck at segment borders",
+    "🛠️ Admin: the access code now opens a full Admin Panel — teleport anywhere, unlock everything, resources, all critters, heal",
+    "🍬 Super Candy and Mega Candy are now stocked in the shop",
+  ]},
+  { version:"v2.3.0 - Meadowlands Remake", notes:[
+    "Meadowlands remade with 3 segments: Meadow, Sunflower Fields, Hidden Glade",
+    "Walk to map edges to seamlessly transition between segments",
+    "20 new critters with 2D canvas sprite rendering",
+    "New rarity: Legendary - Ancientreant and Crystalphoenix",
+    "New candy tiers: Super Candy (+200 XP) and Mega Candy (+500 XP)",
+    "5 new trainers across Sunflower Fields and Hidden Glade",
+    "Legendary critters found on Hidden Glade mythical tiles",
   ]},
   { version:"v2.2.0 — Type Balance, Safe Paths & Visual Refresh", notes:[
     "🐛 Fixed encounter bug in Worlds 4–6 (Ashfall Peaks, Astral Expanse, Yin-Yang Realm) — path tiles no longer trigger random encounters",
@@ -717,6 +1013,62 @@ const STORY_EVENTS = {
     { icon:"⚫⚪👑", title:"Yin-Yang Master Conquered", text:"Zenithral smiles serenely. 'You have found perfect balance within yourself. The realm acknowledges your mastery.'" },
     { icon:"🏆", title:"Champion of All Realms", text:"Across six worlds and countless battles, you have proven yourself the greatest trainer of all time. The journey is complete — but the world of critters will always welcome you back." },
   ],
+  world0Greeting: [
+    { icon:"🌿", title:"Welcome to the Meadowlands", text:"The gentle breeze carries the scent of wildflowers. This is where every trainer's journey begins — a peaceful land of grass, water, and hidden caves." },
+    { icon:"🗺️", title:"How to Explore", text:"Use arrow keys or WASD to walk. Explore the grass, forests, and caves to find wild critters! Walk to the edge of the map to discover new areas within the Meadowlands." },
+    { icon:"⚔️", title:"Battle & Catch", text:"Wild critters appear as you walk — battle them and use Critter Orbs to catch them! Visit the 🏪 shop to buy orbs and potions. Talk to trainers to test your skills." },
+  ],
+  // ---- Rival character: Blaze ----
+  rivalMeet: [
+    { icon:"🦊", title:"A Rival Appears", text:"A fiery-haired trainer blocks your path. 'Hey! You must be the new trainer everyone's talking about. I'm Blaze — and I'm going to be the greatest critter master the world has ever seen!'" },
+    { icon:"⚔️", title:"Rival Battle!", text:"Blaze grins confidently. 'Let's see if you're worth the hype. My critters are ready — are yours?'" },
+  ],
+  rivalBeat1: [
+    { icon:"😤", title:"Blaze Defeated", text:"Blaze clenches his fist. 'Not bad... but I'll get stronger. Next time we meet, I won't go easy on you!'" },
+    { icon:"🔥", title:"The Rivalry Begins", text:"Blaze walks away, determined. 'I'm heading to Ember Depths to train. Try to keep up!'" },
+  ],
+  rivalMeet2: [
+    { icon:"🔥", title:"Blaze Returns", text:"Blaze appears from the shadows of Ember Depths. 'Told you I'd get stronger! My Fire critters have evolved — ready for round two?'" },
+  ],
+  rivalBeat2: [
+    { icon:"😡", title:"Blaze Frustrated", text:"Blaze slams his fist against a rock. 'How?! How are you always one step ahead?!' He storms off toward Frozen Peaks." },
+  ],
+  rivalMeet3: [
+    { icon:"❄️", title:"Frozen Rivalry", text:"Blaze stands at the edge of Frozen Peaks, his breath visible in the cold air. 'I've trained with the Ice masters. This time, I WILL beat you!'" },
+  ],
+  rivalBeat3: [
+    { icon:"😢", title:"Blaze's Resolve", text:"Blaze falls to one knee. 'I... I can't believe it. You're really that strong.' He looks up with determination. 'I won't give up. I'll find a way to surpass you, even if it takes everything I have.'" },
+  ],
+  rivalFinal: [
+    { icon:"⚫⚪", title:"Final Rivalry", text:"Blaze appears in the Yin-Yang Realm, his critters glowing with power. 'I've mastered both light and dark. This is our final battle — no holding back!'" },
+  ],
+  rivalFinalBeat: [
+    { icon:"🤝", title:"Rivals Forever", text:"Blaze smiles, extending his hand. 'You win. Fair and square. I've learned so much from fighting you.' He shakes your hand firmly. 'But don't get comfortable — I'll be back even stronger next time!'" },
+    { icon:"🌟", title:"A Bond Forged", text:"Through battles and rivalry, you and Blaze have forged an unbreakable bond. True rivals push each other to greatness." },
+  ],
+  // ---- Villain team: Team Eclipse ----
+  villainMeet: [
+    { icon:"🌑", title:"Team Eclipse", text:"Dark-robed figures emerge from the shadows. 'We are Team Eclipse. We seek to capture all mythical critters and bend them to our will. You cannot stop us!" },
+    { icon:"⚔️", title:"Villain Attack!", text:"An Eclipse Grunt throws a dark orb. 'Your critters will make fine additions to our collection!'" },
+  ],
+  villainGruntBeat: [
+    { icon:"💪", title:"Grunt Defeated", text:"The Eclipse Grunt staggers back. 'Impossible! But don't think this changes anything — the Eclipse Commanders are far stronger than me!'" },
+  ],
+  villainCommander: [
+    { icon:"🌑", title:"Eclipse Commander", text:"A tall figure in ornate dark armor steps forward. 'I am Commander Nyx of Team Eclipse. You've defeated my grunts, but you won't get past me.'" },
+    { icon:"⚡", title:"Commander Battle!", text:"Nyx raises a hand crackling with dark energy. 'Feel the power of the Eclipse!'" },
+  ],
+  villainCommanderBeat: [
+    { icon:"😱", title:"Commander Shocked", text:"Nyx's eyes widen. 'You... you actually defeated me? The Eclipse Leader will not be pleased.' She vanishes into a cloud of dark smoke." },
+  ],
+  villainLeader: [
+    { icon:"🖤", title:"Eclipse Leader", text:"A imposing figure sits on a throne of dark crystals. 'I am Eclipse Leader Obsidian. You've come far, but your journey ends here. I will capture every mythical critter and reshape this world!'" },
+    { icon:"💀", title:"Leader Battle!", text:"Obsidian stands, his presence overwhelming. 'Witness the true power of Team Eclipse!'" },
+  ],
+  villainLeaderBeat: [
+    { icon:"✨", title:"Eclipse Shattered", text:"Obsidian falls to his knees. 'No... how? The Eclipse was supposed to be invincible...' He looks up at you with grudging respect. 'Perhaps I was wrong. Power isn't everything.'" },
+    { icon:"🌅", title:"A New Dawn", text:"Team Eclipse dissolves as trainers across the land celebrate your victory. The mythical critters are free, and peace returns to the world. You've become not just a champion, but a legend." },
+  ],
 };
 function storyKeyForTrainer(id) {
   if (id === 9)  return "beatMagnus";
@@ -724,6 +1076,13 @@ function storyKeyForTrainer(id) {
   if (id === 16) return "beatMagmus";
   if (id === 20) return "beatGalaxius";
   if (id === 25) return "beatZenithral";
+  if (id === 200) return "rivalBeat1";
+  if (id === 201) return "rivalBeat2";
+  if (id === 202) return "rivalBeat3";
+  if (id === 203) return "rivalFinalBeat";
+  if (id === 210) return "villainGruntBeat";
+  if (id === 211) return "villainCommanderBeat";
+  if (id === 212) return "villainLeaderBeat";
   return null;
 }
 
@@ -778,18 +1137,22 @@ function defaultItems() {
   return items;
 }
 
-let state = {
-  world: 0,
-  player: { x:2, y:13 },
-  collection: [],
-  teamIdx: [],
-  defeated: [],
-  coins: 150,
-  items: defaultItems(),
-  rematches: {},   // trainer id -> number of rematches won
-  storySeen: {},   // story event key -> true once its cutscene has played
-  steps: 0,        // total tiles moved — drives the day/night cycle
-};
+function freshState() {
+  return {
+    world: 0,
+    currentSegment: 0,
+    player: { x:2, y:13 },
+    collection: [],
+    teamIdx: [],
+    defeated: [],
+    coins: 150,
+    items: defaultItems(),
+    rematches: {},   // trainer id -> number of rematches won
+    storySeen: {},   // story event key -> true once its cutscene has played
+    steps: 0,        // total tiles moved — drives the day/night cycle
+  };
+}
+let state = freshState();
 
 // "Deviant" critters are a rare, stronger variant (~5% chance) that can only appear
 // on WILD encounters — trainers always field normal critters, never deviants.
@@ -811,6 +1174,21 @@ function makeCreature(speciesId, level, allowDeviant = false) {
 // generated species-like data (name/type/icon/moves) directly on the critter.
 const spec  = c => c.hybridSpec || SPECIES[c.speciesId];
 const world = () => WORLDS[state.world];
+function seg() { var w = world(); return (w.segments && w.segments[state.currentSegment]) ? w.segments[state.currentSegment] : w; }
+
+// Find the nearest walkable tile to (x, y) on map `m` (spiral search) so a
+// spawn/teleport never strands the player inside a wall.
+function findWalkable(m, x, y) {
+  const solid = (tx, ty) => ty < 0 || ty >= MAP_H || tx < 0 || tx >= MAP_W || m[ty][tx] === "#";
+  if (!solid(x, y)) return { x, y };
+  for (let r = 1; r <= 6; r++) {
+    for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {
+      if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
+      if (!solid(x + dx, y + dy)) return { x: x + dx, y: y + dy };
+    }
+  }
+  return { x, y };
+}
 
 /* ---- Breeding: combine two owned critters into a new baby critter ---- */
 const BREED_COST = 60;      // 🪙 coins spent per breed
@@ -879,25 +1257,55 @@ function makeHybridCreature(parentA, parentB, level = 1) {
 const cur   = () => state.collection[battle.activeIdx];
 
 function saveGame(announce) {
-  localStorage.setItem(SAVE_KEY, JSON.stringify(state));
-  if (announce) hudMsg("💾 Game saved!");
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+    if (announce) hudMsg("💾 Game saved!");
+  } catch (e) {
+    console.error("Save failed:", e);
+    if (announce) hudMsg("⚠️ Save failed — storage may be full or blocked.");
+  }
 }
 function loadGame() {
   const raw = localStorage.getItem(SAVE_KEY);
   if (!raw) return false;
   try {
-    state = JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object") return false;
+    state = parsed;
     state.world = state.world || 0;
      // FIX: Validate world index and player position to prevent black screen
      if (state.world < 0 || state.world >= WORLDS.length) state.world = 0;
      const w = WORLDS[state.world];
+     // Repair a missing/corrupt player object instead of throwing (a throw here
+     // used to make loadGame() report "no save" and push players into New Game,
+     // silently overwriting their real progress).
+     if (!state.player || typeof state.player !== "object") state.player = { x: w.healSpot.x, y: w.healSpot.y };
      if (state.player.x < 0 || state.player.x >= MAP_W || state.player.y < 0 || state.player.y >= MAP_H) {
        state.player = { x: w.healSpot.x, y: w.healSpot.y };
      }
     if (state.coins === undefined) state.coins = 150;
+    // Validate the segment index, then make sure the player isn't stranded
+    // inside a wall on the CURRENT SEGMENT's map (not just the world's).
+    if (typeof state.currentSegment !== "number" || Number.isNaN(state.currentSegment)) state.currentSegment = 0;
+    if (w.segments) state.currentSegment = Math.max(0, Math.min(state.currentSegment, w.segments.length - 1));
+    else state.currentSegment = 0;
+    const segMap = seg().map || w.map;
+    if (state.player.y < 0 || state.player.y >= MAP_H || state.player.x < 0 || state.player.x >= MAP_W
+        || segMap[state.player.y][state.player.x] === "#") {
+      const hs = seg().healSpot || w.healSpot;
+      state.player = findWalkable(segMap, hs.x, hs.y);
+    }
+    // Collection/team repair: drop corrupt entries and team slots that point
+    // outside the collection so battle/team code can never crash on load.
+    if (!Array.isArray(state.collection)) state.collection = [];
+    state.collection = state.collection.filter(c => c && typeof c === "object");
+    if (!Array.isArray(state.teamIdx)) state.teamIdx = [];
+    state.teamIdx = state.teamIdx.filter(i => Number.isInteger(i) && i >= 0 && i < state.collection.length);
     if (!state.rematches) state.rematches = {};
     if (!state.storySeen) state.storySeen = {};
     if (typeof state.steps !== "number" || Number.isNaN(state.steps)) state.steps = 0;
+    if (!state.weather) state.weather = "sunny";
+    if (typeof state.lastWeatherIdx !== "number") state.lastWeatherIdx = 0;
     if (!state.items) state.items = defaultItems();
     else {
       // Repair any item key that's missing or corrupted (e.g. NaN from the old
@@ -923,11 +1331,13 @@ function openAdmin() {
   inMenu = true;
   pinDigits = [0,0,0,0];
   pinActiveSlot = 0;
+  $("adminPanel").classList.add("hidden");
   $("adminScreen").classList.remove("hidden");
   renderPin();
 }
 function closeAdmin() {
   $("adminScreen").classList.add("hidden");
+  $("adminPanel").classList.add("hidden");
   inMenu = false;
 }
 function renderPin() {
@@ -957,34 +1367,144 @@ function renderPin() {
 function adminUnlock() {
   const attempt = pinDigits.join("");
   if (attempt === ADMIN_PIN) {
-    // Unlock everything
-    for (const t of WORLDS) {
+    $("pinMsg").textContent = "";
+    pinDigits = [0,0,0,0];
+    pinActiveSlot = 0;
+    openAdminPanel();
+    return;
+  }
+  $("pinMsg").textContent = "❌ Wrong code. Try again.";
+  pinDigits = [0,0,0,0];
+  pinActiveSlot = 0;
+  renderPin();
+}
+
+// One-click unlock: beat every trainer, max resources, and add every species at Lv 120.
+function adminUnlockAll() {
+  // Unlock everything
+  for (const t of WORLDS) {
       for (const tr of (t.trainers || [])) {
         if (!state.defeated.includes(tr.id)) state.defeated.push(tr.id);
       }
     }
     state.coins = 99999;
     for (const k of Object.keys(state.items)) state.items[k] = 99;
-    // Add every species to collection (one of each)
+    // Add every species to collection (one of each) at level 120
     const haveIds = new Set(state.collection.map(c => c.speciesId).filter(id => id !== null));
     for (const s of SPECIES) {
       if (!haveIds.has(s.id)) {
-        state.collection.push(makeCreature(s.id, 50, false));
+        const c = makeCreature(s.id, MAX_LEVEL, false);
+        // Max out stats for admin power
+        c.maxHp = s.baseHP + MAX_LEVEL * 3;
+        c.hp = c.maxHp;
+        c.atk = s.baseAtk + MAX_LEVEL * 2;
+        c.xp = 0;
+        state.collection.push(c);
       }
+    }
+    // Level up ALL existing critters to 120 and max stats
+    for (const c of state.collection) {
+      const s = spec(c);
+      c.level = MAX_LEVEL;
+      c.xp = 0;
+      c.maxHp = s.baseHP + MAX_LEVEL * 3;
+      c.hp = c.maxHp;
+      c.atk = s.baseAtk + MAX_LEVEL * 2;
+      c.status = null;
     }
     // Put first 6 in team
     state.teamIdx = state.collection.slice(0, Math.min(6, state.collection.length)).map((_, i) => i);
     saveGame(false);
-    closeAdmin();
-    hudMsg("🔓 Admin mode activated! Everything unlocked.");
+    hudMsg("🔓 Admin mode activated! All critters at Lv 120 with max stats!");
     updateHUD();
     draw();
-  } else {
-    $("pinMsg").textContent = "❌ Wrong code. Try again.";
-    pinDigits = [0,0,0,0];
-    pinActiveSlot = 0;
-    renderPin();
+}
+
+/* ---- Admin panel: god-mode toolkit unlocked by the PIN ---- */
+function openAdminPanel() {
+  inMenu = true;
+  $("adminScreen").classList.add("hidden");
+  $("adminPanel").classList.remove("hidden");
+  renderAdminPanel();
+}
+function closeAdminPanel() {
+  $("adminPanel").classList.add("hidden");
+  inMenu = false;
+  draw();
+}
+function renderAdminPanel() {
+  const w = world();
+  const area = w.segments ? (seg().name || w.name) : w.name;
+  $("adminInfo").textContent = `📍 ${area}  ·  🪙 ${state.coins}  ·  ${state.collection.length} critters`;
+  const box = $("adminButtons"); box.innerHTML = "";
+  const addBtn = (label, desc, fn) => {
+    const b = document.createElement("button");
+    b.innerHTML = `<b>${label}</b><small style="display:block;font-weight:400;color:var(--muted)">${desc}</small>`;
+    b.onclick = () => { fn(); saveGame(false); updateHUD(); renderAdminPanel(); };
+    box.appendChild(b);
+  };
+  addBtn("⚡ Unlock Everything", "Beat all trainers · 99,999 coins · 99 items · every critter at Lv 120", adminUnlockAll);
+  addBtn("🌀 Open All Portals", "Mark every trainer in every world as defeated", adminOpenPortals);
+  addBtn("💰 +10,000 Coins", "Instant riches", () => { state.coins += 10000; });
+  addBtn("🎒 Max Items", "99 of every orb, potion, antidote and candy", adminMaxItems);
+  addBtn("🦊 Add All Critters", "One of every missing species (Lv 50)", () => { adminAddAllCritters(50); });
+  addBtn("⛺ Heal Everything", "Full HP and no statuses for the whole collection", adminHealAll);
+
+  // Teleport buttons: one per world, plus each Meadowlands segment.
+  const tpWrap = document.createElement("div");
+  tpWrap.style.cssText = "display:flex;flex-direction:column;gap:6px;margin-top:6px;";
+  tpWrap.innerHTML = `<small style="color:var(--muted)">Teleport to:</small>`;
+  const tpRow = document.createElement("div");
+  tpRow.style.cssText = "display:flex;flex-wrap:wrap;gap:6px;justify-content:center;";
+  WORLDS.forEach((wd, wi) => {
+    const spots = wd.segments
+      ? wd.segments.map((s, si) => ({ label: (s && s.name) || wd.name, si }))
+      : [{ label: wd.name, si: 0 }];
+    for (const sp of spots) {
+      const b = document.createElement("button");
+      b.textContent = sp.label;
+      if (wi === state.world && sp.si === state.currentSegment) b.style.outline = "2px solid #22c55e";
+      b.onclick = () => { adminTeleport(wi, sp.si); renderAdminPanel(); };
+      tpRow.appendChild(b);
+    }
+  });
+  tpWrap.appendChild(tpRow);
+  box.appendChild(tpWrap);
+}
+function adminOpenPortals() {
+  for (const t of WORLDS) for (const tr of (t.trainers || []))
+    if (!state.defeated.includes(tr.id)) state.defeated.push(tr.id);
+  hudMsg("🌀 All portals are now open!");
+}
+function adminMaxItems() {
+  for (const k of Object.keys(defaultItems())) state.items[k] = 99;
+  hudMsg("🎒 All items maxed out!");
+}
+function adminAddAllCritters(level) {
+  const haveIds = new Set(state.collection.map(c => c.speciesId).filter(id => id !== null));
+  let added = 0;
+  for (const s of SPECIES) {
+    if (haveIds.has(s.id)) continue;
+    state.collection.push(makeCreature(s.id, level || 50, false));
+    added++;
   }
+  hudMsg(added ? `🦊 Added ${added} critters to your collection!` : "🦊 You already have every critter!");
+}
+function adminHealAll() {
+  for (const c of state.collection) { c.hp = c.maxHp; c.status = null; }
+  hudMsg("⛺ Your whole collection was fully healed!");
+}
+function adminTeleport(wi, si) {
+  if (wi < 0 || wi >= WORLDS.length) return;
+  const wd = WORLDS[wi];
+  state.world = wi;
+  state.currentSegment = (wd.segments && si > 0 && si < wd.segments.length) ? si : 0;
+  const m = seg().map || wd.map;
+  const hs = seg().healSpot || wd.healSpot;
+  state.player = findWalkable(m, hs.x, hs.y);
+  hudMsg(`🛠️ Teleported to ${seg().name || wd.name}!`);
+  draw();
+  saveGame(false); // persist the teleport so a refresh doesn't snap you back
 }
 
 /* ============ 3. OVERWORLD ============ */
@@ -1024,7 +1544,25 @@ const TRAINER_PALETTES = {
   23:{ skin:"#e8e0d0", shirt:"#808080", pants:"#404040", hat:"#c0c0c0" }, // Karma
   24:{ skin:"#d0d0d0", shirt:"#333333", pants:"#1a1a1a", hat:"#e0e0e0" }, // Duality
   25:{ skin:"#1a1a1a", shirt:"#ffd700", pants:"#000000", hat:"#ffffff" }, // Zenithral (champion)
+  100:{ skin:"#f8d0e0", shirt:"#e84393", pants:"#c0392b", hat:"#fd79a8" }, // Lily
+  101:{ skin:"#d4a574", shirt:"#27ae60", pants:"#1e8449", hat:"#2ecc71" }, // Clover
+  102:{ skin:"#b8c9a3", shirt:"#7d6b5d", pants:"#5a4a3a", hat:"#8d7b68" }, // Sage
+  103:{ skin:"#6b8f4a", shirt:"#2d5a1e", pants:"#1a3a0f", hat:"#3e8948" }, // Bramble
+  104:{ skin:"#c4a882", shirt:"#5d4e37", pants:"#3e2f1e", hat:"#8b7355" }, // Elder Root
+  // Rival Blaze (one per world, escalating) and Team Eclipse — these ids were
+  // added to world trainer lists in v2.4.0 without palette entries, so drawing
+  // ANY world that contains them crashed the map render.
+  200:{ skin:"#e8b88a", shirt:"#e0512f", pants:"#7a2f10", hat:"#f0c020" }, // Blaze (Meadowlands)
+  201:{ skin:"#e8a06b", shirt:"#c94a1e", pants:"#8a2510", hat:"#ff6600" }, // Blaze (Ember Depths)
+  202:{ skin:"#e8d0d8", shirt:"#3f6fa8", pants:"#274a75", hat:"#eaf4ff" }, // Blaze (Frozen Peaks)
+  203:{ skin:"#e8d0e8", shirt:"#6a5acd", pants:"#2f2f6f", hat:"#b0c4de" }, // Blaze (Yin-Yang Realm)
+  210:{ skin:"#c9a58a", shirt:"#1a1a2e", pants:"#0f0f1a", hat:"#2f2f4a" }, // Eclipse Grunt
+  211:{ skin:"#d9b8a8", shirt:"#2c2c54", pants:"#16162e", hat:"#8a8acd" }, // Commander Nyx
+  212:{ skin:"#b8a090", shirt:"#0f0f1e", pants:"#08080f", hat:"#4a3f7a" }, // Eclipse Leader Obsidian
 };
+
+// Fallback so a trainer added without a palette can never crash the map render.
+const DEFAULT_TRAINER_PALETTE = { skin:"#e8b88a", shirt:"#8a5a2a", pants:"#4a3520", hat:"#a97142" };
 
 // Lighten (+amt) or darken (-amt) a hex color — fakes 3D lighting.
 function shade(hex, amt) {
@@ -1085,29 +1623,78 @@ function drawCharacter(cx, cy, pal, face = 1, alpha = 1) {
 }
 
 function draw() {
-  const w = world();
+  const w = world(); var sm = seg();
   const night = isNight();
-  document.getElementById("worldName").textContent = `${w.name}  ${night ? "🌙 Night" : "☀️ Day"}`;
+  document.getElementById("worldName").textContent = `${(sm.name || w.name)}  ${night ? "🌙 Night" : "☀️ Day"}`;
   for (let y = 0; y < MAP_H; y++) for (let x = 0; x < MAP_W; x++) {
-    const t = w.map[y][x];
-    ctx.fillStyle = w.colors[t] || "#000";
+    const t = sm.map[y][x];
+    ctx.fillStyle = (sm.colors || w.colors)[t] || "#000";
     ctx.fillRect(x*TILE, y*TILE, TILE, TILE);
-    const d = w.deco[t];
+    const d = (sm.deco || w.deco)[t];
     if (d) {
       ctx.font = "24px serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
       ctx.fillStyle = "#ffffffaa";
       ctx.fillText(d, x*TILE+TILE/2, y*TILE+TILE/2);
     }
   }
-  for (const t of w.trainers) {
+  for (const t of (sm.trainers || w.trainers)) {
     const beaten = state.defeated.includes(t.id);
     const faceDir = state.player.x >= t.x ? 1 : -1;
-    drawCharacter(t.x*TILE+TILE/2, t.y*TILE+TILE/2, TRAINER_PALETTES[t.id], faceDir, beaten ? 0.45 : 1);
+    drawCharacter(t.x*TILE+TILE/2, t.y*TILE+TILE/2, TRAINER_PALETTES[t.id] || DEFAULT_TRAINER_PALETTE, faceDir, beaten ? 0.45 : 1);
   }
   const px = state.player.x*TILE+TILE/2, py = state.player.y*TILE+TILE/2;
   ctx.beginPath(); ctx.arc(px, py+12, 15, 0, Math.PI*2);
   ctx.fillStyle = "rgba(255,215,106,.45)"; ctx.fill();
   drawCharacter(px, py, PLAYER_PALETTE, facing);
+
+  // Segment transition arrows — drawn at rows where the map edge is actually
+  // open (computed from the current segment's map, not hardcoded rows).
+  if (world().segments) {
+    var curSeg = state.currentSegment;
+    var totalSegs = world().segments.length;
+    var smap = sm.map || world().map;
+    var openRightRows = [], openLeftRows = [];
+    for (var yy = 0; yy < MAP_H; yy++) {
+      if (smap[yy][MAP_W - 1] !== "#") openRightRows.push(yy);
+      if (smap[yy][0] !== "#") openLeftRows.push(yy);
+    }
+    var arrowSize = 18 + Math.sin(Date.now() / 300) * 4; // pulsing
+    ctx.save();
+    ctx.font = arrowSize + "px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    // Right arrow (to next segment) at the middle open right-edge row
+    if (curSeg < totalSegs - 1 && openRightRows.length) {
+      var midR = openRightRows[Math.floor(openRightRows.length / 2)];
+      var rx = (MAP_W - 1) * TILE + TILE / 2;
+      var ry = midR * TILE + TILE / 2;
+      ctx.fillStyle = "rgba(255, 215, 106, " + (0.5 + Math.sin(Date.now()/400)*0.3) + ")";
+      ctx.fillText("➡", rx, ry);
+      // Hint text when the player is near an open exit row
+      if (Math.abs(state.player.x - (MAP_W-1)) < 4 && openRightRows.some(function(r){ return Math.abs(state.player.y - r) < 3; })) {
+        ctx.font = "11px Nunito, sans-serif";
+        ctx.fillStyle = "rgba(255, 215, 106, 0.9)";
+        var nextName = world().segments[curSeg + 1].name || "next area";
+        ctx.fillText("Walk right → " + nextName, rx, ry - 18);
+      }
+    }
+    // Left arrow (to previous segment) at the middle open left-edge row
+    if (curSeg > 0 && openLeftRows.length) {
+      var midL = openLeftRows[Math.floor(openLeftRows.length / 2)];
+      var lx = TILE / 2;
+      var ly = midL * TILE + TILE / 2;
+      ctx.fillStyle = "rgba(88, 166, 255, " + (0.5 + Math.sin(Date.now()/400)*0.3) + ")";
+      ctx.fillText("⬅", lx, ly);
+      if (state.player.x < 4 && openLeftRows.some(function(r){ return Math.abs(state.player.y - r) < 3; })) {
+        ctx.font = "11px Nunito, sans-serif";
+        ctx.fillStyle = "rgba(88, 166, 255, 0.9)";
+        var prevName = curSeg === 2 ? "Sunflower Fields" : "Meadow";
+        ctx.fillText("Walk left → " + prevName, lx + 20, ly - 18);
+      }
+    }
+    ctx.restore();
+  }
+
   // Night tint: a soft blue-purple overlay dims the whole map, drawn last so
   // it sits over tiles/characters without touching any of their own colors.
   if (night) {
@@ -1121,8 +1708,10 @@ function hudMsg(txt) { document.getElementById("hudMsg").textContent = txt; }
 function updateHUD() {
   const orbBits = ORB_TIERS.filter(o => state.items[o.key] > 0)
     .map(o => `${o.label.split(" ")[0]} ${state.items[o.key]}`).join(" ");
+  var weatherInfo = getWeatherInfo();
+  var nightTag = isNight() ? " 🌙" : " ☀️";
   document.getElementById("inventory").textContent =
-    `🪙 ${state.coins}  ·  ${orbBits || "🟠 0"}  ·  🧪 ${state.items.potion}  ·  ⚗️ ${state.items.bigpotion}  ·  🍬 ${state.items.candy}`;
+    `${weatherInfo.icon} · 🪙 ${state.coins}  ·  ${orbBits || "🟠 0"}  ·  🧪 ${state.items.potion}  ·  ⚗️ ${state.items.bigpotion}  ·  🍬 ${state.items.candy}${nightTag}`;
 }
 
 document.addEventListener("keydown", e => {
@@ -1138,18 +1727,58 @@ document.addEventListener("keydown", e => {
   tryMove(dx, dy);
 });
 
+function doSegmentTransition(dir) {
+  // dir: 1 = next segment, -1 = previous segment
+  const w_ = world();
+  if (!w_ || !w_.segments) return false;
+  var cur = state.currentSegment;
+  var total = w_.segments.length;
+  if (dir === 1 && cur < total - 1) {
+    state.currentSegment++;
+    state.player = findWalkable(seg().map || w_.map, 0, Math.min(state.player.y, MAP_H - 1));
+  } else if (dir === -1 && cur > 0) {
+    state.currentSegment--;
+    state.player = findWalkable(seg().map || w_.map, MAP_W - 1, Math.min(state.player.y, MAP_H - 1));
+  } else {
+    return false;
+  }
+  draw();
+  hudMsg("You entered " + seg().name + "!");
+  saveGame(false);
+  return true;
+}
+
 function tryMove(dx, dy) {
   if (dx !== 0) facing = dx;
   const w = world();
+  const sm = seg(); // FIX: `sm` was never defined here — every step threw a ReferenceError before the encounter roll
+  const map = sm.map || w.map;
   const nx = state.player.x + dx, ny = state.player.y + dy;
-  if (nx < 0 || ny < 0 || nx >= MAP_W || ny >= MAP_H) return;
-  const tile = w.map[ny][nx];
-  if (tile === "#") return;
 
-  const trainer = w.trainers.find(t => t.x === nx && t.y === ny);
+  // Walking off the LEFT/RIGHT edge transitions between segments.
+  // (Vertical transitions removed: bumping the top/bottom border used to
+  // accidentally skip segments.)
+  if (nx < 0 || nx >= MAP_W) {
+    if (w.segments && doSegmentTransition(nx < 0 ? -1 : 1)) return true;
+    return false;
+  }
+  if (ny < 0 || ny >= MAP_H) return false;
+
+  // FIX: collision now uses the CURRENT SEGMENT's map, not the parent world's
+  const tile = map[ny][nx];
+  if (tile === "#") return false; // segment exits are the open-edge rows
+
+  // FIX: trainers now come from the current segment too (Lily, Clover, Sage,
+  // Bramble and Elder Root never appeared or battled before this fix)
+  const trainer = (sm.trainers || w.trainers).find(t => t.x === nx && t.y === ny);
   if (trainer) {
-    startTrainerBattle(trainer); // defeated trainers offer an immediate, scaled-up rematch
-    return;
+    // Play story on first meeting this trainer (if they have one)
+    if (trainer.storyOnMeet && !state.storySeen[trainer.storyOnMeet]) {
+      playStory(trainer.storyOnMeet, () => { startTrainerBattle(trainer); });
+    } else {
+      startTrainerBattle(trainer); // defeated trainers offer an immediate, scaled-up rematch
+    }
+    return false;
   }
 
   // Portal: sealed until every required trainer (possibly spanning multiple
@@ -1158,7 +1787,7 @@ function tryMove(dx, dy) {
     state.player = { x:10, y:3 };
     draw();
     hudMsg("🪨 You squeeze through the rock and find a hidden cave!");
-    return;
+    return false;
   }
 
   const portal = (w.portals || []).find(p => p.tile === tile);
@@ -1168,10 +1797,11 @@ function tryMove(dx, dy) {
     if (beaten < need.length) {
       const sealedMsg = portal.sealedMsg || "🌀 The portal is sealed! Defeat all trainers in this world first";
       hudMsg(`${sealedMsg} (${beaten}/${need.length}).`);
-      return;
+      return false;
     }
     const d = portal.dest;
     state.world = d.world;
+    state.currentSegment = 0; // arriving in a new world always starts at its first area
     state.player = { x:d.x, y:d.y };
     draw();
     hudMsg(`🌀 You stepped through the portal into ${world().name}!`);
@@ -1181,20 +1811,24 @@ function tryMove(dx, dy) {
     else if (d.world === 3) playStory("enterWorld3");
     else if (d.world === 4) playStory("enterWorld4");
     else if (d.world === 5) playStory("enterWorld5");
-    return;
+    return false;
   }
 
   state.player.x = nx; state.player.y = ny;
   const wasNight = isNight();
   state.steps = (state.steps || 0) + 1;
+  tickWeather();
   if (isNight() !== wasNight) hudMsg(isNight() ? "🌙 Night has fallen — different critters are stirring." : "☀️ The sun rises over the land.");
   draw();
 
-  if (tile === "H") { healTeam(); hudMsg("⛺ Your critters were fully healed!"); return; }
-  if (tile === "S") { openShop(); return; }
+  if (tile === "H") { healTeam(); hudMsg("⛺ Your critters were fully healed!"); return true; }
+  if (tile === "S") { openShop(seg().shopItems); return true; }
 
-  const enc = w.encounters[tile];
-  const chance = (isNight() && enc && enc.nightChance !== undefined) ? enc.nightChance : (enc && enc.chance);    if (enc && state.teamIdx.length && Math.random() < chance) {
+  const enc = (sm.encounters || w.encounters)[tile];
+  const chance = (isNight() && enc && enc.nightChance !== undefined) ? enc.nightChance : (enc && enc.chance);
+  const weatherMult = weatherEncMult(tile);
+  const finalChance = chance ? chance * weatherMult : 0;
+  if (enc && state.teamIdx.length && Math.random() < finalChance) {
     // YinYang realm (world 5) * tile: 8% chance to encounter YinYang, else 1% for other mythicals
     if (state.world === 5 && tile === "*" && Math.random() < 0.08) {
       const lvl = enc.lvl[0] + Math.floor(Math.random()*(enc.lvl[1]-enc.lvl[0]+1));
@@ -1208,6 +1842,7 @@ function tryMove(dx, dy) {
       startWildBattle(makeCreature(sid, lvl, true));
     }
   }
+  return true;
 }
 
 function healTeam() {
@@ -1653,16 +2288,17 @@ function usePotion(kind) {
   
   // Handle status cure items
   if (kind === "antidote") {
-    if (me.status === "poison" || me.status === "burn") {
+    if (me.status && (me.status.type === "poison" || me.status.type === "burn")) {
+      const curedType = me.status.type;
       me.status = null;
-      log(`You used an 🧪 Antidote! ${spec(me).name} was cured of ${me.status === "poison" ? "poison" : "burn"}!`);
+      log(`You used an 🧪 Antidote! ${spec(me).name} was cured of ${curedType}!`);
     } else {
       log(`${spec(me).name} doesn't have a curable status condition!`);
       busy = false;
       return;
     }
   } else if (kind === "awakening") {
-    if (me.status === "paralyze" || me.status === "sleep") {
+    if (me.status && (me.status.type === "paralyze" || me.status.type === "sleep")) {
       me.status = null;
       log(`You used a ⏰ Awakening! ${spec(me).name} woke up!`);
     } else {
@@ -1791,16 +2427,21 @@ function grantXP(enemyLevel) {
 // Feed a 🍬 Candy Bar to a collection critter outside of battle — grants a
 // flat chunk of XP (rarer critters still need more XP per level to grow,
 // via xpNeeded's rarity multiplier, so a candy goes further on a common critter).
-function feedCandy(i) {
-  if (state.items.candy <= 0) { hudMsg("You don't have any 🍬 Candy Bars — buy some from the shop!"); return; }
+function feedCandy(i, type) {
+  type = type || "candy";
+  var xpMap = { candy: CANDY_XP, supercandy: SUPER_CANDY_XP, megacandy: MEGA_CANDY_XP };
+  var labelMap = { candy: "Candy Bar", supercandy: "Super Candy", megacandy: "Mega Candy" };
+  var xp = xpMap[type] || CANDY_XP;
+  var label = labelMap[type] || "Candy";
+  if ((state.items[type] || 0) <= 0) { hudMsg("You don't have any " + label + " - buy from the shop!"); return; }
   const c = state.collection[i];
   if (!c) return;
-  state.items.candy--;
-  const msgs = awardXP(c, CANDY_XP);
+  state.items[type]--;
+  const msgs = awardXP(c, xp);
   saveGame(false);
   updateHUD();
-  openTeam(); // re-render so the new level/HP/ATK show immediately
-  hudMsg(`🍬 Fed a Candy Bar to ${spec(c).name} (+${CANDY_XP} XP).${msgs.length ? " " + msgs.join(" ") : ""}`);
+  openTeam();
+  hudMsg("Fed a " + label + " to " + spec(c).name + " (+" + xp + " XP)." + (msgs.length ? " " + msgs.join(" ") : ""));
 }
 
 function endBattle() {
@@ -1821,15 +2462,16 @@ function endBattle() {
 
 /* ============ 5. SHOP / TEAM / UPDATES UI ============ */
 
-function openShop() {
+function openShop(si) {
   inMenu = true;
-  renderShop();
+  renderShop(si);
   $("shopScreen").classList.remove("hidden");
 }
-function renderShop() {
+function renderShop(si) {
+  var items = si ? SHOP_ITEMS.filter(function(it) { return si.indexOf(it.key) !== -1; }) : SHOP_ITEMS;
   $("shopCoins").textContent = `🪙 ${state.coins}`;
   const list = $("shopList"); list.innerHTML = "";
-  for (const item of SHOP_ITEMS) {
+  for (const item of items) {
     const row = document.createElement("div");
     row.className = "shopRow";
     row.innerHTML = `<b>${item.label}</b> <small>${item.desc}</small>
@@ -1842,7 +2484,7 @@ function renderShop() {
       state.items[item.key]++;
       saveGame(false);
       updateHUD();
-      renderShop();
+      renderShop(si); // FIX: was renderShop() with no args — buying re-listed every shop item
     };
     row.appendChild(b);
     list.appendChild(row);
@@ -1865,11 +2507,8 @@ function openTeam() {
     row.onclick = () => toggleTeam(i);
     // Candy feeding is a separate action from the team-toggle click on the
     // row, so it needs its own button and must stop the click from bubbling.
-    const candyBtn = document.createElement("button");
-    candyBtn.textContent = `🍬 Feed (${state.items.candy})`;
-    candyBtn.disabled = state.items.candy <= 0;
-    candyBtn.onclick = (e) => { e.stopPropagation(); feedCandy(i); };
-    row.appendChild(candyBtn);
+    var candyTypes = [{key:"candy",label:"Candy"},{key:"supercandy",label:"Super Candy"},{key:"megacandy",label:"Mega Candy"}];
+    candyTypes.forEach(function(ct) { if ((state.items[ct.key] || 0) > 0) { var cb = document.createElement("button"); cb.textContent = ct.label + " (" + state.items[ct.key] + ")"; cb.onclick = function(e) { e.stopPropagation(); feedCandy(i, ct.key); }; row.appendChild(cb); } });
     list.appendChild(row);
   });
   $("teamScreen").classList.remove("hidden");
@@ -2077,9 +2716,188 @@ function showStarterChoice() {
       inMenu = false;
       saveGame(false);
       hudMsg(`You chose ${s.name}! You have 5 🟠 orbs and 150 🪙 — good luck!`);
+      // Show Meadowlands greeting after choosing starter
+      playStory("world0Greeting");
     });
   }
 }
 
-if (!loadGame()) playStory("intro", showStarterChoice);
-draw();
+function buildCritterIndex() {
+  var TILE_NAMES = { ",": "Grass", "f": "Forest", "~": "Water", "c": "Cave", "*": "Mythical ✨", "g": "Sunflowers" };
+  var locs = {}; // speciesId -> ["World — Tile", ...]
+
+  // Build reverse evolution map
+  var evolvesFrom = {};
+  for (var i = 0; i < EVOLUTIONS.length; i++) {
+    evolvesFrom[EVOLUTIONS[i].to] = { from: EVOLUTIONS[i].from, level: EVOLUTIONS[i].level };
+  }
+
+  // Collect locations from all worlds and segments
+  for (var w = 0; w < WORLDS.length; w++) {
+    var world = WORLDS[w];
+    function addEnc(encounters, worldName) {
+      var tiles = Object.keys(encounters);
+      for (var t = 0; t < tiles.length; t++) {
+        var tile = tiles[t]; var enc = encounters[tile];
+        var tileName = TILE_NAMES[tile] || tile;
+        var pool = enc.pool || [];
+        for (var p = 0; p < pool.length; p++) {
+          var sid = pool[p];
+          if (!locs[sid]) locs[sid] = [];
+          var label = worldName + " — " + tileName;
+          if (locs[sid].indexOf(label) === -1) locs[sid].push(label);
+        }
+        var np = enc.nightPool || [];
+        for (var n = 0; n < np.length; n++) {
+          var sid2 = np[n];
+          if (!locs[sid2]) locs[sid2] = [];
+          var nlabel = worldName + " — " + tileName + " (night)";
+          if (locs[sid2].indexOf(nlabel) === -1) locs[sid2].push(nlabel);
+        }
+      }
+    }
+    if (world.encounters) addEnc(world.encounters, world.name);
+    if (world.segments) {
+      for (var s = 0; s < world.segments.length; s++) {
+        var seg = world.segments[s];
+        if (seg && seg.encounters) addEnc(seg.encounters, seg.name || world.name);
+      }
+    }
+  }
+
+  // Build the full index
+  var breedPairs = { 44: "Fire + Water", 45: "Electric + Grass", 46: "Air + Rock", 47: "Mystic + Shade" };
+  var result = [];
+  for (var j = 0; j < SPECIES.length; j++) {
+    var sp = SPECIES[j];
+    var spLocs = locs[sp.id] || [];
+    var notes = [];
+    if (sp.id <= 2) notes.push("🎯 Starter choice");
+    if (breedPairs[sp.id]) notes.push("🧬 Breed only (" + breedPairs[sp.id] + ")");
+    if (evolvesFrom[sp.id]) {
+      var fromSp = SPECIES[evolvesFrom[sp.id].from];
+      notes.push("⬆️ Evolves from " + fromSp.name + " at Lv " + evolvesFrom[sp.id].level);
+    }
+    result.push({
+      id: sp.id, icon: sp.icon, name: sp.name, type: sp.type,
+      rarity: sp.rarity || "common",
+      locations: spLocs, notes: notes,
+    });
+  }
+  return result;
+}
+
+function renderCritterIndex() {
+  var index = buildCritterIndex();
+  var el = document.getElementById("critterIndex");
+  if (!el) return;
+  var html = '<h3 style="margin:16px 0 10px;color:var(--accent-gold);font-family: Fredoka, sans-serif;font-size:18px;">📖 Critter Index</h3>';
+
+  // Group by world
+  var worldOrder = [];
+  var worldMap = {};
+  for (var i = 0; i < index.length; i++) {
+    var c = index[i];
+    var worlds = [];
+    for (var l = 0; l < c.locations.length; l++) {
+      var wName = c.locations[l].split(" — ")[0];
+      if (worlds.indexOf(wName) === -1) worlds.push(wName);
+    }
+    if (c.notes.length > 0) {
+      for (var n = 0; n < c.notes.length; n++) {
+        if (c.notes[n].indexOf("Starter") !== -1 && worlds.indexOf("Starter") === -1) worlds.push("Starter");
+        if (c.notes[n].indexOf("Breed") !== -1 && worlds.indexOf("Breeding") === -1) worlds.push("Breeding");
+      }
+    }
+    if (worlds.length === 0) worlds.push("Evolution Only");
+    for (var w = 0; w < worlds.length; w++) {
+      if (!worldMap[worlds[w]]) { worldMap[worlds[w]] = []; worldOrder.push(worlds[w]); }
+      worldMap[worlds[w]].push(c);
+    }
+  }
+
+  // Render each world group
+  for (var wi = 0; wi < worldOrder.length; wi++) {
+    var wn = worldOrder[wi];
+    var critters = worldMap[wn];
+    html += '<div class="critterWorldGroup">';
+    html += '<div class="critterWorldHeader">' + wn + ' (' + critters.length + ')</div>';
+    html += '<div class="critterGrid">';
+    for (var ci = 0; ci < critters.length; ci++) {
+      var cr = critters[ci];
+      var rarityClass = cr.rarity !== "common" ? " rarity-" + cr.rarity : "";
+      html += '<div class="critterCard' + rarityClass + '">';
+      html += '<div class="critterCardIcon">' + cr.icon + '</div>';
+      html += '<div class="critterCardBody">';
+      html += '<div class="critterCardName">' + cr.name + ' <span class="typeTag">' + cr.type + '</span>';
+      if (cr.rarity !== "common") html += ' <span class="rarityTag rarity-' + cr.rarity + '">' + cr.rarity + '</span>';
+      html += '</div>';
+      // Show locations for this world group
+      var myLocs = [];
+      for (var li = 0; li < cr.locations.length; li++) {
+        if (cr.locations[li].indexOf(wn) === 0) myLocs.push(cr.locations[li].split(" — ")[1] || "");
+      }
+      if (myLocs.length > 0) html += '<div class="critterCardLoc">📍 ' + myLocs.join(', ') + '</div>';
+      // Show notes
+      for (var ni = 0; ni < cr.notes.length; ni++) {
+        html += '<div class="critterCardNote">' + cr.notes[ni] + '</div>';
+      }
+      html += '</div></div>';
+    }
+    html += '</div></div>';
+  }
+  el.innerHTML = html;
+}
+
+function showIndex() {
+  if (inBattle) return;
+  inMenu = true;
+  // Show "Back to Game" button only if the game has started (has a save or collection)
+  var hasGame = state.collection.length > 0;
+  document.getElementById("backToGameBtn").style.display = hasGame ? "" : "none";
+  // Hide New Game/Continue if already in a game
+  document.getElementById("newGameBtn").style.display = hasGame ? "none" : "";
+  document.getElementById("continueBtn").style.display = hasGame ? "none" : "";
+  renderCritterIndex();
+  document.getElementById("indexScreen").classList.remove("hidden");
+}
+function closeIndex() {
+  document.getElementById("indexScreen").classList.add("hidden");
+  inMenu = false;
+  draw();
+}
+
+function startNewGame() {
+  // Never silently destroy an existing save — New Game used to wipe real
+  // progress whenever a corrupted/broken state pushed players here.
+  if (localStorage.getItem(SAVE_KEY) && !confirm("Starting a new game will permanently overwrite your existing save. Continue?")) return;
+  state = freshState(); // actually reset the in-memory state, not just the save
+  document.getElementById("indexScreen").classList.add("hidden");
+  inMenu = false;
+  playStory("intro", showStarterChoice);
+  draw();
+}
+
+function continueGame() {
+  document.getElementById("indexScreen").classList.add("hidden");
+  inMenu = false;
+  if (loadGame()) {
+    draw();
+    hudMsg("💾 Game loaded!");
+  } else {
+    hudMsg("No save found — starting new game!");
+    playStory("intro", showStarterChoice);
+    draw();
+  }
+}
+
+// Show index screen on load
+(function boot() {
+  var hasSave = !!localStorage.getItem(SAVE_KEY);
+  document.getElementById("indexScreen").classList.remove("hidden");
+  document.getElementById("backToGameBtn").style.display = "none"; // no game yet
+  document.getElementById("newGameBtn").style.display = "";
+  document.getElementById("continueBtn").style.display = hasSave ? "" : "none";
+  inMenu = true;
+  draw();
+})();
