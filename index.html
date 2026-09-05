@@ -31,7 +31,7 @@
         <div class="indexFeature">🦊 90+ Critters to discover</div>
         <div class="indexFeature">⚔️ Turn-based battles</div>
         <div class="indexFeature">🧬 Breeding system</div>
-        <div class="indexFeature">🌍 6 Worlds to explore</div>
+        <div class="indexFeature">🌍 7 Worlds to explore</div>
       </div>
       <div id="critterIndex"></div>
     </div>
@@ -94,6 +94,20 @@
     <button onclick="closeUpdates()" style="margin-top:10px;align-self:flex-start;">Back to Map</button>
   </div>
 
+  <!-- Stats / Leaderboards -->
+  <div id="statsScreen" class="overlay hidden">
+    <h2>📊 Stats & Leaderboards <small style="font-size:13px;color:var(--muted)">— your lifetime totals</small></h2>
+    <div id="statsList"></div>
+    <button onclick="closeStats()" style="margin-top:10px;align-self:flex-start;">Back to Map</button>
+  </div>
+
+  <!-- Quest log (Harmony Hollow quest board) -->
+  <div id="questLogScreen" class="overlay hidden">
+    <h2>📜 Quest Board <small style="font-size:13px;color:var(--muted)">— Harmony Hollow sidequests</small></h2>
+    <div id="questLogList"></div>
+    <button onclick="closeQuestLog()" style="margin-top:10px;align-self:flex-start;">Back to Map</button>
+  </div>
+
   <!-- Breeding -->
   <div id="breedScreen" class="overlay hidden">
     <h2>🧬 Critter Breeding <small style="font-size:13px;color:var(--muted)">(pick 2 unbred critters, Lv 3+, to breed — 🪙 <span id="breedCost"></span>)</small></h2>
@@ -106,9 +120,11 @@
 <div id="hud">
   <div id="hudMsg">Use Arrow keys / WASD (or the D-pad / swipe on mobile) to move!</div>
   <div id="inventory"></div>
+  <button id="talkBtn" onclick="tryTalk()" style="display:none;">💬 Talk</button>
   <button onclick="openTeam()">Team</button>
   <button onclick="openBreed()">Breed</button>
   <button onclick="openUpdates()">Updates</button>
+  <button onclick="openStats()">Stats</button>
   <button onclick="showIndex()">Index</button>
   <button onclick="saveGame(true)">Save</button>
   <button onclick="resetGame()">Reset</button>
@@ -121,6 +137,13 @@
     <h2>🔐 Enter Access Code</h2>
     <div id="pinDisplay" style="display:flex;gap:16px;margin:20px 0;font-size:48px;font-weight:bold;"></div>
     <div id="pinMsg" style="color:#ff6b6b;font-size:14px;min-height:20px;margin-bottom:10px;"></div>
+    <div id="pinKeyboardRow" class="hidden" style="display:flex;gap:10px;align-items:center;justify-content:center;margin-bottom:10px;">
+      <input id="pinKeyInput" type="text" inputmode="numeric" autocomplete="off" maxlength="4"
+             placeholder="----" aria-label="Access code" onkeydown="if(event.key==='Enter')commitPinInput()"
+             style="width:150px;font-size:26px;text-align:center;letter-spacing:12px;padding:8px 6px 8px 18px;background:var(--bg-card);color:var(--accent-gold);border:2px solid var(--border);border-radius:10px;outline:none;">
+      <button onclick="commitPinInput()" style="background:var(--accent-green);">Go</button>
+    </div>
+    <div id="pinNumpad" style="display:none;"></div>
     <div style="display:flex;gap:10px;">
       <button onclick="adminUnlock()" style="background:var(--accent-green);">Unlock</button>
       <button onclick="closeAdmin()" style="background:#555;">Cancel</button>

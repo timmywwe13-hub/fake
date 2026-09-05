@@ -4,6 +4,33 @@ All notable changes to the game are tracked here.
 Format: newest version at the top. Unreleased ideas live in the Roadmap.
 
 ---
+## v2.4.5 — Safe Zones, Readable Maps & Portal Fixes
+- 📊 **Stats screen**: new 📊 Stats button in the HUD — lifetime totals for total battles won, critters caught, coins earned, plus collection size and trainers defeated. Totals live in your save file and survive refreshes (older saves are migrated automatically)
+- 🌐 **Online leaderboards**: shown right on the Stats screen as a beta placeholder — online play will be added later
+- 🌀 **Portal fixes**: the 🌀 to 🌋 Ember Depths lives only in the 🌻 Sunflower & Hidden Glade segment; 🌑 Obsidian Hollow's entrance portal leads onward to ❄️ Frozen Peaks (no more being dumped back in the Meadowlands); 🌋 Ember Depths has a 🌀 gate home right beside where you arrive
+- ⛺ Frozen Peaks arrivals land on the grass beside the heal tent instead of a lake pocket with a gate home right behind it
+- 🏡 **Safe zones**: the Meadowlands starting meadow is a safe zone — no wild encounters, a pulsing green shield ring, an on-map "🏡 SAFE — no wild critters here" banner and a 🏡 SAFE HUD tag. Everywhere else shows ⚔️ WILD
+- 🏕️ **Safe camps**: the pocket of tiles around every ⛺ heal tent is safe in every world and segment — tinted green on the map, shield ring + 🏡 SAFE tag while you stand in it, and trainers won't ambush you there
+- 🗺️ **Readable maps**: tile emojis appear only on tiles where wild critters can appear (grass, forests, water, caves, ✨ patches) plus ⛺🏪🌀📜 service icons — clean open ground means safe, emoji patches mean critters lurk there
+- 🏡 **New world: Harmony Hollow** — a small, entirely safe 2D town behind the always-open garden gate (🚪 **G** tile) in the Meadowlands' Sunflower & Hidden Glade segment. Cobblestone paths, flower beds, homes, a heal tent (⛺ **B** tile) and 🌀 portal home
+- 📋 **Sidequests that pay**: Milo (battle 3 wild critters — 200 🪙), Professor Fern (catch 2 critters — 350 🪙) and Granny Rose (defeat 2 trainers — 500 🪙). Walk into ❗ townsfolk to accept, return at ❓ to get paid; the 📜 quest board (R tile) lists everything. Progress also works for rematches
+- 💬 Townsfolk chat: press **E / Enter / Space** next to a townsfolk (or tap the 💬 Talk button on mobile). Tilly and Finn have flavor dialogue
+- 🧭 Portals can target a specific segment (`seg:`), and fainting in town wakes you at the town tents
+- ⚖️ Yin-Yang Realm trainers toned down from 1000 HP to 400 HP — the old HP wall made them effectively unbeatable; now it's hard but fair
+- ☀️ Light (Mystic) critters roam the Yin-Yang Realm by day, and 🌙 dark (Shade) critters take over at night — the pools never mix; the mythical ☯️ YinYang still appears on ✨ tiles day or night
+- 📜 The 🗺️ Roadmap now always sits at the top of the update log
+
+## v2.4.3 — Yin-Yang Balance & Day/Night
+- ⚖️ Yin-Yang Realm trainers toned down from 1000 HP to 400 HP — the old HP wall made them effectively unbeatable, so the final world now stays hard but fair
+- ☀️ Light (Mystic) critters now roam the Yin-Yang Realm during the day, and 🌙 dark (Shade) critters take over at night — the pools never mix
+- ☯️ The mythical YinYang critter is untouched: it can appear on ✨ tiles day or night, slightly more often at night (10% vs 8%)
+- 📜 The 🗺️ Roadmap now always renders at the top of the in-game update log, above every version entry
+
+## v2.4.2 — Mobile Admin & Ashfall Fixes
+- 📱 Fixed the admin access code being impossible to enter on mobile — the PIN used tiny ▲/▼ steppers that required hover and had 48px tap targets. Touch devices now get direct typing plus a big on-screen number pad; desktop keeps the original steppers
+- 📱 Menus and overlays are now viewport-fixed, so they cover the whole screen on mobile instead of being cut off when the page is scrolled (this is also why the PIN dialog could seem untappable)
+- 🐛 Fixed the Team Eclipse Grunt in 🌋 Ashfall Peaks being unreachable — he stood at (10,8) inside the sealed volcanic cave (a closed ring of 🖤 walls with no entrance), so the cosmic gate could never be unlocked by playing normally. He now waits on open ground at (17,8)
+
 ## v2.4.1 — Refresh & Admin Teleport Fixes
 - 🐛 Fixed the game crashing on the map screen (frozen map, missing player, empty inventory) — Blaze and Team Eclipse trainers were added to every world in v2.4.0 without character palettes, so drawing any world that contained them crashed the render. Every trainer now has a palette, plus a fallback so a future missing entry can never crash the map
 - 🐛 Fixed admin panel teleports not being saved — refreshing the page after teleporting (e.g. to Yin-Yang Realm) snapped you back to where you were, which could funnel you into New Game and overwrite your save. Teleports now persist

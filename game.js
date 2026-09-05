@@ -285,6 +285,10 @@ function drawCreatureSprite(ctx, cx, cy, size, sp) {
 const WORLDS = [
   { // ---------- WORLD 0: MEADOWLANDS (24x16) ----------
     name: "🌿 Meadowlands",
+    // The starting meadow is a SAFE ZONE: no wild encounters, a visible shield
+    // ring around the player, and a 🏡 SAFE tag in the HUD. The Sunflower &
+    // Hidden Glade segment (segment 1) is NOT safe — critters lurk there.
+    safe: true,
     map: [
       "########################",
       "#..,,,...#.....~~~~....#",
@@ -292,15 +296,15 @@ const WORLDS = [
       "#**......#......~~.....#",
       "#..,,,.................#",
       "#..,,,...H...S.........#",
-      "#........######....,,,.#",
+      "#........######....,,..",
       "#ff......#cccc#....,,,.",
-      "#fff.....#cccc#........#",
-      "#fff.....#ccc.#........#",
-      "#ffff.....##..#....,,..#",
-      "#ffff......#..#....,,..#",
-      "#fff.......#..#........#",
+      "#fff.....#cccc#.........",
+      "#fff.....#ccc.#.........",
+      "#ffff.....##..#....,,...",
+      "#ffff......#..#....,,...",
+      "#fff.......#..#.........",
       "#ff....................#",
-      "#....................,P#",
+      "#.....................,#", // NOTE: no P here — the 🌀 portal to Ember Depths lives in the LAST segment only
       "########################",
     ],
     colors: { "#":"#2e4d2e", ".":"#c9b47c", ",":"#3e8948", "f":"#1f5c2d", "~":"#3a6ec9", "c":"#5a5560", "H":"#c9b47c", "S":"#c9b47c", "P":"#7b3fd4", "*":"#ffff00" },
@@ -325,81 +329,54 @@ const WORLDS = [
     // state.defeated before it will let you through (empty = always open).
     portals: [
       { tile:"P", dest:{ world:1, x:2, y:14 }, requires:[0, 1, 2] }, // 🌀 sealed until Rex, Ivy and Cole are all beaten
+      { tile:"G", dest:{ world:6, x:2, y:14 }, requires:[] },        // 🏡 always-open side gate to Harmony Hollow town
     ],
     battleBg: "",
     segments: [
       // Segment 0: Meadow - reference to top-level data (null = use parent)
       null,
-      // Segment 1: Sunflower Fields
+      // Segment 1: Sunflower Fields + Hidden Glade (formerly 2 segments)
       {
-        name: "\u{1F33B} Sunflower Fields",
+        name: "\u{1F33B} Sunflower & Hidden Glade",
         map: [
           "########################",
           "#,,,,,,...........,,,,,#",
           "#,,,,,,.gg..gg....,,,,,#",
-          "#,,......gg..gg......,#",
-          "#........gg..gg........#",
-          "#...H....gg..gg...S....#",
-          ".gggg..........gggg....",
+          "#,,......gg..gg......,,#",
+          "#........gg..gg.....,,,#",
+          "#...H....gg..gg...S..,,#",
+          ".gggg.........gggg..,,.",
+          ".gggg..,,,,,..gggg.....",
+          ".gg....,,,,,...gg......",
+          ".gg.............gg.....",
+          ".gggg..,,,,,..gggg.....",
           ".gggg..,,,,,..gggg.....",
           ".gg..............gg....",
-          ".gg....,,,,,....gg.....",
-          ".gggg..........gggg....",
-          ".gggg..,,,,,..gggg.....",
-          ".gg..............gg....",
-          "#........gg..gg........#",
-          "#P.......gg..gg........#",
+          "#..ff..gg..gg..ff......#",
+          "#PGf....****.....f.....#", // P = 🌀 to Ember Depths · G = 🏡 gate to Harmony Hollow (both in this LAST segment only)
           "########################",
         ],
-        colors: {"#":"#2e4d2e",".":"#c9b47c",",":"#3e8948","f":"#1f5c2d","~":"#3a6ec9","c":"#5a5560","H":"#c9b47c","S":"#c9b47c","P":"#7b3fd4","*":"#ffff00","g":"#e8c840"},
-        deco:   {"#":"\u{1F332}","\u{1F338}":"\u{1F338}","f":"\u{1F333}","~":"\u2248","H":"\u26FA","S":"\u{1F3EA}","P":"\u{1F300}","*":"\u2728","g":"\u{1F33B}"},
+        // Hidden Glade was folded into this segment (v2.4.4): one southern
+        // grove now holds the ✨ mythical patch, and the 🌀 P portal to Ember
+        // Depths lives HERE — the LAST segment of the Meadowlands, never in
+        // segment 0 (v2.4.5 removed the stray P from the Meadow map).
+        colors: {"#":"#2e4d2e",".":"#c9b47c",",":"#3e8948","f":"#1f5c2d","~":"#3a6ec9","c":"#5a5560","H":"#c9b47c","S":"#c9b47c","P":"#7b3fd4","*":"#ffff00","g":"#e8c840","G":"#58dc78"},
+        deco:   {"#":"\u{1F332}","\u{1F338}":"\u{1F338}","f":"\u{1F333}","~":"\u2248","H":"\u26FA","S":"\u{1F3EA}","P":"\u{1F300}","*":"\u2728","g":"\u{1F33B}","G":"\u{1F3E1}"},
         encounters: {
           ",": { chance:0.14, pool:[2,3,5,73,78,80,14,22], nightPool:[7,24,86,25,17], lvl:[5,8] },
           "g": { chance:0.13, pool:[73,78,13,81,82,23], nightPool:[82,86,24], lvl:[6,10] },
-          "f": { chance:0.15, pool:[76,80,14,15,7], nightPool:[7,26,86,24], lvl:[6,10] },
+          "f": { chance:0.15, pool:[76,80,14,15,85,86,7], nightPool:[7,26,86,24], lvl:[8,12] },
+          "c": { chance:0.14, pool:[90,4,19,24,26], nightPool:[26,27,87], lvl:[9,13] },
+          "*": { chance:0.02, nightChance:0.03, pool:[91,92,41,42,43], lvl:[15,25] },
         },
         trainers: [
           { id:100, name:"Lily",   x:10, y:8,  team:[[78,6],[13,7]],       quote:"The sunflowers guide my path!" },
           { id:101, name:"Clover", x:6,  y:12, team:[[80,7],[76,8],[73,7]], quote:"Lucky four-leaf, ready to fight!" },
           { id:102, name:"Sage",   x:18, y:10, team:[[14,8],[81,9],[22,8]], quote:"Wisdom comes from the fields." },
+          { id:103, name:"Bramble",    x:7,  y:14, team:[[80,10],[14,11]],         quote:"The thorns will stop you!" },
+          { id:104, name:"Elder Root", x:14, y:13, team:[[76,12],[85,13],[86,11]], quote:"The forest remembers all." },
         ],
         healSpot: { x:4, y:5 },
-        shopItems: ["orb","greatorb","ultraorb","masterorb","legendorb","potion","bigpotion","antidote","awakening","candy","supercandy"],
-      },
-      // Segment 2: Hidden Glade
-      {
-        name: "\u{1F332} Hidden Glade",
-        map: [
-          "########################",
-          "#ff..ff..,,c,,..ff..ff#",
-          "#ff..ff..,,c,,..ff..ff#",
-          "#f......,,***,,......f#",
-          "#f..,,..........,,..f#",
-          "#..,,..H......S..,,..#",
-          "....,,..............,,..#",
-          "#.....ffffffffffff.....#",
-          "#.....fccccccccccf.....#",
-          "#.....fccccccccc.f.....#",
-          "#.....f..cccccc..f.....#",
-          "#.....ffffffffffff.....#",
-          "#..,,..............,,..#",
-          "#..,,.....***......,,.f#",
-          "#f..,,..............,..f#",
-          "########################",
-        ],
-        colors: {"#":"#2e4d2e",".":"#c9b47c",",":"#3e8948","f":"#1f5c2d","~":"#3a6ec9","c":"#5a5560","H":"#c9b47c","S":"#c9b47c","P":"#7b3fd4","*":"#ffff00","g":"#e8c840"},
-        deco:   {"#":"\u{1F332}","\u{1F338}":"\u{1F338}","f":"\u{1F333}","~":"\u2248","H":"\u26FA","S":"\u{1F3EA}","P":"\u{1F300}","*":"\u2728","g":"\u{1F33B}"},
-        encounters: {
-          ",": { chance:0.15, pool:[76,80,14,15,85,86,26], nightPool:[86,27,24,7], lvl:[10,14] },
-          "f": { chance:0.16, pool:[76,80,7,26,85,27], nightPool:[27,26,86,24], lvl:[10,14] },
-          "c": { chance:0.14, pool:[90,4,19,24,26], nightPool:[26,27,87], lvl:[11,15] },
-          "*": { chance:0.02, nightChance:0.03, pool:[91,92,41,42,43], lvl:[15,25] },
-        },
-        trainers: [
-          { id:103, name:"Bramble",    x:8,  y:10, team:[[80,10],[14,11]],         quote:"The thorns will stop you!" },
-          { id:104, name:"Elder Root", x:14, y:6,  team:[[76,12],[85,13],[86,11]], quote:"The forest remembers all." },
-        ],
-        healSpot: { x:5, y: 6 },
         shopItems: ["orb","greatorb","ultraorb","masterorb","legendorb","potion","bigpotion","antidote","awakening","candy","supercandy","megacandy"],
       },
     ],
@@ -417,13 +394,18 @@ const WORLDS = [
       "#.....c...#cccccc#.....#",
       "#.........cc....#.....#",
       "#.........cc.c..#.....#",
-      "#.........########.....#",
-      "#......................#",
-      "#..,,..........,,....*#",
-      "#..,,..............c..#",
-      "#P....................Q#",
+      "#.........########......",
+      "#.......................",
+      "#..,,..........,,....*..",
+      "#..,,..............c....",
+      "#P.....................#", // 🌀 P gate home to the Meadowlands — sits beside where you arrive from the Meadowlands so the ride back is obvious (v2.4.5)
       "########################",
     ],
+    // The P gate-home tile lives on the main map (row 14, far left — beside
+    // where you arrive from the Meadowlands, so the ride back is obvious).
+    // The Q gate to Frozen Peaks sits in the LAST segment (Obsidian Hollow
+    // below). Rows 10-13 have an open right edge — walk off it to enter
+    // Obsidian Hollow.
     colors: { "#":"#3a2a2a", ".":"#6b5344", ",":"#8a5a2a", "~":"#c94a1e", "c":"#454050", "H":"#6b5344", "S":"#6b5344", "P":"#7b3fd4", "Q":"#4fd7ff", "*":"#ff00ff" },
     deco:   { "#":"🪨", ",":"🍂", "~":"🔥", "c":"🖤", "H":"⛺", "S":"🏪", "P":"🌀", "Q":"🌀", "*":"💥" },
     encounters: {
@@ -435,22 +417,73 @@ const WORLDS = [
     trainers: [
       { id:3, name:"Nova",   x:3,  y:10, team:[[9,11],[16,12]],                  quote:"Things get hot down here!" },
       { id:4, name:"Drake",  x:19, y:3,  team:[[19,13],[8,14],[26,15]],          quote:"The Depths bow to me." },
-      { id:5, name:"Sable",  x:19, y:10, team:[[28,13],[26,14],[27,15]],         quote:"The shadows fight for me." },
       { id:6, name:"Pyra",   x:4,  y:3,  team:[[0,12],[8,13]],                   quote:"Everything burns eventually." },
-      { id:7, name:"Onyx",   x:8,  y:12, team:[[20,13],[19,14]],                 quote:"Hard as stone, twice as mean." },
       { id:8, name:"Vex",    x:15, y:11, team:[[16,13],[3,14],[18,15]],          quote:"Feel the current course through you!" },
-      { id:9, name:"Magnus", x:14, y:13, team:[[31,15],[20,15],[24,16],[26,17]], quote:"I am the champion of the Depths!" },
       { id:201, name:"Blaze", x:10, y:8, team:[[9,14],[38,15]], quote:"My critters have evolved — round two!", storyOnMeet:"rivalMeet2" },
     ],
     healSpot: { x:9, y:5 },
+    // Portal DEFINITIONS are world-level — the P tile (row 14, far left of the
+    // main area) leads home to the Meadowlands, and the Q *tile* sits in
+    // Obsidian Hollow (segment 1, the LAST segment). Sealed until EVERY
+    // trainer in BOTH Meadowlands (world 1) and Ember Depths (world 2) has
+    // been defeated — 3 + 7 = all 10.
     portals: [
       { tile:"P", dest:{ world:0, x:20, y:14 }, requires:[] }, // 🌀 going home is always allowed
-      // 🌀 sealed until EVERY trainer in BOTH Meadowlands (world 1) and Ember
-      // Depths (world 2) has been defeated — 3 + 7 = all 10 so far.
-      { tile:"Q", dest:{ world:2, x:2, y:1 }, requires:[0,1,2,3,4,5,6,7,8,9],
+      { tile:"Q", dest:{ world:2, x:9, y:4 }, requires:[0,1,2,3,4,5,6,7,8,9],
         sealedMsg:"🌀 The frozen gate is sealed! Defeat every trainer in the Meadowlands AND Ember Depths first" },
     ],
     battleBg: "emberBg",
+    segments: [
+      // Segment 0: Ember Depths proper (null = use the world data above)
+      null,
+      // Segment 1: Obsidian Hollow — the deep vault holding the frozen gate.
+      // Entered by walking off the RIGHT edge of segment 0.
+      {
+        name: "🌑 Obsidian Hollow",
+        map: [
+          "########################",
+          "#..~~..............~~..#",
+          "#..~~....,,,,,.....~~..#",
+          "#.....,,,,,,,,,,.......#",
+          "#..H...,,,,,,,,,....S..#",
+          "#.....,,,,,,,,,,,......#",
+          "#..,,....######....,...#",
+          "#..,,...##c**c##....,,.#",
+          "#.......##cccc##....,,.#",
+          "#..,,....##..##......,.#",
+          ".......................#",
+          "...,,..........,,....*.#",
+          "...,,..............c...#",
+          "....,,.....cc....,,,..P#",
+          "#Q.....................#", // 🌀 Q gate home to the Meadowlands (moved here from segment 0)
+          "########################",
+        ],
+        // A sealed ✨ den (enter through the gap in its south wall), the frozen
+        // gate 🌀 guarded by champion Magnus, and the 🌀 Q gate home. The LEFT
+        // edge is open on rows 10-13 — walk off it to return to Ember Depths.
+        colors: { "#":"#141018", ".":"#2b2333", ",":"#3a2f47", "~":"#ff5a1e", "c":"#0d0b12", "H":"#2b2333", "S":"#2b2333", "P":"#7b3fd4", "Q":"#4fd7ff", "*":"#ff00ff" },
+        deco:   { "#":"🌑", ".":"🕯️", ",":"🍂", "~":"🔥", "c":"🖤", "H":"⛺", "S":"🏪", "P":"🌀", "Q":"🌀", "*":"💥" },
+        encounters: {
+          "~": { chance:0.14, pool:[0,8,9,20],                     lvl:[12,16] },
+          ",": { chance:0.16, pool:[8,9,14,23,27,28,29,30],        nightPool:[27,28,29,30,26], lvl:[11,15] },
+          "c": { chance:0.18, pool:[4,16,19,24,26,27,28,31,32,33], nightPool:[31,32,33,26,27], lvl:[13,17] },
+          "*": { chance:0.01, pool:[41,42,43],                     lvl:[25,35] },
+        },
+        trainers: [
+          { id:7, name:"Onyx",   x:5,  y:12, team:[[20,13],[19,14]],                 quote:"Hard as stone, twice as mean." },
+          { id:5, name:"Sable",  x:9,  y:12, team:[[28,13],[26,14],[27,15]],         quote:"The shadows fight for me." },
+          { id:9, name:"Magnus", x:14, y:13, team:[[31,15],[20,15],[24,16],[26,17]], quote:"I am the champion of the Depths!" },
+        ],
+        healSpot: { x:3, y:4 },
+        // Portal tiles on THIS last-segment map: 'Q' (row 13, far right) is
+        // the frozen gate to Frozen Peaks — the same side you enter from, so
+        // walking straight through the entrance portal takes you onward (the
+        // v2.4.5 fix: the entrance used to be the gate HOME, dumping players
+        // back in the Meadowlands). The gate home to the Meadowlands now also
+        // lives on the main Ember Depths map (v2.4.5), so you never have to
+        // cross the Hollow just to go back.
+      },
+    ],
   },
     { // ---------- WORLD 2: FROZEN PEAKS (UNLOCKABLE) ----------
       name: "❄️ Frozen Peaks",
@@ -491,6 +524,11 @@ const WORLDS = [
         { id:202, name:"Blaze", x:8, y:6, team:[[38,22],[39,23]], quote:"I trained with Ice masters — this time I win!", storyOnMeet:"rivalMeet3" },
       ],
       healSpot: { x:9, y:3 },
+      // v2.4.5 — Frozen Peaks arrivals now land on the grass beside the heal
+      // tent (⛺ at 9,3). The old arrival square (2,1) was a dead pocket walled
+      // in by lake, so players stepped out of the gate and immediately got
+      // funneled into the 🌀 P "gate home" behind them — looking like the
+      // portal to Frozen Peaks had dumped them back in the Meadowlands.
       portals: [
         { tile:"P", dest:{ world:1, x:2, y:14 }, requires:[] },
         { tile:"Q", dest:{ world:3, x:2, y:14 }, requires:[0,1,2,3,4,5,6,7,8,9,10,11,12],
@@ -531,7 +569,7 @@ const WORLDS = [
         { id:14, name:"Obsidian",x:18, y:5,  team:[[55,30],[59,32]],                        quote:"Hard as the mountain itself." },
         { id:15, name:"Cindra",  x:12, y:13, team:[[54,32],[56,33],[58,30]],                quote:"Ashes to ashes..." },
         { id:16, name:"Magmus",  x:20, y:12, team:[[57,35],[59,36],[58,33],[55,32]],       quote:"I am the volcanic lord!" },
-        { id:210, name:"Eclipse Grunt", x:10, y:8, team:[[56,30],[54,31]], quote:"Team Eclipse will capture all mythicals!", storyOnMeet:"villainMeet" },
+        { id:210, name:"Eclipse Grunt", x:17, y:8, team:[[56,30],[54,31]], quote:"Team Eclipse will capture all mythicals!", storyOnMeet:"villainMeet" }, // reachable open ground — (10,8) was inside the sealed cave
       ],
       healSpot: { x:6, y:5 },
       portals: [
@@ -607,9 +645,12 @@ const WORLDS = [
       colors: { "#":"#1a1a1a", ".":"#e8e8f0", ",":"#2a2a3a", "H":"#808090", "S":"#808090", "P":"#7b3fd4", "Q":"#7b3fd4", "*":"#ff00ff" },
       deco:   { "#":"☯️", ".":"✨", ",":"🌑", "H":"⛺", "S":"🏪", "P":"🌀", "Q":"🌀", "*":"💥" },
       encounters: {
-        ",": { chance:0.16, pool:[67,68], nightPool:[67,71,68,24,26], lvl:[40,45] },
-        "~": { chance:0.15, pool:[66,67,68], lvl:[40,48] },
-        "*": { chance:0.08, nightChance:0.10, pool:[72,41,42,43], lvl:[45,55] },
+        // Yin-Yang Realm: light (Mystic) critters roam by day, dark (Shade)
+        // critters take over at night — the pools never mix. The mythical
+        // YinYang (☯️, id 72) embodies both sides, so it can appear at any hour.
+        ",": { chance:0.16, pool:[66,68,24],        nightPool:[67,26,27],        lvl:[40,45] },
+        "~": { chance:0.15, pool:[66,68,69],       nightPool:[67,70,71],       lvl:[40,48] },
+        "*": { chance:0.08, nightChance:0.10, pool:[72,66,68,69], nightPool:[72,67,70,71], lvl:[45,55] },
       },
       trainers: [
         { id:21, name:"Lumina",   x:6,  y:7,  team:[[66,138],[67,140]],                     quote:"Light always prevails." },
@@ -625,6 +666,54 @@ const WORLDS = [
         { tile:"P", dest:{ world:4, x:2, y:14 }, requires:[] }, // 🌀 back to Astral Expanse, always allowed
       ],
       battleBg: "yinyangBg",
+    },
+    { // ---------- WORLD 6: HARMONY HOLLOW (SAFE QUEST TOWN) ----------
+      // A cozy little 2D town, reachable from the 🏡 gate in the Sunflower &
+      // Hidden Glade. Entirely SAFE: no wild encounters, no wild trainers.
+      // Money comes from the quest board 📋 and townsfolk with ❗ over their
+      // heads — walk into them to chat, accept and turn in sidequests.
+      name: "🏡 Harmony Hollow",
+      safe: true,
+      map: [
+        "########################",
+        "#..........HH..........#",
+        "#....HH...HHHH....HH...#",
+        "#....HH....HH.....HH...#",
+        "#......................#",
+        "#..HH..,........,..HH..#",
+        "#..HH...,,....,,...HH..#",
+        "#........,....,........#",
+        "#......,........,......#",
+        "#........,..R.,........#", // 📜 R = quest board — stand on it and press E to read all sidequests
+        "#..HH....,....,....HH..#",
+        "#..HH.....,,,,.....HH..#",
+        "#......................#",
+        "#......HH......HH......#",
+        "#......HH..B...HH......#",
+        "#P.....................#",
+        "########################",
+      ],
+      colors: { "#":"#3a3a2a", ".":"#d9c89e", ",":"#7aa05a", "H":"#8a5a3a", "T":"#c9b47c", "B":"#5a8ac9", "P":"#7b3fd4", "Q":"#7b3fd4", "R":"#c9b47c" },
+      deco:   { "#":"🌳", ".":"·", ",":"🌷", "H":"🏠", "T":"🏪", "B":"⛺", "P":"🌀", "Q":"🌀", "R":"📜" },
+      safeTiles: ["T", "B", "R"], // belt-and-braces: town is fully safe anyway
+      encounters: {}, // no wild critters in town
+      trainers: [],   // nobody here wants to battle — townsfolk are quest NPCs
+      healSpot: { x:11, y:14 },
+      portals: [
+        // 🌀 gate home — seg:1 lands you in the Sunflower & Hidden Glade
+        // segment at (3,14), one step right of the gate tile (there's no gate
+        // in segment 0).
+        { tile:"P", dest:{ world:0, x:3, y:14, seg:1 }, requires:[] },
+      ],
+      battleBg: "",
+      // Townsfolk — no battles, just flavor and (for the ❗ trio) paid quests.
+      npcs: [
+        { name:"Milo",          x:7,  y:4,  line:"The flowers sure are pretty today!", quest:true },
+        { name:"Professor Fern", x:16, y:7,  line:"Science waits for no one!", quest:true },
+        { name:"Granny Rose",    x:5,  y:10, line:"Back in my day, critters respected their elders.", quest:true },
+        { name:"Tilly",         x:12, y:4,  line:"Welcome to Harmony Hollow — the safest town in all the lands!" },
+        { name:"Finn",          x:18, y:11, line:"I'm training to be a critter chef. Critters hate that.", quest:false },
+      ],
     }
   ];
 
@@ -773,6 +862,25 @@ const SHOP_ITEMS = [
 // ---- Update log shown by the in-game "Updates" button ----
 // Add a new entry BELOW the roadmap whenever we ship something new.
 const UPDATE_LOG = [
+  { version:"v2.4.5 — Safe Zones, Readable Maps & Portal Fixes", notes:[
+    "📊 STATS SCREEN: new 📊 Stats button in the HUD — track your lifetime totals: total battles won, critters caught, coins earned, collection size and trainers defeated",
+    "🌐 ONLINE LEADERBOARDS: in beta and coming later — the Stats screen will compare your totals with other players once it ships",
+    "🌀 PORTAL FIXES: the 🌀 to Ember Depths lives only in the Sunflower & Hidden Glade segment; Obsidian Hollow's entrance portal leads onward to ❄️ Frozen Peaks (no more being dumped back in the Meadowlands); Ember Depths has a 🌀 gate home right beside where you arrive",
+    "⛺ Arrivals in Frozen Peaks land on the grass beside the heal tent instead of a lake pocket with a gate home right behind it",
+    "🏡 SAFE ZONES: the Meadowlands starting meadow is a safe zone — no wild encounters, a green shield ring, a 🏡 SAFE banner and HUD tag; everywhere else shows ⚔️ WILD",
+    "🏕️ SAFE CAMPS: the pocket around every ⛺ heal tent is safe in every world and segment — tinted green on the map, and trainers won't ambush you there",
+    "🗺️ READABLE MAPS: emojis appear ONLY where wild critters can appear (grass, forests, water, caves, ✨ patches) plus ⛺🏪🌀📜 services — clean ground means safe, emoji patches mean critters",
+    "🏡 NEW WORLD: Harmony Hollow — a fully safe quest town behind the garden gate (🚪 G) in Sunflower & Hidden Glade, with a heal tent, shop and 🌀 portal home",
+    "📋 SIDEQUESTS: Milo, Professor Fern and Granny Rose pay coins for tasks — talk to ❗ townsfolk, return when the ❓ shows, or read the 📜 quest board; press E to chat",
+    "⚖️ Yin-Yang Realm trainers toned down from 1000 HP to 400 HP — the old HP wall made them effectively unbeatable; now it's hard but fair",
+    "☀️🌙 Light (Mystic) critters roam the Yin-Yang Realm by day, dark (Shade) at night — the mythical YinYang still appears on ✨ tiles day or night",
+    "📜 The 🗺️ Roadmap now always sits at the top of this update log",
+  ]},
+  { version:"v2.4.2 — Mobile Admin & Ashfall Fixes", notes:[
+    "📱 Fixed: the admin access code can now be entered on mobile — type it or tap the big on-screen number pad (the old ▲/▼ steppers were too small to tap)",
+    "📱 Menus and overlays now cover the whole screen on mobile instead of being cut off when the page is scrolled",
+    "🐛 Fixed: the Team Eclipse Grunt in Ashfall Peaks was unreachable — he stood inside a sealed cave; he now waits on open ground beside it",
+  ]},
   { version:"v2.4.1 — Refresh & Admin Teleport Fixes", notes:[
     "🐛 Fixed: the map could freeze mid-draw (no player, empty inventory) when a world contained Blaze or a Team Eclipse trainer",
     "🐛 Fixed: admin panel teleports are now saved — refreshing the page no longer snaps you back",
@@ -796,7 +904,7 @@ const UPDATE_LOG = [
     "Voiced/animated cutscene panels instead of static slides",
     "Paralysis/sleep/freeze visuals in the overworld, not just in battle",
     "Trainer rematch cooldowns (once per in-game day) instead of unlimited back-to-back rematches",
-    "Leaderboards/stats screen: total battles won, critters caught, coins earned",
+    "Leaderboards/stats screen now LIVE: open 📊 Stats in the HUD to see total battles won, critters caught, coins earned (online board is in beta — coming later)",
     "Achievements with in-game badges",
     "Online/local trading (currently a beta placeholder)",
     "Reworks considered: true 3D (Three.js), sprite art, sound, defense stat",
@@ -981,6 +1089,10 @@ const STORY_EVENTS = {
     { icon:"❄️", title:"Frozen Peaks", text:"Beyond the frozen gate lies a land of eternal ice. Legends whisper of a mythical guardian who once ruled these peaks before vanishing." },
     { icon:"🦌❄️", title:"Whispers of Ice", text:"Only Ice-type critters make their home here now. Three trainers — Glacia, Boreal, and Crystal — test everyone who dares enter." },
   ],
+  enterWorld6: [
+    { icon:"🏡", title:"Harmony Hollow", text:"You push open the creaky garden gate and follow a cobblestone path into Harmony Hollow — a peaceful little town far from the wild grass." },
+    { icon:"📋", title:"A Town in Need", text:"Townsfolk with ❗ over their heads need help. Walk into them to chat and take on paid sidequests, or check the 📜 quest board by the well. No wild critters ever wander in here." },
+  ],
   beatMagnus: [
     { icon:"👑", title:"Champion Fallen", text:"Magnus lowers his head. \"The Depths bow to a new challenger now,\" he says, with a respectful nod." },
     { icon:"🌀", title:"The Frozen Gate", text:"With every trainer in the Meadowlands and Ember Depths defeated, the ice-crusted gate at last shudders open." },
@@ -1150,6 +1262,10 @@ function freshState() {
     rematches: {},   // trainer id -> number of rematches won
     storySeen: {},   // story event key -> true once its cutscene has played
     steps: 0,        // total tiles moved — drives the day/night cycle
+    quests: {},      // quest key -> { stage:"active"|"done", n:number } — sidequest progress
+    // 📊 Lifetime stats for the Stats screen (v2.4.5). Kept in the save so the
+    // board survives refreshes; migrated to defaults for older saves on load.
+    stats: { battlesWon: 0, crittersCaught: 0, coinsEarned: 0 },
   };
 }
 let state = freshState();
@@ -1175,6 +1291,139 @@ function makeCreature(speciesId, level, allowDeviant = false) {
 const spec  = c => c.hybridSpec || SPECIES[c.speciesId];
 const world = () => WORLDS[state.world];
 function seg() { var w = world(); return (w.segments && w.segments[state.currentSegment]) ? w.segments[state.currentSegment] : w; }
+
+/* ---- Safe zones ----
+   Some areas are peaceful: no wild encounters, a visible shield ring while
+   you stand inside, and a 🏡 SAFE tag in the HUD. Players kept asking which
+   areas were safe, so safety is now explicit and impossible to miss.
+   - `safe: true` on a world or segment marks the WHOLE area safe.
+   - `safeTiles: ["t", "T"]` marks only those tile characters safe (roads,
+     town squares...). Wild critters can still lurk in that area's grass.
+   The Meadowlands starting field and all of Harmony Hollow are safe. */
+function isSafeArea() {
+  const w = world(), s = seg();
+  return !!(s.safe || (s === w && w.safe));
+}
+function isSafeTile(t) {
+  if (isSafeArea()) return true;
+  const st = seg().safeTiles || world().safeTiles;
+  return !!st && st.indexOf(t) !== -1;
+}
+
+/* ---- Safe camp spots (v2.4.5) ----
+   EVERY world and segment has one guaranteed safe pocket: the tiles around
+   its ⛺ heal-spot camp. Wild encounters never trigger there, and trainers
+   standing in a camp pocket are politely ignored instead of ambushing you —
+   so every area has a spot where you can catch your breath. Memoized per
+   segment: the map data never changes after load, so the radius is computed
+   once. */
+const CAMP_SAFE_RADIUS = 1;
+const campSafeCache = new Map();
+function campSafeTiles() {
+  const w = world(), s = seg();
+  const key = state.world + ":" + state.currentSegment;
+  if (!campSafeCache.has(key)) {
+    const map = s.map || w.map;
+    const hs = s.healSpot || w.healSpot;
+    const set = [];
+    if (hs && map) {
+      for (var dy = -CAMP_SAFE_RADIUS; dy <= CAMP_SAFE_RADIUS; dy++) {
+        for (var dx = -CAMP_SAFE_RADIUS; dx <= CAMP_SAFE_RADIUS; dx++) {
+          const yy = hs.y + dy, xx = hs.x + dx;
+          if (yy >= 0 && yy < MAP_H && xx >= 0 && xx < MAP_W && map[yy][xx] !== "#") set.push(xx + "," + yy);
+        }
+      }
+    }
+    campSafeCache.set(key, set);
+  }
+  return campSafeCache.get(key);
+}
+function isCampSafe(x, y) {
+  if (isSafeArea()) return true;
+  return campSafeTiles().indexOf(x + "," + y) !== -1;
+}
+
+/* ---- Sidequests (money from the town, not from wild grass) ----
+   Each quest: key, npc (id + display name), stages "available" → "active"
+   → "done". Progress lives in state.quests[key] = { stage, n }. Walk into a
+   townsperson to talk: pick up ❗ quests, hand in finished ones for coins. */
+const QUESTS = [
+  {
+    key: "bugs", npc: "Milo", icon: "🐛",
+    offer: "Milo: The garden's crawling with critters! Battle 3 wild critters for me and I'll pay you 200 coins!",
+    progress: n => `Milo's garden pest patrol — wild critters battled: ${n}/3`,
+    doneMsg: "Milo: You handled those critters! Here's 200 coins as promised.", reward: 200,
+  },
+  {
+    key: "catch3", npc: "Professor Fern", icon: "🎓",
+    offer: "Prof. Fern: My research needs specimens! Catch 2 wild critters and I'll fund you 350 coins.",
+    progress: n => `Fern's field study — critters caught: ${n}/2`,
+    doneMsg: "Prof. Fern: Fascinating specimens! The grant money is yours — 350 coins.", reward: 350,
+  },
+  {
+    key: "champ", npc: "Granny Rose", icon: "👵",
+    offer: "Granny Rose: Prove yourself — defeat any 2 trainers out there and this old lady will hand over 500 coins.",
+    progress: n => `Rose's champion trial — trainers defeated: ${n}/2`,
+    doneMsg: "Granny Rose: A true trainer, just as I thought! 500 coins, well earned.", reward: 500,
+  },
+];
+const questState = key => (state.quests && state.quests[key]) || { stage: "available", n: 0 };
+function setQuest(key, patch) { if (!state.quests) state.quests = {}; state.quests[key] = Object.assign(questState(key), patch); }
+// Called when a quest wants progress tracked (battles, catches, trainer wins).
+function questEvent(type) {
+  let justFinished = null;
+  for (const q of QUESTS) {
+    const qs = questState(q.key);
+    if (qs.stage !== "active" || q.type !== type) continue;
+    qs.n++;
+    if (qs.n >= q.goal) { justFinished = q; }
+    setQuest(q.key, { n: qs.n });
+  }
+  if (justFinished) hudMsg(`📜 Quest ready to turn in: ${justFinished.npc} (${justFinished.icon}) is waiting in town!`);
+}
+// Attach goal/type/goal counts to the quest defs (kept off the literals above
+// so the table stays readable).
+QUESTS[0].type = "battle"; QUESTS[0].goal = 3;
+QUESTS[1].type = "catch";  QUESTS[1].goal = 2;
+QUESTS[2].type = "trainer"; QUESTS[2].goal = 2;
+
+// Interaction with townsfolk/quest NPCs: press E/Space/Enter while standing
+// next to one (or tap the 💬 Talk button on mobile).
+function npcAt(x, y) {
+  const w = world(), s = seg();
+  return ((s.npcs || w.npcs) || []).find(n => n.x === x && n.y === y) || null;
+}
+function adjacentNpc() {
+  for (const [dx, dy] of [[1,0],[-1,0],[0,1],[0,-1]]) {
+    const n = npcAt(state.player.x + dx, state.player.y + dy);
+    if (n) return n;
+  }
+  return null;
+}
+function tryTalk() {
+  const npc = adjacentNpc();
+  if (!npc) return false;
+  talkToNpc(npc);
+  return true;
+}
+function talkToNpc(npc) {
+  const q = QUESTS.find(qq => qq.npc === npc.name);
+  if (!q) { hudMsg(`${npc.name}: ${npc.line || "Lovely weather in the Hollow, isn't it?"}`); return; }
+  const qs = questState(q.key);
+  if (qs.stage === "available") {
+    setQuest(q.key, { stage: "active", n: 0 });
+    hudMsg(`📜 Quest accepted: ${q.icon} ${q.progress(0)} — reward ${q.reward} 🪙`);
+  } else if (qs.stage === "active" && qs.n >= q.goal) {
+    state.coins += q.reward;
+    setQuest(q.key, { stage: "done" });
+    hudMsg(`💰 ${q.doneMsg} (+${q.reward} 🪙)`);
+    saveGame(false);
+  } else {
+    hudMsg(`📜 ${q.progress(qs.n)} — reward ${q.reward} 🪙`);
+  }
+  updateHUD();
+  draw();
+}
 
 // Find the nearest walkable tile to (x, y) on map `m` (spiral search) so a
 // spawn/teleport never strands the player inside a wall.
@@ -1302,7 +1551,14 @@ function loadGame() {
     if (!Array.isArray(state.teamIdx)) state.teamIdx = [];
     state.teamIdx = state.teamIdx.filter(i => Number.isInteger(i) && i >= 0 && i < state.collection.length);
     if (!state.rematches) state.rematches = {};
+    // 📊 Stats migration: older saves predate the stats system (v2.4.5) —
+    // backfill missing counters so the Stats screen never crashes on them.
+    if (!state.stats || typeof state.stats !== "object") state.stats = {};
+    if (!Number.isInteger(state.stats.battlesWon)) state.stats.battlesWon = 0;
+    if (!Number.isInteger(state.stats.crittersCaught)) state.stats.crittersCaught = 0;
+    if (!Number.isInteger(state.stats.coinsEarned)) state.stats.coinsEarned = 0;
     if (!state.storySeen) state.storySeen = {};
+    if (!state.quests) state.quests = {}; // v2.4.5 saves predate the quest system
     if (typeof state.steps !== "number" || Number.isNaN(state.steps)) state.steps = 0;
     if (!state.weather) state.weather = "sunny";
     if (typeof state.lastWeatherIdx !== "number") state.lastWeatherIdx = 0;
@@ -1334,10 +1590,12 @@ function openAdmin() {
   $("adminPanel").classList.add("hidden");
   $("adminScreen").classList.remove("hidden");
   renderPin();
+  setupPinEntry();
 }
 function closeAdmin() {
   $("adminScreen").classList.add("hidden");
   $("adminPanel").classList.add("hidden");
+  hidePinEntry();
   inMenu = false;
 }
 function renderPin() {
@@ -1345,7 +1603,7 @@ function renderPin() {
   el.innerHTML = "";
   for (let i = 0; i < 4; i++) {
     const col = document.createElement("div");
-    col.style.cssText = "display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;" + (i === pinActiveSlot ? "filter:drop-shadow(0 0 8px #ffd76a);" : "opacity:0.6;");
+    col.style.cssText = "display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;user-select:none;-webkit-user-select:none;" + (i === pinActiveSlot ? "filter:drop-shadow(0 0 8px #ffd76a);" : "opacity:0.6;");
 
     const up = document.createElement("div");
     up.textContent = "▲"; up.style.cssText = "font-size:20px;color:#aaa;";
@@ -1370,6 +1628,7 @@ function adminUnlock() {
     $("pinMsg").textContent = "";
     pinDigits = [0,0,0,0];
     pinActiveSlot = 0;
+    hidePinEntry();
     openAdminPanel();
     return;
   }
@@ -1377,6 +1636,57 @@ function adminUnlock() {
   pinDigits = [0,0,0,0];
   pinActiveSlot = 0;
   renderPin();
+}
+
+/* Mobile PIN entry: the tiny ▲/▼ steppers are impossible to tap on a phone,
+   so touch devices also get direct typing plus a big on-screen number pad. */
+function setupPinEntry() {
+  const row = $("pinKeyboardRow"), pad = $("pinNumpad"), kb = $("pinKeyInput");
+  if (!row || !pad || !kb) return;
+  $("pinMsg").textContent = "";
+  if (isTouchDevice) {
+    row.classList.remove("hidden");
+    kb.value = "";
+    pad.innerHTML = "";
+    for (const key of ["1","2","3","4","5","6","7","8","9","⌫","0","✓"]) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = key;
+      b.onclick = () => pinNumpadKey(key);
+      pad.appendChild(b);
+    }
+    pad.style.display = "grid";
+  } else {
+    row.classList.add("hidden");
+    pad.style.display = "none";
+    pad.innerHTML = "";
+  }
+}
+function hidePinEntry() {
+  const row = $("pinKeyboardRow"), pad = $("pinNumpad"), kb = $("pinKeyInput");
+  if (!row || !pad || !kb) return;
+  kb.value = "";
+  pad.innerHTML = "";
+  row.classList.add("hidden");
+  pad.style.display = "none";
+}
+function pinNumpadKey(key) {
+  const kb = $("pinKeyInput");
+  if (key === "⌫") kb.value = kb.value.slice(0, -1);
+  else if (key === "✓") { commitPinInput(); return; }
+  else if (kb.value.length < 4) kb.value += key;
+}
+// Reads the typed/tapped code and unlocks (shared by the Go button and Enter key).
+function commitPinInput() {
+  const kb = $("pinKeyInput");
+  const digits = (kb.value || "").replace(/\D/g, "");
+  if (digits.length < 4) {
+    $("pinMsg").textContent = "❌ Enter all 4 digits first.";
+    return;
+  }
+  kb.value = "";
+  pinDigits = digits.split("").map(Number);
+  adminUnlock();
 }
 
 // One-click unlock: beat every trainer, max resources, and add every species at Lv 120.
@@ -1563,6 +1873,14 @@ const TRAINER_PALETTES = {
 
 // Fallback so a trainer added without a palette can never crash the map render.
 const DEFAULT_TRAINER_PALETTE = { skin:"#e8b88a", shirt:"#8a5a2a", pants:"#4a3520", hat:"#a97142" };
+// Harmony Hollow townsfolk (visual only — key = npc name).
+const NPC_PALETTES = {
+  "Milo":          { skin:"#e8c8a0", shirt:"#4a9a4a", pants:"#3a5a2a", hat:"#7ac47a" },
+  "Professor Fern": { skin:"#e8b88a", shirt:"#e8e8f0", pants:"#4a4a5a", hat:"#c9c9d9" },
+  "Granny Rose":    { skin:"#e8c0b0", shirt:"#c95a7a", pants:"#6a3a4a", hat:"#e8d0d8" },
+  "Tilly":          { skin:"#e8c8a0", shirt:"#5a8ac9", pants:"#2a3a5a", hat:"#a8c8e8" },
+  "Finn":           { skin:"#e8b88a", shirt:"#c9884a", pants:"#4a3520", hat:"#e8c88a" },
+};
 
 // Lighten (+amt) or darken (-amt) a hex color — fakes 3D lighting.
 function shade(hex, amt) {
@@ -1631,10 +1949,27 @@ function draw() {
     ctx.fillStyle = (sm.colors || w.colors)[t] || "#000";
     ctx.fillRect(x*TILE, y*TILE, TILE, TILE);
     const d = (sm.deco || w.deco)[t];
-    if (d) {
+    // v2.4.5 — decluttered maps: tile emojis appear ONLY where wild critters
+    // can appear (the encounter tiles: grass, forests, water, caves, ✨ patches)
+    // plus service tiles (⛺ heal, 🏪 shop, 🌀 portal, 📜 board, 🏡 gate).
+    // Walls, paths and plain ground no longer spam filler emojis, so a patch
+    // of emojis now literally means "critters lurk here" — and clean ground
+    // means safe.
+    if (d && ((sm.encounters || w.encounters)[t] || "HBSTGPRQ".indexOf(t) !== -1)) {
       ctx.font = "24px serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
       ctx.fillStyle = "#ffffffaa";
       ctx.fillText(d, x*TILE+TILE/2, y*TILE+TILE/2);
+    }
+  }
+  // 🏕️ Camp pocket tint: the safe spot around every ⛺ camp is washed green so
+  // players can SEE where wild critters can't reach (full safe zones like the
+  // starting meadow and Harmony Hollow are already safe everywhere, so no
+  // tint is needed there).
+  if (!isSafeArea()) {
+    ctx.fillStyle = "rgba(88,220,120,0.14)";
+    for (const key of campSafeTiles()) {
+      const parts = key.split(",");
+      ctx.fillRect((+parts[0])*TILE, (+parts[1])*TILE, TILE, TILE);
     }
   }
   for (const t of (sm.trainers || w.trainers)) {
@@ -1646,6 +1981,49 @@ function draw() {
   ctx.beginPath(); ctx.arc(px, py+12, 15, 0, Math.PI*2);
   ctx.fillStyle = "rgba(255,215,106,.45)"; ctx.fill();
   drawCharacter(px, py, PLAYER_PALETTE, facing);
+
+  // Townsfolk NPCs (Harmony Hollow): drawn like trainers, but nobody here
+  // battles. Quest givers wear a bobbing ❗ (or ❓ when ready to turn in).
+  for (const n of (sm.npcs || w.npcs || [])) {
+    drawCharacter(n.x*TILE+TILE/2, n.y*TILE+TILE/2, NPC_PALETTES[n.name] || DEFAULT_TRAINER_PALETTE, state.player.x >= n.x ? 1 : -1);
+    const q = QUESTS.find(qq => qq.npc === n.name);
+    if (q) {
+      const qs = questState(q.key);
+      if (qs.stage !== "done") {
+        const ready = qs.stage === "active" && qs.n >= q.goal;
+        ctx.font = "16px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        ctx.fillStyle = ready ? "#ffd76a" : "#ff5a5a";
+        ctx.fillText(ready ? "❓" : "❗", n.x*TILE+TILE/2, n.y*TILE - 20 + Math.sin(Date.now()/250)*3);
+      }
+    }
+  }
+  // 💬 hint when standing next to a townsfolk
+  const nearNpc = adjacentNpc();
+  if (nearNpc) {
+    ctx.font = "12px Nunito, sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillStyle = "rgba(255,255,255,0.92)";
+    ctx.fillText("💬 E to talk", nearNpc.x*TILE+TILE/2, nearNpc.y*TILE - 2);
+  }
+
+  // 🛡️ Safe-zone visuals: a pulsing green shield ring around the player plus a
+  // banner — you always KNOW when you're standing somewhere safe. In wild
+  // worlds the same visuals mark the ⛺ camp pocket (v2.4.5): every world and
+  // segment has one guaranteed safe spot around its heal tent.
+  if (isSafeArea() || isCampSafe(state.player.x, state.player.y)) {
+    const t = Date.now()/400;
+    ctx.beginPath(); ctx.arc(px, py+8, 24 + Math.sin(t)*2, 0, Math.PI*2);
+    ctx.strokeStyle = "rgba(88, 220, 120, " + (0.55 + Math.sin(t)*0.25).toFixed(3) + ")";
+    ctx.lineWidth = 3; ctx.stroke();
+    ctx.beginPath(); ctx.arc(px, py+8, 31, 0, Math.PI*2);
+    ctx.strokeStyle = "rgba(88, 220, 120, 0.18)"; ctx.lineWidth = 6; ctx.stroke();
+    const cx2 = MAP_W*TILE/2;
+    ctx.font = "bold 13px Nunito, sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillStyle = "rgba(20,60,30,0.78)";
+    roundRect(cx2-110, 8, 220, 22, 10); ctx.fill();
+    ctx.fillStyle = "#8ef0a8";
+    ctx.fillText(isSafeArea() ? "🏡 SAFE — no wild critters here"
+                              : "🏕️ Camp safe zone — no wild critters here", cx2, 19);
+  }
 
   // Segment transition arrows — drawn at rows where the map edge is actually
   // open (computed from the current segment's map, not hardcoded rows).
@@ -1701,6 +2079,7 @@ function draw() {
     ctx.fillStyle = "rgba(15,15,45,0.42)";
     ctx.fillRect(0, 0, MAP_W*TILE, MAP_H*TILE);
   }
+  refreshTalkBtn();
   updateHUD();
 }
 
@@ -1710,8 +2089,9 @@ function updateHUD() {
     .map(o => `${o.label.split(" ")[0]} ${state.items[o.key]}`).join(" ");
   var weatherInfo = getWeatherInfo();
   var nightTag = isNight() ? " 🌙" : " ☀️";
+  var safeTag = isCampSafe(state.player.x, state.player.y) ? " · 🏡 SAFE" : " · ⚔️ WILD";
   document.getElementById("inventory").textContent =
-    `${weatherInfo.icon} · 🪙 ${state.coins}  ·  ${orbBits || "🟠 0"}  ·  🧪 ${state.items.potion}  ·  ⚗️ ${state.items.bigpotion}  ·  🍬 ${state.items.candy}${nightTag}`;
+    `${weatherInfo.icon} · 🪙 ${state.coins}  ·  ${orbBits || "🟠 0"}  ·  🧪 ${state.items.potion}  ·  ⚗️ ${state.items.bigpotion}  ·  🍬 ${state.items.candy}${nightTag}${safeTag}`;
 }
 
 document.addEventListener("keydown", e => {
@@ -1722,6 +2102,14 @@ document.addEventListener("keydown", e => {
   else if (k === "arrowdown"  || k === "s") dy = 1;
   else if (k === "arrowleft"  || k === "a") dx = -1;
   else if (k === "arrowright" || k === "d") dx = 1;
+  else if (k === "e" || k === "enter" || k === " ") {
+    e.preventDefault();
+    if (tryTalk()) return;
+    // 📋 Quest board in Harmony Hollow: read it to see every sidequest at once.
+    const t = (seg().map || world().map)[state.player.y][state.player.x];
+    if (t === "R") { showQuestLog(); return; }
+    return;
+  }
   else return;
   e.preventDefault();
   tryMove(dx, dy);
@@ -1771,7 +2159,10 @@ function tryMove(dx, dy) {
   // FIX: trainers now come from the current segment too (Lily, Clover, Sage,
   // Bramble and Elder Root never appeared or battled before this fix)
   const trainer = (sm.trainers || w.trainers).find(t => t.x === nx && t.y === ny);
-  if (trainer) {
+  if (trainer && !isCampSafe(nx, ny)) {
+    // Trainers never ambush you on a ⛺ camp's safe pocket (v2.4.5) — camps are
+    // rest stops, not battlegrounds. Their dialogue/story is preserved, so the
+    // encounter still fires the moment you step off the camp tiles.
     // Play story on first meeting this trainer (if they have one)
     if (trainer.storyOnMeet && !state.storySeen[trainer.storyOnMeet]) {
       playStory(trainer.storyOnMeet, () => { startTrainerBattle(trainer); });
@@ -1801,7 +2192,10 @@ function tryMove(dx, dy) {
     }
     const d = portal.dest;
     state.world = d.world;
-    state.currentSegment = 0; // arriving in a new world always starts at its first area
+    // Arrivals land in a world's first area unless the portal says otherwise
+    // (e.g. the Harmony Hollow gate drops you in the Sunflower segment where
+    // the gate tile actually lives).
+    state.currentSegment = (d.seg !== undefined) ? d.seg : 0;
     state.player = { x:d.x, y:d.y };
     draw();
     hudMsg(`🌀 You stepped through the portal into ${world().name}!`);
@@ -1811,6 +2205,7 @@ function tryMove(dx, dy) {
     else if (d.world === 3) playStory("enterWorld3");
     else if (d.world === 4) playStory("enterWorld4");
     else if (d.world === 5) playStory("enterWorld5");
+    else if (d.world === 6) playStory("enterWorld6");
     return false;
   }
 
@@ -1822,13 +2217,19 @@ function tryMove(dx, dy) {
   draw();
 
   if (tile === "H") { healTeam(); hudMsg("⛺ Your critters were fully healed!"); return true; }
+  if (tile === "B") { healTeam(); hudMsg("⛺ Rested at the town tents — your critters are fully healed!"); return true; }
   if (tile === "S") { openShop(seg().shopItems); return true; }
 
   const enc = (sm.encounters || w.encounters)[tile];
   const chance = (isNight() && enc && enc.nightChance !== undefined) ? enc.nightChance : (enc && enc.chance);
   const weatherMult = weatherEncMult(tile);
   const finalChance = chance ? chance * weatherMult : 0;
-  if (enc && state.teamIdx.length && Math.random() < finalChance) {
+  // SAFE ZONES: safe areas (towns, the starting meadow), explicitly safe
+  // tiles, and the pocket around every ⛺ camp (v2.4.5) never trigger wild
+  // encounters — you can always catch your breath by the heal tent.
+  const tileSafe = isSafeTile(tile) || isCampSafe(nx, ny);
+  if (enc && !tileSafe && state.teamIdx.length && Math.random() < finalChance) {
+    questEvent("battle"); // 📜 a wild encounter started — counts toward battle quests
     // YinYang realm (world 5) * tile: 8% chance to encounter YinYang, else 1% for other mythicals
     if (state.world === 5 && tile === "*" && Math.random() < 0.08) {
       const lvl = enc.lvl[0] + Math.floor(Math.random()*(enc.lvl[1]-enc.lvl[0]+1));
@@ -1885,10 +2286,12 @@ function startTrainerBattle(trainer) {
   const levelBonus = isRematch ? Math.min(REMATCH_LEVEL_STEP * rematchNum, REMATCH_LEVEL_CAP) : 0;
   const queue = trainer.team.map(([sid,lvl]) => {
     const c = makeCreature(sid, lvl + levelBonus, false); // trainers never get deviants
-    // World 6 (Yin-Yang Realm, index 5) trainers get 1k HP for endgame challenge
+    // World 6 (Yin-Yang Realm, index 5) trainers get boosted HP for endgame
+    // challenge — 400 HP: tough but beatable (the old 1000 HP wall made the
+    // champion fights effectively unkillable even at max level)
     if (state.world === 5) {
-      c.maxHp = 1000;
-      c.hp = 1000;
+      c.maxHp = 400;
+      c.hp = 400;
     }
     return c;
   });
@@ -2269,8 +2672,10 @@ function tryCatch() {
       log(`🎉 Gotcha! ${e.deviant ? "✨ DEVIANT " : ""}${spec(e).name} was caught!`);
       e.status = null; // caught critters are always cured of status
       if (cureStatus) log(`The ${orbTier.label}'s energy also healed its status condition!`);
-      grantXP(e.level); // your active critter still gets XP for a successful capture
+      grantXP(e.level); // your active critter side still gets XP for a successful capture
       state.collection.push(e);
+      state.stats.crittersCaught++; // 📊
+      questEvent("catch"); // 📜 sidequest progress (e.g. Prof. Fern's field study)
       if (state.teamIdx.length < 6) state.teamIdx.push(state.collection.length - 1);
       battle.over = true;
       busy = false;
@@ -2353,6 +2758,8 @@ function onEnemyFaint() {
   grantXP(battle.enemy.level);
   const coins = battle.enemy.level * 3;
   state.coins += coins;
+  state.stats.battlesWon++;            // 📊 each enemy critter defeated counts
+  state.stats.coinsEarned += coins;    // 📊
   log(`💰 You earned ${coins} coins!`);
   updateHUD();
   if (battle.mode === "trainer" && battle.enemyQueue.length) {
@@ -2364,10 +2771,13 @@ function onEnemyFaint() {
         state.rematches[battle.trainer.id] = (state.rematches[battle.trainer.id] || 0) + 1;
         log(`🔁 Rematch win against ${battle.trainer.name}! Bonus: ${REMATCH_BONUS} coins!`);
         state.coins += REMATCH_BONUS;
+        state.stats.coinsEarned += REMATCH_BONUS;   // 📊
       } else {
         log(`🏆 You defeated ${battle.trainer.name}! Bonus: 50 coins!`);
         state.coins += 50;
+        state.stats.coinsEarned += 50;              // 📊
         state.defeated.push(battle.trainer.id);
+        questEvent("trainer"); // 📜 sidequest progress (e.g. Granny Rose's champion trial)
         const need = world().portals || [];
         const beatenId = battle.trainer.id;
         need.forEach(portal => {
@@ -2449,7 +2859,9 @@ function endBattle() {
   inBattle = false;
   for (const i of state.teamIdx) state.collection[i].status = null; // statuses end with the battle
   if (battle.lost) {
-    state.player = { ...world().healSpot };
+    // Fainted in the town? The town tents catch you — no walking home.
+    const hs = (state.world === 6) ? { x:11, y:14 } : { ...world().healSpot };
+    state.player = hs;
     healTeam();
     hudMsg("You blacked out and woke at the tent, fully healed.");
   }
@@ -2458,7 +2870,30 @@ function endBattle() {
   saveGame(false);
   draw();
   if (pendingStory) playStory(pendingStory);
+  refreshTalkBtn();
 }
+
+/* ---- Quest log — the 📜 board in Harmony Hollow ---- */
+function showQuestLog() {
+  inMenu = true;
+  const list = $("questLogList"); list.innerHTML = "";
+  let any = false;
+  for (const q of QUESTS) {
+    const qs = questState(q.key);
+    any = true;
+    const row = document.createElement("div");
+    row.className = "shopRow";
+    let status;
+    if (qs.stage === "available") status = "❗ NEW — talk to " + q.npc;
+    else if (qs.stage === "done") status = "✅ Complete";
+    else status = (qs.n >= q.goal ? "❓ Ready! Return to " + q.npc : q.progress(qs.n));
+    row.innerHTML = `<b>${q.icon} ${q.npc}</b> <small>${q.offer}</small><span>${status}</span>`;
+    list.appendChild(row);
+  }
+  if (!any) list.innerHTML = "<p>No quests posted yet.</p>";
+  $("questLogScreen").classList.remove("hidden");
+}
+function closeQuestLog() { $("questLogScreen").classList.add("hidden"); inMenu = false; }
 
 /* ============ 5. SHOP / TEAM / UPDATES UI ============ */
 
@@ -2624,9 +3059,12 @@ function openUpdates() {
   inMenu = true;
   const list = $("updatesList"); list.innerHTML = "";
   const firstShipped = UPDATE_LOG.findIndex(e => !e.future); // newest real version
-  UPDATE_LOG.forEach((entry, i) => {
+  const newestEntry = UPDATE_LOG[firstShipped];
+  // The 🗺️ Roadmap always floats to the top of the list, above every version entry.
+  const ordered = [...UPDATE_LOG].sort((a, b) => (b.future ? 1 : 0) - (a.future ? 1 : 0));
+  ordered.forEach(entry => {
     const div = document.createElement("div");
-    div.className = "updateEntry" + (entry.future ? " future" : (i === firstShipped ? " newest" : ""));
+    div.className = "updateEntry" + (entry.future ? " future" : (entry === newestEntry ? " newest" : ""));
     div.innerHTML = `<h3>${entry.version}</h3>
       <ul>${entry.notes.map(n => `<li>${n}</li>`).join("")}</ul>`;
     list.appendChild(div);
@@ -2634,6 +3072,48 @@ function openUpdates() {
   $("updatesScreen").classList.remove("hidden");
 }
 function closeUpdates() { $("updatesScreen").classList.add("hidden"); inMenu = false; }
+
+/* ---- Stats / Leaderboards screen (v2.4.5) ----
+   Local lifetime totals tracked in state.stats: battles won, critters caught
+   and coins earned. The ONLINE leaderboard is a placeholder — it always says
+   it's in beta and coming later, exactly like the Trading screen. */
+function openStats() {
+  if (inBattle) return;
+  inMenu = true;
+  renderStats();
+  $("statsScreen").classList.remove("hidden");
+}
+function closeStats() { $("statsScreen").classList.add("hidden"); inMenu = false; }
+
+function renderStats() {
+  const list = $("statsList"); list.innerHTML = "";
+
+  // --- Your stats (this save) ---
+  const s = state.stats;
+  const card = document.createElement("div");
+  card.className = "updateEntry";
+  card.innerHTML = `
+    <h3>📊 Your Stats</h3>
+    <ul>
+      <li>⚔️ Total battles won: <b>${s.battlesWon}</b></li>
+      <li>🎯 Critters caught: <b>${s.crittersCaught}</b></li>
+      <li>💰 Coins earned: <b>${s.coinsEarned}</b></li>
+      <li>🦊 Critters in your collection: <b>${state.collection.length}</b></li>
+      <li>🏆 Trainers defeated: <b>${state.defeated.length}</b></li>
+    </ul>`;
+  list.appendChild(card);
+
+  // --- Online leaderboard (beta placeholder, like Trading) ---
+  const online = document.createElement("div");
+  online.className = "updateEntry future";
+  online.innerHTML = `
+    <h3>🌐 Online Leaderboard — Beta</h3>
+    <ul>
+      <li>🚧 Online leaderboards are in beta and will be added later.</li>
+      <li>Compare battles won, critters caught and coins earned with other players once it ships!</li>
+    </ul>`;
+  list.appendChild(online);
+}
 
 function openTrade() {
    if (inBattle) return;
@@ -2661,6 +3141,14 @@ function closeTrade() {
 // so we force-show the D-pad with JS whenever a touchscreen exists.
 const isTouchDevice = ("ontouchstart" in window) || navigator.maxTouchPoints > 0;
 if (isTouchDevice) document.getElementById("dpad").style.display = "flex";
+
+// 💬 Talk button: shown only when standing next to a townsfolk (touch users
+// have no E key). Refreshed from draw() via refreshTalkBtn().
+function refreshTalkBtn() {
+  const b = document.getElementById("talkBtn");
+  if (!b) return;
+  b.style.display = (!inBattle && !inMenu && adjacentNpc()) ? "" : "none";
+}
 
 // D-pad: tap to step, hold to keep walking.
 function bindDpad(id, dx, dy) {
