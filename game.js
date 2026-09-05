@@ -867,6 +867,7 @@ const UPDATE_LOG = [
     "🐛 Fixed: the Run button could briefly allow a second action on success before the battle screen closed — input is now locked immediately on attempt",
     "🐛 Fixed: admin panel teleport now properly resets the segment index when landing in a world that has no segments, preventing a stale segment reference",
     "📱 Fixed: admin panel buttons (Unlock, Cancel, Close) were hidden behind the D-pad on mobile — added bottom padding so they're always tappable",
+    "📱 Fixed: admin PIN entry on mobile now shows only the numpad — removed the old ▲/▼ steppers and redundant text input that cluttered the screen; numpad buttons are bigger and fully touch-friendly",
   ]},
   { version:"v2.4.5 — Safe Zones, Readable Maps & Portal Fixes", notes:[
     "📊 STATS SCREEN: new 📊 Stats button in the HUD — track your lifetime totals: total battles won, critters caught, coins earned, collection size and trainers defeated",
@@ -1611,19 +1612,27 @@ function renderPin() {
     const col = document.createElement("div");
     col.style.cssText = "display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;user-select:none;-webkit-user-select:none;" + (i === pinActiveSlot ? "filter:drop-shadow(0 0 8px #ffd76a);" : "opacity:0.6;");
 
-    const up = document.createElement("div");
-    up.textContent = "▲"; up.style.cssText = "font-size:20px;color:#aaa;";
-    up.onclick = (e) => { e.stopPropagation(); pinDigits[i] = (pinDigits[i] + 1) % 10; renderPin(); };
+    if (!isTouchDevice) {
+      const up = document.createElement("div");
+      up.textContent = "▲"; up.style.cssText = "font-size:20px;color:#aaa;";
+      up.onclick = (e) => { e.stopPropagation(); pinDigits[i] = (pinDigits[i] + 1) % 10; renderPin(); };
+      col.appendChild(up);
+    }
 
     const digit = document.createElement("div");
     digit.textContent = pinDigits[i];
     digit.style.cssText = "font-size:48px;font-weight:bold;color:#ffd76a;width:60px;text-align:center;border-bottom:3px solid #555;padding-bottom:4px;";
 
-    const down = document.createElement("div");
-    down.textContent = "▼"; down.style.cssText = "font-size:20px;color:#aaa;";
-    down.onclick = (e) => { e.stopPropagation(); pinDigits[i] = (pinDigits[i] + 9) % 10; renderPin(); };
+    if (!isTouchDevice) {
+      const down = document.createElement("div");
+      down.textContent = "▼"; down.style.cssText = "font-size:20px;color:#aaa;";
+      down.onclick = (e) => { e.stopPropagation(); pinDigits[i] = (pinDigits[i] + 9) % 10; renderPin(); };
+      col.appendChild(digit);
+      col.appendChild(down);
+    } else {
+      col.appendChild(digit);
+    }
 
-    col.appendChild(up); col.appendChild(digit); col.appendChild(down);
     col.onclick = () => { pinActiveSlot = i; renderPin(); };
     el.appendChild(col);
   }
@@ -1645,13 +1654,13 @@ function adminUnlock() {
 }
 
 /* Mobile PIN entry: the tiny ▲/▼ steppers are impossible to tap on a phone,
-   so touch devices also get direct typing plus a big on-screen number pad. */
+   so touch devices get a big on-screen numpad instead. */
 function setupPinEntry() {
   const row = $("pinKeyboardRow"), pad = $("pinNumpad"), kb = $("pinKeyInput");
   if (!row || !pad || !kb) return;
   $("pinMsg").textContent = "";
   if (isTouchDevice) {
-    row.classList.remove("hidden");
+    row.classList.add("hidden");
     kb.value = "";
     pad.innerHTML = "";
     for (const key of ["1","2","3","4","5","6","7","8","9","⌫","0","✓"]) {
