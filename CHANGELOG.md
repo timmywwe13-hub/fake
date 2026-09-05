@@ -4,6 +4,12 @@ All notable changes to the game are tracked here.
 Format: newest version at the top. Unreleased ideas live in the Roadmap.
 
 ---
+## v2.6.6 — Bug Fixes & Polish
+- 🐛 Fixed: Antidote and Awakening items were never consumed from inventory when used in battle — they now correctly deduct one use per application
+- 🐛 Fixed: the Run button could briefly allow a second action on success before the battle screen closed — input is now locked immediately on attempt
+- 🐛 Fixed: admin panel teleport now properly resets the segment index when landing in a world that has no segments, preventing a stale segment reference
+- 📱 Fixed: admin panel buttons (Unlock, Cancel, Close) were hidden behind the D-pad on mobile — added bottom padding so they're always tappable
+
 ## v2.4.5 — Safe Zones, Readable Maps & Portal Fixes
 - 📊 **Stats screen**: new 📊 Stats button in the HUD — lifetime totals for total battles won, critters caught, coins earned, plus collection size and trainers defeated. Totals live in your save file and survive refreshes (older saves are migrated automatically)
 - 🌐 **Online leaderboards**: shown right on the Stats screen as a beta placeholder — online play will be added later

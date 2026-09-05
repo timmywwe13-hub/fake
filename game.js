@@ -862,6 +862,12 @@ const SHOP_ITEMS = [
 // ---- Update log shown by the in-game "Updates" button ----
 // Add a new entry BELOW the roadmap whenever we ship something new.
 const UPDATE_LOG = [
+  { version:"v2.6.6 — Bug Fixes & Polish", notes:[
+    "🐛 Fixed: Antidote and Awakening items were never consumed from inventory when used in battle — they now correctly deduct one use per application",
+    "🐛 Fixed: the Run button could briefly allow a second action on success before the battle screen closed — input is now locked immediately on attempt",
+    "🐛 Fixed: admin panel teleport now properly resets the segment index when landing in a world that has no segments, preventing a stale segment reference",
+    "📱 Fixed: admin panel buttons (Unlock, Cancel, Close) were hidden behind the D-pad on mobile — added bottom padding so they're always tappable",
+  ]},
   { version:"v2.4.5 — Safe Zones, Readable Maps & Portal Fixes", notes:[
     "📊 STATS SCREEN: new 📊 Stats button in the HUD — track your lifetime totals: total battles won, critters caught, coins earned, collection size and trainers defeated",
     "🌐 ONLINE LEADERBOARDS: in beta and coming later — the Stats screen will compare your totals with other players once it ships",
@@ -1808,7 +1814,11 @@ function adminTeleport(wi, si) {
   if (wi < 0 || wi >= WORLDS.length) return;
   const wd = WORLDS[wi];
   state.world = wi;
-  state.currentSegment = (wd.segments && si > 0 && si < wd.segments.length) ? si : 0;
+  if (wd.segments && si > 0 && si < wd.segments.length) {
+    state.currentSegment = si;
+  } else {
+    state.currentSegment = 0;
+  }
   const m = seg().map || wd.map;
   const hs = seg().healSpot || wd.healSpot;
   state.player = findWalkable(m, hs.x, hs.y);
@@ -2694,6 +2704,7 @@ function usePotion(kind) {
   // Handle status cure items
   if (kind === "antidote") {
     if (me.status && (me.status.type === "poison" || me.status.type === "burn")) {
+      state.items.antidote--;
       const curedType = me.status.type;
       me.status = null;
       log(`You used an 🧪 Antidote! ${spec(me).name} was cured of ${curedType}!`);
@@ -2704,6 +2715,7 @@ function usePotion(kind) {
     }
   } else if (kind === "awakening") {
     if (me.status && (me.status.type === "paralyze" || me.status.type === "sleep")) {
+      state.items.awakening--;
       me.status = null;
       log(`You used a ⏰ Awakening! ${spec(me).name} woke up!`);
     } else {
@@ -2731,8 +2743,9 @@ function usePotion(kind) {
 
 function tryRun() {
   if (busy || battle.over) return;
+  busy = true;
   if (Math.random() < 0.7) { log("You got away safely!"); battle.over = true; renderBattle(); }
-  else { log("Couldn't escape!"); busy = true; enemyTurn(afterEnemy); }
+  else { log("Couldn't escape!"); enemyTurn(afterEnemy); }
 }
 
 function showSwitchMenu(forced) {
