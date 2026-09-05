@@ -10,6 +10,7 @@ Format: newest version at the top. Unreleased ideas live in the Roadmap.
 - 🐛 Fixed: admin panel teleport now properly resets the segment index when landing in a world that has no segments, preventing a stale segment reference
 - 📱 Fixed: admin panel buttons (Unlock, Cancel, Close) were hidden behind the D-pad on mobile — added bottom padding so they're always tappable
 - 📱 Fixed: admin PIN entry on mobile now shows only the numpad — removed the old ▲/▼ steppers and redundant text input that cluttered the screen; numpad buttons are bigger and fully touch-friendly
+- 📱 Fixed: admin overlay now has z-index above the D-pad so all buttons are always reachable on mobile
 
 ## v2.4.5 — Safe Zones, Readable Maps & Portal Fixes
 - 📊 **Stats screen**: new 📊 Stats button in the HUD — lifetime totals for total battles won, critters caught, coins earned, plus collection size and trainers defeated. Totals live in your save file and survive refreshes (older saves are migrated automatically)

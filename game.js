@@ -868,6 +868,7 @@ const UPDATE_LOG = [
     "🐛 Fixed: admin panel teleport now properly resets the segment index when landing in a world that has no segments, preventing a stale segment reference",
     "📱 Fixed: admin panel buttons (Unlock, Cancel, Close) were hidden behind the D-pad on mobile — added bottom padding so they're always tappable",
     "📱 Fixed: admin PIN entry on mobile now shows only the numpad — removed the old ▲/▼ steppers and redundant text input that cluttered the screen; numpad buttons are bigger and fully touch-friendly",
+    "📱 Fixed: admin overlay now has z-index above the D-pad so all buttons are always reachable on mobile",
   ]},
   { version:"v2.4.5 — Safe Zones, Readable Maps & Portal Fixes", notes:[
     "📊 STATS SCREEN: new 📊 Stats button in the HUD — track your lifetime totals: total battles won, critters caught, coins earned, collection size and trainers defeated",
@@ -1608,33 +1609,37 @@ function closeAdmin() {
 function renderPin() {
   const el = $("pinDisplay");
   el.innerHTML = "";
-  for (let i = 0; i < 4; i++) {
-    const col = document.createElement("div");
-    col.style.cssText = "display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;user-select:none;-webkit-user-select:none;" + (i === pinActiveSlot ? "filter:drop-shadow(0 0 8px #ffd76a);" : "opacity:0.6;");
+  if (isTouchDevice) {
+    // Mobile: simple horizontal digit boxes — no steppers, no clicking
+    el.style.justifyContent = "center";
+    for (let i = 0; i < 4; i++) {
+      const box = document.createElement("div");
+      box.style.cssText = "width:54px;height:60px;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:bold;color:#ffd76a;background:var(--bg-card);border:2px solid " + (i === pinActiveSlot ? "#ffd76a" : "#555") + ";border-radius:10px;";
+      box.textContent = pinDigits[i];
+      el.appendChild(box);
+    }
+  } else {
+    // Desktop: stepper columns (▲ digit ▼)
+    for (let i = 0; i < 4; i++) {
+      const col = document.createElement("div");
+      col.style.cssText = "display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;user-select:none;-webkit-user-select:none;" + (i === pinActiveSlot ? "filter:drop-shadow(0 0 8px #ffd76a);" : "opacity:0.6;");
 
-    if (!isTouchDevice) {
       const up = document.createElement("div");
       up.textContent = "▲"; up.style.cssText = "font-size:20px;color:#aaa;";
       up.onclick = (e) => { e.stopPropagation(); pinDigits[i] = (pinDigits[i] + 1) % 10; renderPin(); };
-      col.appendChild(up);
-    }
 
-    const digit = document.createElement("div");
-    digit.textContent = pinDigits[i];
-    digit.style.cssText = "font-size:48px;font-weight:bold;color:#ffd76a;width:60px;text-align:center;border-bottom:3px solid #555;padding-bottom:4px;";
+      const digit = document.createElement("div");
+      digit.textContent = pinDigits[i];
+      digit.style.cssText = "font-size:48px;font-weight:bold;color:#ffd76a;width:60px;text-align:center;border-bottom:3px solid #555;padding-bottom:4px;";
 
-    if (!isTouchDevice) {
       const down = document.createElement("div");
       down.textContent = "▼"; down.style.cssText = "font-size:20px;color:#aaa;";
       down.onclick = (e) => { e.stopPropagation(); pinDigits[i] = (pinDigits[i] + 9) % 10; renderPin(); };
-      col.appendChild(digit);
-      col.appendChild(down);
-    } else {
-      col.appendChild(digit);
-    }
 
-    col.onclick = () => { pinActiveSlot = i; renderPin(); };
-    el.appendChild(col);
+      col.appendChild(up); col.appendChild(digit); col.appendChild(down);
+      col.onclick = () => { pinActiveSlot = i; renderPin(); };
+      el.appendChild(col);
+    }
   }
 }
 function adminUnlock() {
@@ -1686,13 +1691,43 @@ function hidePinEntry() {
   pad.style.display = "none";
 }
 function pinNumpadKey(key) {
-  const kb = $("pinKeyInput");
-  if (key === "⌫") kb.value = kb.value.slice(0, -1);
-  else if (key === "✓") { commitPinInput(); return; }
-  else if (kb.value.length < 4) kb.value += key;
+  if (key === "⌫") {
+    // Find the last non-zero digit slot and clear it, or clear the active slot
+    for (let i = 3; i >= 0; i--) {
+      if (pinDigits[i] !== 0) { pinDigits[i] = 0; renderPin(); return; }
+    }
+  } else if (key === "✓") { commitPinInput(); return; }
+  else {
+    // Fill the next slot with this digit
+    for (let i = 0; i < 4; i++) {
+      if (pinDigits[i] === 0 && (i === 0 || pinDigits[i-1] !== 0)) {
+        pinDigits[i] = parseInt(key);
+        renderPin();
+        return;
+      }
+    }
+    // All slots filled — overwrite the last one
+    pinDigits[3] = parseInt(key);
+    renderPin();
+  }
 }
 // Reads the typed/tapped code and unlocks (shared by the Go button and Enter key).
 function commitPinInput() {
+  if (isTouchDevice) {
+    // On mobile, pinDigits is already up to date from pinNumpadKey
+    const attempt = pinDigits.join("");
+    if (attempt === ADMIN_PIN) {
+      $("pinMsg").textContent = "";
+      pinDigits = [0,0,0,0];
+      hidePinEntry();
+      openAdminPanel();
+      return;
+    }
+    $("pinMsg").textContent = "❌ Wrong code. Try again.";
+    pinDigits = [0,0,0,0];
+    renderPin();
+    return;
+  }
   const kb = $("pinKeyInput");
   const digits = (kb.value || "").replace(/\D/g, "");
   if (digits.length < 4) {
