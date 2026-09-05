@@ -4,7 +4,7 @@ All notable changes to the game are tracked here.
 Format: newest version at the top. Unreleased ideas live in the Roadmap.
 
 ---
-## v2.6.6 — Bug Fixes & Polish
+## v2.4.6 — Bug Fixes & Polish
 - 🐛 Fixed: Antidote and Awakening items were never consumed from inventory when used in battle — they now correctly deduct one use per application
 - 🐛 Fixed: the Run button could briefly allow a second action on success before the battle screen closed — input is now locked immediately on attempt
 - 🐛 Fixed: admin panel teleport now properly resets the segment index when landing in a world that has no segments, preventing a stale segment reference

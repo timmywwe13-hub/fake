@@ -862,7 +862,7 @@ const SHOP_ITEMS = [
 // ---- Update log shown by the in-game "Updates" button ----
 // Add a new entry BELOW the roadmap whenever we ship something new.
 const UPDATE_LOG = [
-  { version:"v2.6.6 — Bug Fixes & Polish", notes:[
+  { version:"v2.4.6 — Bug Fixes & Polish", notes:[
     "🐛 Fixed: Antidote and Awakening items were never consumed from inventory when used in battle — they now correctly deduct one use per application",
     "🐛 Fixed: the Run button could briefly allow a second action on success before the battle screen closed — input is now locked immediately on attempt",
     "🐛 Fixed: admin panel teleport now properly resets the segment index when landing in a world that has no segments, preventing a stale segment reference",
@@ -1589,12 +1589,12 @@ function resetGame() {
 /* ---- Admin / PIN unlock ---- */
 const ADMIN_PIN = "2020";
 let pinDigits = [0,0,0,0];
-let pinActiveSlot = 0;
+let pinLen = 0; // how many digits have been entered (0-4)
 
 function openAdmin() {
   inMenu = true;
   pinDigits = [0,0,0,0];
-  pinActiveSlot = 0;
+  pinLen = 0;
   $("adminPanel").classList.add("hidden");
   $("adminScreen").classList.remove("hidden");
   renderPin();
@@ -1610,23 +1610,22 @@ function renderPin() {
   const el = $("pinDisplay");
   el.innerHTML = "";
   if (isTouchDevice) {
-    // Mobile: simple horizontal digit boxes — no steppers, no clicking
     el.style.justifyContent = "center";
     for (let i = 0; i < 4; i++) {
+      const filled = i < pinLen;
       const box = document.createElement("div");
-      box.style.cssText = "width:54px;height:60px;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:bold;color:#ffd76a;background:var(--bg-card);border:2px solid " + (i === pinActiveSlot ? "#ffd76a" : "#555") + ";border-radius:10px;";
-      box.textContent = pinDigits[i];
+      box.style.cssText = "width:54px;height:60px;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:bold;color:#ffd76a;background:var(--bg-card);border:2px solid " + (filled ? "#ffd76a" : "#555") + ";border-radius:10px;";
+      box.textContent = filled ? pinDigits[i] : "";
       el.appendChild(box);
     }
   } else {
-    // Desktop: stepper columns (▲ digit ▼)
     for (let i = 0; i < 4; i++) {
       const col = document.createElement("div");
-      col.style.cssText = "display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;user-select:none;-webkit-user-select:none;" + (i === pinActiveSlot ? "filter:drop-shadow(0 0 8px #ffd76a);" : "opacity:0.6;");
+      col.style.cssText = "display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;user-select:none;-webkit-user-select:none;opacity:0.6;";
 
       const up = document.createElement("div");
       up.textContent = "▲"; up.style.cssText = "font-size:20px;color:#aaa;";
-      up.onclick = (e) => { e.stopPropagation(); pinDigits[i] = (pinDigits[i] + 1) % 10; renderPin(); };
+      up.onclick = (e) => { e.stopPropagation(); pinDigits[i] = (pinDigits[i] + 1) % 10; if (i >= pinLen) pinLen = i + 1; renderPin(); };
 
       const digit = document.createElement("div");
       digit.textContent = pinDigits[i];
@@ -1634,27 +1633,31 @@ function renderPin() {
 
       const down = document.createElement("div");
       down.textContent = "▼"; down.style.cssText = "font-size:20px;color:#aaa;";
-      down.onclick = (e) => { e.stopPropagation(); pinDigits[i] = (pinDigits[i] + 9) % 10; renderPin(); };
+      down.onclick = (e) => { e.stopPropagation(); pinDigits[i] = (pinDigits[i] + 9) % 10; if (i >= pinLen) pinLen = i + 1; renderPin(); };
 
       col.appendChild(up); col.appendChild(digit); col.appendChild(down);
-      col.onclick = () => { pinActiveSlot = i; renderPin(); };
+      col.onclick = () => { renderPin(); };
       el.appendChild(col);
     }
   }
 }
 function adminUnlock() {
+  if (pinLen < 4) {
+    $("pinMsg").textContent = "❌ Enter all 4 digits first.";
+    return;
+  }
   const attempt = pinDigits.join("");
   if (attempt === ADMIN_PIN) {
     $("pinMsg").textContent = "";
     pinDigits = [0,0,0,0];
-    pinActiveSlot = 0;
+    pinLen = 0;
     hidePinEntry();
     openAdminPanel();
     return;
   }
   $("pinMsg").textContent = "❌ Wrong code. Try again.";
   pinDigits = [0,0,0,0];
-  pinActiveSlot = 0;
+  pinLen = 0;
   renderPin();
 }
 
@@ -1692,39 +1695,33 @@ function hidePinEntry() {
 }
 function pinNumpadKey(key) {
   if (key === "⌫") {
-    // Find the last non-zero digit slot and clear it, or clear the active slot
-    for (let i = 3; i >= 0; i--) {
-      if (pinDigits[i] !== 0) { pinDigits[i] = 0; renderPin(); return; }
-    }
+    if (pinLen > 0) { pinLen--; pinDigits[pinLen] = 0; renderPin(); }
   } else if (key === "✓") { commitPinInput(); return; }
-  else {
-    // Fill the next slot with this digit
-    for (let i = 0; i < 4; i++) {
-      if (pinDigits[i] === 0 && (i === 0 || pinDigits[i-1] !== 0)) {
-        pinDigits[i] = parseInt(key);
-        renderPin();
-        return;
-      }
-    }
-    // All slots filled — overwrite the last one
-    pinDigits[3] = parseInt(key);
+  else if (pinLen < 4) {
+    pinDigits[pinLen] = parseInt(key);
+    pinLen++;
     renderPin();
   }
 }
 // Reads the typed/tapped code and unlocks (shared by the Go button and Enter key).
 function commitPinInput() {
   if (isTouchDevice) {
-    // On mobile, pinDigits is already up to date from pinNumpadKey
+    if (pinLen < 4) {
+      $("pinMsg").textContent = "❌ Enter all 4 digits first.";
+      return;
+    }
     const attempt = pinDigits.join("");
     if (attempt === ADMIN_PIN) {
       $("pinMsg").textContent = "";
       pinDigits = [0,0,0,0];
+      pinLen = 0;
       hidePinEntry();
       openAdminPanel();
       return;
     }
     $("pinMsg").textContent = "❌ Wrong code. Try again.";
     pinDigits = [0,0,0,0];
+    pinLen = 0;
     renderPin();
     return;
   }
